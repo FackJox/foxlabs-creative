@@ -30,7 +30,7 @@
 
 - [x] **Step 11:** Test Service Components
 
-- [ ] **Step 12:** Test Team Components
+- [x] **Step 12:** Test Team Components
 
 - [ ] **Step 13:** Test Layout and Navigation Components
 

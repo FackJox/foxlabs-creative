@@ -1,6 +1,4 @@
 
-:w:
-
 # RAW/STUDIO Portfolio Website - .cursorrules (Updated)
 
 ## Agent Behaviour
@@ -8,7 +6,8 @@
 2. Start each response with :b:
 3. Refer to me as Jack
 4. I am using fish shell, ensure all terminal commands are compatible with fish
-5. Add Test Documentation to TEST-README.md
+5. Add new Test Documentation to docs/ in the relevant section, use TEST-README.MD as the index for the testing documentation.
+6. Update existing Test Documentation in docs/ in the relevant section, use TEST-README.MD as the index for the testing documentation.
 
 ## Code Quality
 
