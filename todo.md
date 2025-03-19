@@ -17,9 +17,9 @@
 
 - [x] **Step 6:** Test Data Utilities
 
-- [ ] **Step 7:** Test Custom Hooks
+- [x] **Step 7:** Test Custom Hooks
 
-- [ ] **Step 8:** Test Common UI Components
+- [x] **Step 8:** Test Common UI Components
 
 - [ ] **Step 9:** Test UI Component Interactions
 

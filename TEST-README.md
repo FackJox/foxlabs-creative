@@ -172,4 +172,186 @@ To run tests for a specific hook:
 
 ```bash
 npm test -- __tests__/hooks/use-cursor.test.tsx
-``` 
+```
+
+## UI Component Tests
+
+The portfolio website includes comprehensive tests for UI components to ensure they render correctly, handle events properly, and maintain accessibility standards.
+
+### Component Test Structure
+
+Tests for UI components are located in `__tests__/ui/` and follow these patterns:
+
+1. **Rendering Tests**: Verify components render correctly with various props and children
+2. **Variant Tests**: Check that style variants apply the correct classes
+3. **Event Handling**: Verify click handlers, hover states, and other interactions
+4. **Accessibility**: Ensure components have proper ARIA attributes and roles
+5. **Custom Class Support**: Verify custom classes can be applied and don't conflict
+
+### Tested Components
+
+| Component | Description | Test File |
+|-----------|-------------|-----------|
+| `Button` | Base button component with multiple variants | `__tests__/ui/Button.test.tsx` |
+| `Card` | Container card with header, body, footer | `__tests__/ui/Card.test.tsx` |
+| `Badge` | Small status indicator with multiple variants | `__tests__/ui/Badge.test.tsx` |
+| `SplitText` | Animated typography component for text effects | `__tests__/ui/SplitText.test.tsx` |
+
+### Custom Cursor Behavior
+
+The portfolio implements a custom cursor that changes text based on the hovered element. Tests in `__tests__/ui/CursorBehavior.test.tsx` verify:
+
+1. Components correctly call `setCursorText` on mouse enter/leave
+2. Cursor text is appropriate for the component's purpose
+3. Nested components handle cursor changes correctly
+4. Multiple hover/leave events are handled properly
+
+### Testing Framer Motion Components
+
+Components that use Framer Motion for animations require special handling in tests:
+
+```tsx
+// Example mock for Framer Motion
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }) => (
+      <div data-testid="motion-div" data-motion-props={JSON.stringify(props)}>
+        {children}
+      </div>
+    ),
+    // Other motion components...
+  },
+  AnimatePresence: ({ children }) => <>{children}</>,
+}));
+```
+
+This approach allows testing of:
+- Animation variants and properties
+- Initial and animate states
+- Animation timing and delays
+
+### Testing Challenges with Framer Motion
+
+When testing components that use Framer Motion, we encountered specific challenges that required custom solutions:
+
+#### JSON Serialization Limitations
+
+Framer Motion uses function props (like `variants.visible`) that can't be directly serialized with `JSON.stringify` in our mocks. For the `SplitText` component, we addressed this by:
+
+1. Using `data-motion-props` to serialize the props passed to motion components
+2. Adjusting tests to handle stringified functions by checking for their existence rather than their actual functionality
+3. Testing function properties indirectly through their effects on the rendered component
+
+```tsx
+// Example solution for testing stringified functions
+const containerProps = JSON.parse(container.getAttribute('data-motion-props') || '{}');
+
+// Instead of:
+expect(typeof containerProps.variants.visible).toBe('function');
+
+// We use:
+expect(containerProps.variants).toEqual(expect.objectContaining({
+  hidden: expect.objectContaining({ opacity: 0 })
+}));
+```
+
+#### Testing Delay Props
+
+For props like `delay` that affect function variants, we test that the component renders correctly with the prop rather than testing the function behavior directly:
+
+```tsx
+// We verify the component renders with the delay parameter
+expect(screen.getByTestId('motion-div')).toBeInTheDocument();
+
+// And check that child elements render correctly
+const spans = screen.getAllByTestId('motion-span');
+expect(spans.length).toBeGreaterThan(0);
+```
+
+#### Empty String Handling
+
+Special attention was needed for edge cases like empty input strings:
+
+```tsx
+// When text is empty, we still expect the container to render
+const container = screen.getByTestId('motion-div');
+expect(container).toBeInTheDocument();
+
+// We verify there are no visible text nodes
+expect(container.textContent).toBe('');
+```
+
+### Testing Radix UI Components
+
+Components that use Radix UI primitives require testing for:
+- Proper accessibility attributes
+- Correct state changes (open/closed, etc.)
+- Event handling
+- Portal rendering
+
+### Accessibility Testing
+
+Accessibility tests in `__tests__/ui/AccessibilityTests.test.tsx` verify that all UI components meet accessibility standards:
+
+1. **Automated Testing with jest-axe**: Detects common accessibility issues
+2. **Keyboard Navigation**: Ensures components can be used with keyboard-only navigation
+3. **ARIA Attributes**: Verifies proper use of ARIA roles, states, and properties
+4. **Focus Management**: Tests that focus order is logical and focus styles are visible
+
+Example accessibility test using jest-axe:
+
+```tsx
+it('Button component has no accessibility violations', async () => {
+  const { container } = render(
+    <Button aria-label="Accessible button">
+      Click me
+    </Button>
+  );
+  
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+Keyboard navigation tests ensure that components can be used without a mouse:
+
+```tsx
+it('Button is keyboard navigable and activates with keyboard', async () => {
+  const handleClick = jest.fn();
+  const user = userEvent.setup();
+  
+  render(<Button onClick={handleClick}>Keyboard Button</Button>);
+  
+  const button = screen.getByRole('button', { name: 'Keyboard Button' });
+  
+  // Focus the button
+  button.focus();
+  expect(button).toHaveFocus();
+  
+  // Activate with Enter key
+  await user.keyboard('{Enter}');
+  expect(handleClick).toHaveBeenCalledTimes(1);
+});
+```
+
+### Running UI Component Tests
+
+To run tests for all UI components:
+
+```bash
+npm test -- __tests__/ui
+```
+
+To run tests for a specific component:
+
+```bash
+npm test -- __tests__/ui/Button.test.tsx
+```
+
+## Test Coverage Requirements
+
+UI components should maintain at least 85% test coverage, with particular emphasis on:
+- All component variants being tested
+- Accessibility features
+- Event handlers
+- Responsive behavior where applicable 
