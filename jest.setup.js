@@ -1,21 +1,11 @@
+import './jest.polyfill.js';
+import { myFetch } from './jest.polyfill.js';
+global.fetch = myFetch;
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 
-// Import our simple API mock
-import { setupApiMock } from './src/mocks/simpleMock';
-
-// Set up API mocks before all tests
-let restoreApiMock;
-beforeAll(() => {
-  restoreApiMock = setupApiMock();
-});
-
-// Clean up after the tests are finished
-afterAll(() => {
-  if (restoreApiMock) {
-    restoreApiMock();
-  }
-});
+// Import our test utilities
+import { setupJestMocks } from './src/tests/test-utils';
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -70,8 +60,44 @@ jest.mock('framer-motion', () => ({
     svg: 'svg',
     path: 'path',
     circle: 'circle',
+    img: 'img',
+    article: 'article',
   },
   AnimatePresence: ({ children }) => children,
+  useAnimation: () => ({
+    start: jest.fn(),
+    stop: jest.fn(),
+    set: jest.fn(),
+  }),
+  useMotionValue: (initial) => ({
+    get: () => initial,
+    set: jest.fn(),
+    onChange: jest.fn(),
+  }),
+  useSpring: (initial) => ({
+    get: () => initial,
+    set: jest.fn(),
+  }),
+  useTransform: jest.fn(() => ({
+    get: jest.fn(),
+    set: jest.fn(),
+  })),
+  useScroll: jest.fn(() => ({
+    scrollY: {
+      get: jest.fn(),
+      onChange: jest.fn(),
+    },
+    scrollYProgress: {
+      get: jest.fn(),
+      onChange: jest.fn(),
+    },
+  })),
+  useInView: jest.fn(() => [jest.fn(), true]),
+}));
+
+// Mock Radix UI portals to render content inside the test container
+jest.mock('@radix-ui/react-portal', () => ({
+  Portal: ({ children }) => children,
 }));
 
 // Mock window.matchMedia
@@ -87,4 +113,32 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
+});
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserverMock {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  
+  observe = jest.fn();
+  unobserve = jest.fn();
+  disconnect = jest.fn();
+  takeRecords = jest.fn(() => []);
+};
+
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserverMock {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  
+  observe = jest.fn();
+  unobserve = jest.fn();
+  disconnect = jest.fn();
+};
+
+// At the end of jest.setup.js, add the following:
+beforeAll(() => {
+  global.fetch = myFetch;
 }); 
