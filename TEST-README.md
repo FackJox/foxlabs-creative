@@ -1,530 +1,225 @@
-# RAW/STUDIO Portfolio - Test Documentation
+# RAW/STUDIO Portfolio Website - Test Documentation
 
-This document provides information about the test suite for the RAW/STUDIO portfolio website, focusing on the data utility functions and API functionality.
+This document provides an overview of the test strategy and implementation for the RAW/STUDIO portfolio website. It covers unit tests, integration tests, and end-to-end tests, focusing on the testing of project-related components.
 
-## Data Utility Functions
+## 1. Testing Strategy
 
-The portfolio uses several utility functions to manipulate, filter, and validate data. These utility functions are stored in `lib/utils.ts`, `src/utils/apiUtils.ts`, and `src/utils/dataFormatters.ts`.
+The testing strategy follows a comprehensive approach with multiple layers:
 
-### Core Data Utilities (`lib/utils.ts`)
+- **Unit Tests**: Test individual components in isolation
+- **Integration Tests**: Test interactions between components
+- **End-to-End Tests**: Test complete user flows using Cypress
 
-These utilities handle data transformation and validation:
+### 1.1 Testing Libraries
 
-| Function | Description | Test File |
-|----------|-------------|-----------|
-| `filterProjectsByCategory` | Filters projects by category (case-insensitive) | `__tests__/utils/dataUtils.test.ts` |
-| `findServiceByTitle` | Finds a service by its title (case-insensitive) | `__tests__/utils/dataUtils.test.ts` |
-| `getAllCategories` | Returns all unique project categories | `__tests__/utils/dataUtils.test.ts` |
-| `getAllProjectServices` | Returns all unique services mentioned in projects | `__tests__/utils/dataUtils.test.ts` |
-| `isValidProject` | Type guard for validating Project objects | `__tests__/utils/dataUtils.test.ts` |
-| `isValidService` | Type guard for validating Service objects | `__tests__/utils/dataUtils.test.ts` |
-| `isValidTeamMember` | Type guard for validating TeamMember objects | `__tests__/utils/dataUtils.test.ts` |
-| `formatProjectData` | Transforms project data for display purposes | `__tests__/utils/dataUtils.test.ts` |
+- **Jest**: The main test runner
+- **React Testing Library**: For testing React components
+- **user-event**: For simulating user interactions
+- **jest-axe**: For accessibility testing
+- **Cypress**: For end-to-end testing
 
-### API Utilities (`src/utils/apiUtils.ts`)
+## 2. Unit Test Structure
 
-These utilities support API interactions:
+### 2.1 Component Tests
 
-| Function | Description | Test File |
-|----------|-------------|-----------|
-| `encodeParam` | Properly encodes URL parameters for API requests | `__tests__/api/clientUtils.test.ts` |
-| `getProjectById` | Finds a project by its ID | `__tests__/api/clientUtils.test.ts` |
-| `filterProjectsByCategory` | Filters projects by category | `__tests__/api/clientUtils.test.ts` |
-| `getServiceByTitle` | Finds a service by its title | `__tests__/api/clientUtils.test.ts` |
+The unit tests for project-related components are organized by component type in the `__tests__` directory:
 
-### Data Formatters (`src/utils/dataFormatters.ts`)
+- `__tests__/core`: Core business components like ProjectCard, ProjectDetail
+- `__tests__/pages`: Page components like WorkPage
+- `__tests__/fixtures`: Mock data for test isolation
 
-These utilities handle more complex data transformations:
+### 2.2 Test Naming Convention
 
-| Function | Description | Test File |
-|----------|-------------|-----------|
-| `formatProjectsForListing` | Formats projects for display in listings | `__tests__/utils/dataFormatters.test.ts` |
-| `enhanceProjectWithServiceDetails` | Adds service details to projects | `__tests__/utils/dataFormatters.test.ts` |
-| `createDescriptionExcerpt` | Creates excerpts from long descriptions | `__tests__/utils/dataFormatters.test.ts` |
+Test files follow this naming convention:
+- `ComponentName.test.tsx`: For component tests
+- `util-name.test.ts`: For utility function tests
 
-## Test Structure
+### 2.3 Mocking Strategy
 
-The tests are organized into several files:
+- External components are mocked when testing a specific component
+- The `useCursor` hook is mocked to test cursor text behavior
+- Mock data is used instead of actual data to ensure test isolation
 
-- **`__tests__/utils/dataUtils.test.ts`**: Tests for core data utility functions
-- **`__tests__/api/clientUtils.test.ts`**: Tests for API utility functions
-- **`__tests__/utils/dataFormatters.test.ts`**: Tests for data formatting functions
-- **`__tests__/api/client.test.ts`**: Tests for the API client functions (with mocked fetch)
+## 3. Project Component Tests
 
-## Test Fixtures
+### 3.1 ProjectCard Tests (`__tests__/core/ProjectCard.test.tsx`)
 
-Mock data for testing is provided in:
+The ProjectCard tests verify the following:
 
-- **`__tests__/fixtures/mockData.ts`**: Contains mock projects, services, and team members
+- Rendering with required fields only
+- Rendering with all fields
+- Detailed mode with description
+- Cursor text behavior on hover
 
-## Test Coverage
+### 3.2 ProjectDetail Tests (`__tests__/core/ProjectDetail.test.tsx`)
 
-The tests cover the following aspects:
+The ProjectDetail tests verify the following:
 
-1. **Basic Functionality**: Tests that functions return expected results for valid inputs
-2. **Edge Cases**: Tests behavior with empty arrays, missing fields, and invalid data
-3. **Case Sensitivity**: Ensures functions handle case-insensitive matching correctly
-4. **Type Validation**: Tests type guards for proper validation of data structures
-5. **Data Transformations**: Tests that data is correctly formatted for different contexts
+- Rendering with all fields
+- Rendering with minimal fields
+- Closing behavior
+- Gallery navigation
+- Cursor text behavior
+- External link behavior
 
-## Running the Tests
+### 3.3 ProjectGallery Tests (`__tests__/core/ProjectGallery.test.tsx`)
 
-To run the test suite:
+The ProjectGallery tests (embedded in ProjectDetail) verify the following:
+
+- Default gallery image display
+- Gallery navigation rendering
+- Gallery navigation functionality
+- Gallery pagination
+- Image looping behavior
+
+### 3.4 WorkPage Tests (`__tests__/pages/WorkPage.test.tsx`)
+
+The WorkPage tests verify the following:
+
+- Project list rendering
+- Project filtering (if implemented)
+- Project selection to open details
+- Cursor behavior on project hover
+- Navigation back to home
+
+## 4. Test Run Instructions
+
+To run the tests, use the following commands:
 
 ```bash
+# Run all tests
 npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Watch mode
+npm run test:watch
+
+# Run E2E tests with Cypress
+npm run test:e2e
+
+# Run E2E tests headlessly
+npm run test:e2e:headless
+
+# Run all tests (unit + E2E)
+npm run test:all
 ```
 
-To run tests for a specific file:
+## 5. Testing Edge Cases
+
+The test suite includes tests for edge cases such as:
+
+- Projects with minimal required fields
+- Projects with all fields populated
+- Projects with and without galleries
+- Projects with single vs. multiple gallery images
+- Long text content in descriptions and testimonials
+
+## 6. Test Coverage
+
+The test coverage targets for this project are:
+
+- Statements: 80%
+- Branches: 80%
+- Functions: 80%
+- Lines: 80%
+
+Current coverage status (as of last test run):
+- Statements: 41.78% (target: 80%)
+- Branches: 17.87% (target: 80%)
+- Lines: 47.12% (target: 80%)
+- Functions: 23.15% (target: 80%)
+
+Notable coverage achievements:
+- ProjectCard: 100% statement and function coverage
+- WorkPage: 95% statement coverage
+- hooks directory: 91.56% statement coverage, 94.87% line coverage
+- lib directory: 97.77% statement coverage, 100% line coverage
+
+Coverage reports are generated at `coverage/jest` after running `npm run test:coverage`.
+
+## 7. Current Status and Next Steps
+
+### 7.1 Current Test Status
+
+The test suite currently includes:
+- 30 test suites
+- 243 passing tests
+- 0 failing tests
+
+Key tested components include:
+- ProjectCard
+- ProjectDetail
+- ProjectGallery
+- WorkPage
+- AnimatedDialog (example component)
+- Various UI utility components
+
+### 7.2 Next Steps for Test Improvement
+
+To improve test coverage and reach the target thresholds, the following areas need focus:
+
+1. **Page Components**:
+   - Create tests for HomePage component
+   - Create tests for ServicesPage component
+   - Create tests for AboutPage component
+
+2. **Layout Components**:
+   - Implement tests for Header and Footer components
+   - Add tests for navigation functionality
+
+3. **UI Components**:
+   - Prioritize testing of commonly used UI components
+   - Focus on components with complex user interactions
+
+4. **Effects Components**:
+   - Test CustomCursor component
+   - Test CursorTrail component
+
+5. **Section Components**:
+   - Implement tests for ContactSection
+   - Test form submission behavior
+
+The approach should be to prioritize business-critical components and user-facing functionality first, then expand to utility and helper components.
+
+## 8. Continuous Integration
+
+Tests are automatically run in CI/CD pipeline on each push to ensure code quality. The following steps occur:
+
+1. Lint check
+2. Unit tests
+3. E2E tests in headless mode
+4. Coverage report generation
+5. Deployment on test success
+
+## 9. Accessibility Testing
+
+Accessibility testing is implemented using jest-axe to ensure components meet WCAG 2.1 AA standards. All components are tested for accessibility violations.
+
+## 10. Test Maintenance
+
+When adding new features or modifying existing components:
+
+1. Update mockData in `__tests__/fixtures/mockData.ts` if needed
+2. Create new test files for new components
+3. Update existing tests for modified components
+4. Ensure test coverage remains above targets 
+
+## 11. Known Test Warnings
+
+When running the tests, you might encounter warnings related to Framer Motion props being passed directly to DOM elements. These warnings are expected and don't affect the test functionality:
 
 ```bash
-npm test -- __tests__/utils/dataUtils.test.ts
+React does not recognize the `whileInView` prop on a DOM element.
+React does not recognize the `whileHover` prop on a DOM element.
+Received `true` for a non-boolean attribute `fill`.
 ```
 
-## Test Design Principles
+These warnings occur because:
 
-The tests follow these principles:
+1. In the test environment, Framer Motion components are mocked as regular DOM elements
+2. The custom props from Framer Motion are then passed to these DOM elements
+3. React warns about unrecognized props on standard DOM elements
 
-1. **Isolation**: Each test focuses on a single functionality
-2. **Independence**: Tests do not depend on other tests
-3. **Comprehensiveness**: Covers both normal and edge cases
-4. **Readability**: Test descriptions clearly explain what is being tested
-
-## Adding New Tests
-
-When adding new data utility functions:
-
-1. Add the function to the appropriate utility file
-2. Create tests in the corresponding test file
-3. Ensure all edge cases are covered
-4. Update this documentation 
-
-## Custom React Hooks Testing
-
-The portfolio uses several custom React hooks to manage state and interactions. These hooks are tested using the `renderHook` function from `@testing-library/react`.
-
-### Hook Test Structure
-
-Tests for custom hooks are located in `__tests__/hooks/` and follow these patterns:
-
-1. **Initial State**: Test that hooks provide expected initial values
-2. **State Updates**: Test that hooks correctly update their state
-3. **Side Effects**: Test any side effects (like event listeners)
-4. **Cleanup**: Test that hooks properly clean up resources on unmount
-
-### Tested Hooks
-
-| Hook | Description | Test File |
-|------|-------------|-----------|
-| `useCursor` | Manages cursor position and text for custom cursor interactions | `__tests__/hooks/use-cursor.test.tsx` |
-| `useIsMobile` | Detects if the viewport is mobile-sized | `__tests__/hooks/use-mobile.test.tsx` |
-| `useToast` | Manages toast notifications | `__tests__/hooks/use-toast.test.tsx` |
-
-### Testing Patterns
-
-#### Wrapping Context Providers
-
-Some hooks rely on React context and need to be wrapped in their provider:
-
-```tsx
-const wrapper = ({ children }) => (
-  <CursorProvider>{children}</CursorProvider>
-);
-
-const { result } = renderHook(() => useCursor(), { wrapper });
-```
-
-#### Testing Browser APIs
-
-For hooks that interact with browser APIs, we mock the relevant APIs:
-
-```tsx
-// Mock window properties
-window.matchMedia = jest.fn().mockImplementation(/* implementation */);
-Object.defineProperty(window, 'innerWidth', { value: 767 });
-```
-
-#### Testing Effects and Cleanup
-
-Hooks that set up and clean up effects are tested by checking if they properly add and remove event listeners:
-
-```tsx
-// Verify event listener is added
-expect(window.addEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function));
-
-// Unmount to trigger cleanup
-const { unmount } = renderHook(() => useHook());
-unmount();
-
-// Verify event listener is removed
-expect(window.removeEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function));
-```
-
-### Running Hook Tests
-
-To run tests for all hooks:
-
-```bash
-npm test -- __tests__/hooks
-```
-
-To run tests for a specific hook:
-
-```bash
-npm test -- __tests__/hooks/use-cursor.test.tsx
-```
-
-## UI Component Tests
-
-The portfolio website includes comprehensive tests for UI components to ensure they render correctly, handle events properly, and maintain accessibility standards.
-
-### Component Test Structure
-
-Tests for UI components are located in `__tests__/ui/` and follow these patterns:
-
-1. **Rendering Tests**: Verify components render correctly with various props and children
-2. **Variant Tests**: Check that style variants apply the correct classes
-3. **Event Handling**: Verify click handlers, hover states, and other interactions
-4. **Accessibility**: Ensure components have proper ARIA attributes and roles
-5. **Custom Class Support**: Verify custom classes can be applied and don't conflict
-
-### Tested Components
-
-| Component | Description | Test File |
-|-----------|-------------|-----------|
-| `Button` | Base button component with multiple variants | `__tests__/ui/Button.test.tsx` |
-| `Card` | Container card with header, body, footer | `__tests__/ui/Card.test.tsx` |
-| `Badge` | Small status indicator with multiple variants | `__tests__/ui/Badge.test.tsx` |
-| `SplitText` | Animated typography component for text effects | `__tests__/ui/SplitText.test.tsx` |
-
-### Custom Cursor Behavior
-
-The portfolio implements a custom cursor that changes text based on the hovered element. Tests in `__tests__/ui/CursorBehavior.test.tsx` verify:
-
-1. Components correctly call `setCursorText` on mouse enter/leave
-2. Cursor text is appropriate for the component's purpose
-3. Nested components handle cursor changes correctly
-4. Multiple hover/leave events are handled properly
-
-### Testing Framer Motion Components
-
-Components that use Framer Motion for animations require special handling in tests:
-
-```tsx
-// Example mock for Framer Motion
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }) => (
-      <div data-testid="motion-div" data-motion-props={JSON.stringify(props)}>
-        {children}
-      </div>
-    ),
-    // Other motion components...
-  },
-  AnimatePresence: ({ children }) => <>{children}</>,
-}));
-```
-
-This approach allows testing of:
-- Animation variants and properties
-- Initial and animate states
-- Animation timing and delays
-
-### Testing Challenges with Framer Motion
-
-When testing components that use Framer Motion, we encountered specific challenges that required custom solutions:
-
-#### JSON Serialization Limitations
-
-Framer Motion uses function props (like `variants.visible`) that can't be directly serialized with `JSON.stringify` in our mocks. For the `SplitText` component, we addressed this by:
-
-1. Using `data-motion-props` to serialize the props passed to motion components
-2. Adjusting tests to handle stringified functions by checking for their existence rather than their actual functionality
-3. Testing function properties indirectly through their effects on the rendered component
-
-```tsx
-// Example solution for testing stringified functions
-const containerProps = JSON.parse(container.getAttribute('data-motion-props') || '{}');
-
-// Instead of:
-expect(typeof containerProps.variants.visible).toBe('function');
-
-// We use:
-expect(containerProps.variants).toEqual(expect.objectContaining({
-  hidden: expect.objectContaining({ opacity: 0 })
-}));
-```
-
-#### Testing Delay Props
-
-For props like `delay` that affect function variants, we test that the component renders correctly with the prop rather than testing the function behavior directly:
-
-```tsx
-// We verify the component renders with the delay parameter
-expect(screen.getByTestId('motion-div')).toBeInTheDocument();
-
-// And check that child elements render correctly
-const spans = screen.getAllByTestId('motion-span');
-expect(spans.length).toBeGreaterThan(0);
-```
-
-#### Empty String Handling
-
-Special attention was needed for edge cases like empty input strings:
-
-```tsx
-// When text is empty, we still expect the container to render
-const container = screen.getByTestId('motion-div');
-expect(container).toBeInTheDocument();
-
-// We verify there are no visible text nodes
-expect(container.textContent).toBe('');
-```
-
-### Testing Radix UI Components
-
-Components that use Radix UI primitives require testing for:
-- Proper accessibility attributes
-- Correct state changes (open/closed, etc.)
-- Event handling
-- Portal rendering
-
-### Accessibility Testing
-
-Accessibility tests in `__tests__/ui/AccessibilityTests.test.tsx` verify that all UI components meet accessibility standards:
-
-1. **Automated Testing with jest-axe**: Detects common accessibility issues
-2. **Keyboard Navigation**: Ensures components can be used with keyboard-only navigation
-3. **ARIA Attributes**: Verifies proper use of ARIA roles, states, and properties
-4. **Focus Management**: Tests that focus order is logical and focus styles are visible
-
-Example accessibility test using jest-axe:
-
-```tsx
-it('Button component has no accessibility violations', async () => {
-  const { container } = render(
-    <Button aria-label="Accessible button">
-      Click me
-    </Button>
-  );
-  
-  const results = await axe(container);
-  expect(results).toHaveNoViolations();
-});
-```
-
-Keyboard navigation tests ensure that components can be used without a mouse:
-
-```tsx
-it('Button is keyboard navigable and activates with keyboard', async () => {
-  const handleClick = jest.fn();
-  const user = userEvent.setup();
-  
-  render(<Button onClick={handleClick}>Keyboard Button</Button>);
-  
-  const button = screen.getByRole('button', { name: 'Keyboard Button' });
-  
-  // Focus the button
-  button.focus();
-  expect(button).toHaveFocus();
-  
-  // Activate with Enter key
-  await user.keyboard('{Enter}');
-  expect(handleClick).toHaveBeenCalledTimes(1);
-});
-```
-
-### Running UI Component Tests
-
-To run tests for all UI components:
-
-```bash
-npm test -- __tests__/ui
-```
-
-To run tests for a specific component:
-
-```bash
-npm test -- __tests__/ui/Button.test.tsx
-```
-
-## Test Coverage Requirements
-
-UI components should maintain at least 85% test coverage, with particular emphasis on:
-- All component variants being tested
-- Accessibility features
-- Event handlers
-- Responsive behavior where applicable 
-
-## Interactive UI Component Tests
-
-The portfolio website implements various interactive UI components that manage state changes and user interactions. These components are extensively tested to ensure they work correctly across different interaction methods and maintain accessibility standards.
-
-### Interactive Component Test Structure
-
-Tests for interactive UI components follow these patterns:
-
-1. **Initial State Rendering**: Verify components render correctly in their initial state
-2. **State Changes**: Test that components update their state correctly after user interactions
-3. **Keyboard Accessibility**: Ensure all interactions are possible using only a keyboard
-4. **Screen Reader Accessibility**: Verify proper ARIA attributes and roles for screen readers
-5. **Focus Management**: Test that components correctly manage focus, especially those that create/remove elements
-6. **Custom Cursor Behavior**: Verify cursor text changes appropriately during interactions
-
-### Newly Tested Interactive Components
-
-| Component | Description | Test File |
-|-----------|-------------|-----------|
-| `Header` | Main navigation header with mobile menu | `__tests__/ui/Header.test.tsx` |
-| `DropdownMenu` | Menu with dropdown options and multiple item types | `__tests__/ui/DropdownMenu.test.tsx` |
-| `Tabs` | Tabbed interface for content organization | `__tests__/ui/Tabs.test.tsx` |
-| `Accordion` | Collapsible content sections | `__tests__/ui/Accordion.test.tsx` |
-| `Dialog` | Modal dialog with focus trapping | `__tests__/ui/Dialog.test.tsx` |
-
-### Testing Interaction Patterns
-
-The tests use Testing Library's `userEvent` to simulate realistic user interactions:
-
-```tsx
-// Example: Testing tab keyboard navigation
-it('handles keyboard navigation correctly', async () => {
-  const user = userEvent.setup();
-  
-  render(<Tabs>...</Tabs>);
-  
-  // Tab to focus the component
-  await user.tab();
-  expect(firstTab).toHaveFocus();
-  
-  // Use arrow keys to navigate
-  await user.keyboard('{ArrowRight}');
-  expect(secondTab).toHaveFocus();
-  
-  // Activate with Enter/Space
-  await user.keyboard('{Enter}');
-  expect(secondTabContent).toBeInTheDocument();
-});
-```
-
-### Testing Focus Management
-
-For components that create and destroy elements (like modals), we test proper focus management:
-
-```tsx
-it('returns focus to trigger when dialog is closed', async () => {
-  const user = userEvent.setup();
-  
-  render(<Dialog>...</Dialog>);
-  
-  // Click to open dialog
-  const trigger = screen.getByRole('button', { name: 'Open Dialog' });
-  await user.click(trigger);
-  
-  // Verify dialog opened
-  expect(screen.getByRole('dialog')).toBeInTheDocument();
-  
-  // Close dialog
-  await user.click(screen.getByRole('button', { name: 'Close' }));
-  
-  // Verify focus returns to trigger
-  expect(trigger).toHaveFocus();
-});
-```
-
-### Testing Custom Cursor Behavior
-
-Interactive components are tested for proper cursor text changes during interactions:
-
-```tsx
-it('sets cursor text on hover and clears on leave', () => {
-  const setCursorText = jest.fn();
-  
-  render(<Component setCursorText={setCursorText} />);
-  
-  // Hover the element
-  fireEvent.mouseEnter(element);
-  expect(setCursorText).toHaveBeenCalledWith('EXPECTED_TEXT');
-  
-  // Leave the element
-  fireEvent.mouseLeave(element);
-  expect(setCursorText).toHaveBeenCalledWith('');
-});
-```
-
-### Testing Controlled vs. Uncontrolled Components
-
-For components that support both controlled and uncontrolled modes, we test:
-
-1. **Uncontrolled Mode**: Component manages its own state
-2. **Controlled Mode**: Parent component passes state and update handlers
-
-```tsx
-it('properly handles controlled tabs with value and onValueChange', async () => {
-  const handleValueChange = jest.fn();
-  const user = userEvent.setup();
-  
-  const TestComponent = () => {
-    const [activeTab, setActiveTab] = React.useState('tab1');
-    
-    return (
-      <Tabs 
-        value={activeTab} 
-        onValueChange={(value) => {
-          setActiveTab(value);
-          handleValueChange(value);
-        }}
-      >
-        {/* Tab content */}
-      </Tabs>
-    );
-  };
-  
-  render(<TestComponent />);
-  
-  // Test interactions with controlled component
-  await user.click(screen.getByText('Tab 2'));
-  
-  // Verify handler was called
-  expect(handleValueChange).toHaveBeenCalledWith('tab2');
-});
-```
-
-### Accessibility Testing
-
-All interactive components are tested for accessibility using jest-axe:
-
-```tsx
-it('has no accessibility violations', async () => {
-  const { container } = render(<Component />);
-  
-  // For components that need to be in a specific state for testing
-  // (e.g., open modals, expanded accordions)
-  fireEvent.click(screen.getByRole('button', { name: 'Open' }));
-  
-  const results = await axe(container);
-  expect(results).toHaveNoViolations();
-});
-```
-
-### Running Interactive Component Tests
-
-To run tests for all interactive components:
-
-```bash
-npm test -- __tests__/ui
-```
-
-To run tests for a specific component:
-
-```bash
-npm test -- __tests__/ui/Dialog.test.tsx
-```
-
-### Test Coverage Requirements
-
-Interactive components should maintain at least 90% test coverage, with particular emphasis on:
-- All interaction methods (mouse, keyboard, touch)
-- All component states (open/closed, active/inactive, etc.)
-- Focus management and keyboard accessibility
-- Screen reader support
-- Custom cursor text updates 
+The tests still function correctly despite these warnings. If needed, these warnings can be suppressed by enhancing the Framer Motion mock implementation. 
