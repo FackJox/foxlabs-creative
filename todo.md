@@ -28,7 +28,7 @@
 
 - [x] **Step 10:** Test Project Components
 
-- [ ] **Step 11:** Test Service Components
+- [x] **Step 11:** Test Service Components
 
 - [ ] **Step 12:** Test Team Components
 

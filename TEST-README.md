@@ -222,4 +222,180 @@ These warnings occur because:
 2. The custom props from Framer Motion are then passed to these DOM elements
 3. React warns about unrecognized props on standard DOM elements
 
-The tests still function correctly despite these warnings. If needed, these warnings can be suppressed by enhancing the Framer Motion mock implementation. 
+The tests still function correctly despite these warnings. If needed, these warnings can be suppressed by enhancing the Framer Motion mock implementation.
+
+## Service Component Tests
+
+This document provides details about the unit tests for service-related components in the RAW/STUDIO portfolio website.
+
+### Overview
+
+The service component tests validate the functionality of components that display information about services offered by RAW/STUDIO. These tests cover various service data scenarios, ensuring components handle all required and optional fields correctly.
+
+### Test Files
+
+The following test files have been created for service-related components:
+
+1. **ServiceItem.test.tsx**
+   - Tests the individual service item component that displays a service title and optional description
+   - Verifies proper rendering of services with minimal and complete data
+   - Tests dark mode styling application
+   - Validates cursor behavior on interactive elements
+
+2. **ServiceList.test.tsx**
+   - Tests rendering of multiple services in a list format
+   - Verifies empty state handling
+   - Tests cursor behavior on service list items
+   - Validates service ordering
+
+3. **ServiceDetails.test.tsx**
+   - Tests detailed service view with complete information
+   - Verifies rendering of various optional fields (benefits, process steps, case studies)
+   - Tests case study link cursor behavior
+   - Validates fallback state when no service is selected
+
+4. **ServiceProcess.test.tsx**
+   - Tests rendering of service process steps
+   - Verifies correct ordering and numbering of steps
+   - Validates handling of edge cases (empty, null, undefined process steps)
+   - Tests handling of many process steps
+
+5. **ServiceBenefits.test.tsx**
+   - Tests rendering of service benefits list
+   - Verifies fallbacks for empty, null, or undefined benefits
+   - Tests handling of edge cases (single benefit, many benefits)
+   - Validates rendering of benefits with special characters or long text
+
+### Test Scenarios
+
+The tests cover the following scenarios for service-related components:
+
+1. **Data Variations:**
+   - Services with all optional fields populated
+   - Services with only required fields
+   - Edge cases (many process steps, long benefit lists)
+
+2. **Cursor Behavior:**
+   - Custom cursor text display on hover
+   - Cursor text clearing on mouse leave
+   - Appropriate cursor text for different interactive elements
+
+3. **Visual Display:**
+   - Correct rendering of service titles and descriptions
+   - Process steps displayed in proper order with numbering
+   - Benefits properly listed with bullet points/icons
+   - Case study information and links properly displayed
+
+4. **Props and Variations:**
+   - Dark mode styling application
+   - Detailed vs. summary view rendering
+   - Empty/null/undefined data handling
+
+### Running the Tests
+
+To run all service component tests:
+
+```bash
+npm test -- --testPathPattern=__tests__/core/Service
+```
+
+To run a specific service component test file:
+
+```bash
+npm test -- __tests__/core/ServiceItem.test.tsx
+```
+
+### Test Coverage
+
+These tests provide comprehensive coverage of the service-related components, validating:
+
+1. Proper rendering of all service data fields
+2. Handling of different service data scenarios
+3. Interactive behavior with cursor text
+4. Edge cases and error states
+
+The tests use Jest and React Testing Library to provide realistic user interaction testing while maintaining unit test isolation.
+
+# Service Component Tests Documentation
+
+## Overview
+
+This document provides comprehensive documentation for the service component tests in the RAW/STUDIO portfolio website. These tests validate that all components displaying service information render correctly, handle various edge cases, and implement proper cursor behavior for interactive elements.
+
+## Test Files
+
+The service component tests are organized into both unit tests and integration tests:
+
+### Unit Tests
+
+1. **ServiceItem.test.tsx**
+   - Tests the individual service item component that displays a service card
+   - Validates rendering with different data scenarios and dark mode styling
+   - Verifies cursor behavior on hover interactions
+
+2. **ServiceList.test.tsx**
+   - Tests the component that renders a list of service items
+   - Checks rendering of multiple services and empty states
+   - Validates cursor behavior during service navigation
+
+3. **ServiceDetails.test.tsx**
+   - Tests the component that displays detailed information about a service
+   - Verifies rendering with complete and minimal data
+   - Tests optional fields and cursor behavior on links
+
+4. **ServiceProcess.test.tsx**
+   - Tests the component that displays the process steps for a service
+   - Validates rendering of process steps with titles and descriptions
+   - Checks handling of edge cases like missing or empty data
+
+5. **ServiceBenefits.test.tsx**
+   - Tests the component that lists the benefits of a service
+   - Checks rendering of benefits lists with different lengths
+   - Validates fallback UI when no benefits are provided
+
+### Integration Tests
+
+6. **ServiceDetailsPage.test.tsx**
+   - Tests the integration of multiple service components on a service details page
+   - Validates that components work together correctly with different data structures
+   - Checks cursor behavior across all interactive elements on the page
+   - Tests conditional rendering based on available service data
+
+## Test Scenarios
+
+Each test suite covers the following scenarios:
+
+- **Data Variations**: Testing components with complete data, minimal data, and edge cases (null/undefined)
+- **Cursor Behavior**: Verifying proper cursor text updates on hover interactions
+- **Visual Display**: Checking that content is correctly displayed and formatted
+- **Props Handling**: Testing component behavior with different prop configurations
+- **Integration**: Ensuring components work together correctly in page context
+
+## Running the Tests
+
+You can run the service component tests using the following commands:
+
+```bash
+# Run all service component tests
+npm test -- --testPathPattern=__tests__/core/Service
+
+# Run all integration tests
+npm test -- --testPathPattern=__tests__/integration
+
+# Run a specific service component test file
+npm test -- __tests__/core/ServiceItem.test.tsx
+
+# Run a specific integration test
+npm test -- __tests__/integration/ServiceDetailsPage.test.tsx
+```
+
+## Test Coverage
+
+These tests provide comprehensive coverage of the service-related components:
+
+- **Unit Tests**: Each component is tested individually to ensure it renders and behaves correctly in isolation
+- **Integration Tests**: Components are tested together to verify they work correctly when combined on a page
+- **Edge Cases**: Tests ensure components handle minimal data, missing data, and other edge cases gracefully
+- **Cursor Behavior**: Verifies that all interactive elements update the custom cursor correctly
+
+All service components are tested with both complete and minimal data to ensure they handle all scenarios gracefully. Integration tests validate that components work well together and maintain proper behavior when combined on service detail pages. 
