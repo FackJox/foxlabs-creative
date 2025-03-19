@@ -32,7 +32,7 @@
 
 - [x] **Step 12:** Test Team Components
 
-- [ ] **Step 13:** Test Layout and Navigation Components
+- [x] **Step 13:** Test Layout and Navigation Components
 
 
 ## Phase 4: Integration Testing

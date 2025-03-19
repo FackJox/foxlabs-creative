@@ -3,7 +3,7 @@
 
 ## Agent Behaviour
 1. Read @spec.md first to understand the portfolio website's specifications, data models, and component structure
-2. Start each response with :b:
+2. Start each response with init_vibes
 3. Refer to me as Jack
 4. I am using fish shell, ensure all terminal commands are compatible with fish
 5. Add new Test Documentation to docs/ in the relevant section, use TEST-README.MD as the index for the testing documentation.
