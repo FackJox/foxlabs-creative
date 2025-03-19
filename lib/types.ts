@@ -20,6 +20,10 @@ export interface Project {
   results?: string
   testimonial?: Testimonial
   url?: string
+  formattedDate?: string
+  summary?: string
+  preview?: string
+  serviceDetails?: Service[]
 }
 
 export interface ServiceProcess {

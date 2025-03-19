@@ -15,7 +15,7 @@
 
 ## Phase 2: Unit Testing Core Utilities and Hooks
 
-- [ ] **Step 6:** Test Data Utilities
+- [x] **Step 6:** Test Data Utilities
 
 - [ ] **Step 7:** Test Custom Hooks
 
