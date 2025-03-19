@@ -36,22 +36,14 @@ describe('API Client Functions', () => {
     });
 
     it('should throw an error if the request fails', async () => {
-      // Create a temporary mock for this test
-      const tempMock = jest.fn().mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-        json: () => Promise.resolve({ error: 'Server error' })
-      } as Response);
-      
-      // Replace the mock temporarily
-      global.fetch = tempMock;
+      // Set the global error simulation flag
+      global.__simulateFetchError__ = true;
       
       try {
         await expect(fetchProjects()).rejects.toThrow('Failed to fetch projects');
       } finally {
-        // Restore our API mock
-        cleanupMock();
-        cleanupMock = setupApiMock();
+        // Reset the flag after test
+        global.__simulateFetchError__ = false;
       }
     });
   });
@@ -114,22 +106,14 @@ describe('API Client Functions', () => {
     });
 
     it('should throw an error if the request fails', async () => {
-      // Create a temporary mock for this test
-      const tempMock = jest.fn().mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-        json: () => Promise.resolve({ error: 'Server error' })
-      } as Response);
-      
-      // Replace the mock temporarily
-      global.fetch = tempMock;
+      // Set the global error simulation flag
+      global.__simulateFetchError__ = true;
       
       try {
         await expect(fetchServices()).rejects.toThrow('Failed to fetch services');
       } finally {
-        // Restore our API mock
-        cleanupMock();
-        cleanupMock = setupApiMock();
+        // Reset the flag after test
+        global.__simulateFetchError__ = false;
       }
     });
   });
@@ -180,22 +164,14 @@ describe('API Client Functions', () => {
     });
 
     it('should throw an error if the request fails', async () => {
-      // Create a temporary mock for this test
-      const tempMock = jest.fn().mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-        json: () => Promise.resolve({ error: 'Server error' })
-      } as Response);
-      
-      // Replace the mock temporarily
-      global.fetch = tempMock;
+      // Set the global error simulation flag
+      global.__simulateFetchError__ = true;
       
       try {
         await expect(fetchTeamMembers()).rejects.toThrow('Failed to fetch team members');
       } finally {
-        // Restore our API mock
-        cleanupMock();
-        cleanupMock = setupApiMock();
+        // Reset the flag after test
+        global.__simulateFetchError__ = false;
       }
     });
   });

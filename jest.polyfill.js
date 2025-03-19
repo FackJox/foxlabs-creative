@@ -36,6 +36,17 @@ const teamMembers = [
 // UPDATED myFetch function with additional routes
 async function myFetch(input, init) {
   console.log('myFetch called with:', input);
+  
+  // If the global error simulation flag is set, return an error response
+  if (global.__simulateFetchError__ === true) {
+    console.log('Simulating error response for:', input);
+    return {
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'Simulated fetch error' })
+    };
+  }
+  
   try {
     const url = new URL(input.toString(), 'http://localhost');
     const path = url.pathname;

@@ -417,6 +417,150 @@ The API mock automatically handles these endpoints:
 - `/api/services/:title` - Returns a specific service
 - `/api/team` - Returns team members
 
+### Fetch API Polyfill (jest.polyfill.js)
+
+For testing API client functions directly, the project uses a custom fetch polyfill in `jest.polyfill.js`. This polyfill:
+
+1. Automatically loads test data from `lib/data.ts`
+2. Overrides the global fetch function to return controlled responses
+3. Provides detailed logging of API requests during tests
+4. Supports both success and error response simulation
+
+#### Implementation Details
+
+The polyfill uses `Object.defineProperty` with getters to ensure that fetch is properly overridden in all contexts (global, window, etc.). The mock implementation returns response objects with the correct shape needed by modern fetch APIs:
+
+```javascript
+// Example of the mock implementation in jest.polyfill.js
+async function myFetch(input, init) {
+  console.log('myFetch called with:', input);
+  
+  // If the global error simulation flag is set, return an error response
+  if (global.__simulateFetchError__ === true) {
+    console.log('Simulating error response for:', input);
+    return {
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'Simulated fetch error' })
+    };
+  }
+  
+  try {
+    const url = new URL(input.toString(), 'http://localhost');
+    const path = url.pathname;
+    console.log('Parsed path:', path);
+    
+    // Returns appropriate data based on the path
+    if (path === '/api/projects') {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => projects
+      };
+    }
+    
+    // Handle /api/projects/:id
+    if (path.match(/^\/api\/projects\/\d+$/)) {
+      const id = parseInt(path.split('/').pop() || '0', 10);
+      const project = projects.find(p => p.id === id);
+      
+      if (project) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => project
+        };
+      } else {
+        return {
+          ok: false,
+          status: 404,
+          json: async () => ({ error: 'Project not found' })
+        };
+      }
+    }
+    
+    // Additional endpoint handling for other API routes...
+  } catch (error) {
+    console.error('Error in myFetch:', error);
+    return {
+      ok: false,
+      status: 500,
+      json: async () => ({ error: 'Internal Server Error' })
+    };
+  }
+}
+
+// Override global fetch
+Object.defineProperty(globalThis, 'fetch', {
+  get: () => myFetch,
+  configurable: true
+});
+```
+
+#### Testing Success Cases
+
+By default, the polyfill returns successful responses for recognized API endpoints:
+
+```typescript
+// In your test file
+import { fetchProjects } from '@/src/api/client';
+
+describe('API Client Functions', () => {
+  it('successfully fetches projects', async () => {
+    const projects = await fetchProjects();
+    expect(projects.length).toBeGreaterThan(0);
+    expect(projects[0]).toHaveProperty('title');
+  });
+});
+```
+
+#### Testing Error Cases
+
+To test error handling in your API client functions, you can set the global `__simulateFetchError__` flag to make the polyfill return error responses:
+
+```typescript
+// In your test file
+import { fetchProjects } from '@/src/api/client';
+
+describe('API Client Functions', () => {
+  it('handles fetch errors appropriately', async () => {
+    // Set the global flag to simulate an error response
+    global.__simulateFetchError__ = true;
+    
+    try {
+      // This should now throw an error
+      await expect(fetchProjects()).rejects.toThrow('Failed to fetch projects');
+    } finally {
+      // Reset the flag to not affect other tests
+      global.__simulateFetchError__ = false;
+    }
+  });
+});
+```
+
+#### Benefits of This Approach
+
+1. **Deterministic Testing**: Tests run with consistent, predetermined responses
+2. **No Network Dependencies**: No actual network calls are made during tests
+3. **Fast Execution**: Tests run quickly without waiting for real API calls
+4. **Complete Control**: You can precisely control what each endpoint returns
+5. **Typed Responses**: The mock returns correctly typed data from your application
+
+#### Extending the Polyfill
+
+If you need to add support for new endpoints, extend the myFetch implementation in `jest.polyfill.js`:
+
+```javascript
+// Adding a new endpoint handler
+if (path === '/api/new-endpoint') {
+  return {
+    ok: true,
+    status: 200,
+    json: async () => newEndpointData
+  };
+}
+```
+
 ## Mocks
 
 The testing setup includes mocks for:
