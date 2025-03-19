@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import Header from "@/components/header"
-import ContactSection from "@/components/contact-section"
-import Footer from "@/components/footer"
+import { Header, Footer } from "@/components/layout"
+import { ContactSection } from "@/components/sections"
 import { cn } from "@/lib/utils"
 import { teamMembers } from "@/lib/data"
 

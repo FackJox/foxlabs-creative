@@ -1,0 +1,237 @@
+
+:w:
+
+# RAW/STUDIO Portfolio Website - .cursorrules (Updated)
+
+## Agent Behaviour
+1. Read @spec.md first to understand the portfolio website's specifications, data models, and component structure
+2. Start each response with :b:
+3. Refer to me as Jack
+4. I am using fish shell, ensure all terminal commands are compatible with fish
+
+## Code Quality
+
+1. ALWAYS follow component-driven development - create reusable components
+2. MAINTAIN single responsibility for each component - each React component should do one thing well
+3. USE async/await for data fetching - ensure smooth user experience
+4. INCLUDE comprehensive error handling - handle data loading states gracefully
+5. IMPLEMENT appropriate TypeScript types - use strict type checking
+6. ADD proper JSDoc documentation - each component and function should have clear comments
+7. UTILIZE TypeScript interfaces - extend existing interfaces when needed
+8. ENFORCE consistent code style - use ESLint and Prettier
+9. LIMIT component complexity - keep components focused and lightweight
+10. WRITE pure functions where possible - minimize side effects
+
+## Project Structure
+
+1. ORGANIZE code by feature - keep related components together
+2. SEPARATE page components from reusable UI components
+3. MAINTAIN the existing data structure in lib/data.ts
+4. IMPLEMENT modular component architecture - components should be loosely coupled
+5. MAINTAIN separation of concerns - UI, data formatting, and routing should be separate
+6. FOLLOW Next.js/React best practices - use appropriate hooks and patterns
+
+## Library Utilization
+
+1. USE Framer Motion for all animations - maintain animation consistency
+2. IMPLEMENT Radix UI for accessible UI primitives - leverage pre-built accessible components
+3. CUSTOMIZE Radix UI components to match brutalist design - maintain design consistency 
+4. FOLLOW existing usage patterns for both libraries - observe implementations in current components
+5. EXTEND rather than replace library components - build on top of established functionality
+6. MAINTAIN consistent component APIs - use similar prop patterns across components
+7. MINIMIZE direct DOM manipulation - use library APIs for DOM interactions
+8. IMPLEMENT proper TypeScript typings for library components - ensure type safety
+9. REUSE animation variants across components - define shared motion variants
+10. USE composition with library components - compose complex UI from simple primitives
+
+## Radix UI Implementation
+
+1. USE Radix Primitives for interactive components - Dialog, Popover, Tabs, etc.
+2. MAINTAIN keyboard accessibility - leverage Radix's built-in keyboard support
+3. STYLE Radix components to match brutalist aesthetic - override default styles
+4. PRESERVE Radix's accessibility features - don't remove ARIA attributes
+5. IMPLEMENT proper focus management - utilize Radix's focus handling
+6. COMBINE with Framer Motion for animations - add motion to Radix components
+7. USE consistent naming conventions - follow Radix component naming patterns
+8. IMPLEMENT proper controlled components - manage state correctly with Radix
+9. ENSURE responsive behavior - adapt Radix components for all viewport sizes
+10. FOLLOW Radix composition patterns - use component composition as recommended
+
+## Framer Motion Implementation
+
+1. USE consistent animation variants - define and reuse motion variants
+2. IMPLEMENT staggered children animations - use staggerChildren property
+3. MAINTAIN consistent easing curves - use [0.16, 1, 0.3, 1] for entrances
+4. USE exit animations - implement proper AnimatePresence for unmounting
+5. IMPLEMENT layout animations - use layout prop for automatic layout animations
+6. OPTIMIZE animations for performance - use willChange and translateZ
+7. UTILIZE animation orchestration - sequence animations with useAnimation
+8. IMPLEMENT gesture animations - use drag, hover, and tap handlers
+9. USE consistent initial states - start with opacity: 0 and appropriate transforms
+10. RESPECT reduced motion preferences - implement useReducedMotion hook
+
+## Components Structure
+
+1. CREATE shared UI components - buttons, cards, layouts
+2. IMPLEMENT page components for each major section (Home, Projects, Services, Team)
+3. BUILD detail page components for individual projects and services
+4. USE composition over inheritance - favor component composition
+5. CREATE responsive components - ensure mobile-first design
+6. IMPLEMENT brutalist design aesthetic - maintain consistent styling
+
+## Custom Cursor Behavior
+
+1. USE setCursorText function for all interactive elements - maintain consistent cursor feedback
+2. IMPLEMENT descriptive cursor text - use action verbs like "VIEW", "CLOSE", "CONTACT", "VISIT" 
+3. CLEAR cursor text on mouse leave - always reset cursor text with onMouseLeave handlers
+4. MAINTAIN consistent cursor size and appearance - use the existing cursor implementation
+5. ENSURE cursor behavior works across viewport sizes - test on mobile and desktop
+6. ADD cursor feedback for all navigation elements - provide clear interaction cues
+7. IMPLEMENT cursor state transitions - smooth opacity transitions between states
+8. FOLLOW established patterns - copy existing implementation for new components
+
+## Animation Standards
+
+1. USE Framer Motion for animations - maintain visual consistency
+2. IMPLEMENT consistent animation parameters - follow existing duration and easing patterns
+3. USE staggered animations for lists - create visual hierarchy through timing
+4. MAINTAIN subtle entrance animations - opacity and y-position transforms
+5. IMPLEMENT consistent hover animations - use transform translations for hover effects
+6. FOLLOW existing motion.div patterns - observe animations in current components
+7. ADD group hover effects - use group class and group-hover: variants for related elements
+8. RESPECT user preferences - implement reduced motion alternatives
+9. USE consistent transition durations - 0.6-0.8s for entrance, 0.3s for hover effects
+10. IMPLEMENT transition delays - create staged entrance animations
+
+## Interaction Patterns
+
+1. IMPLEMENT consistent button hover states - use established hover effects
+2. ADD transition effects for all interactive elements - smooth color and transform changes
+3. USE group hover for parent-child animations - group and group-hover classes
+4. IMPLEMENT clear active states - provide visual feedback for clicked elements
+5. MAINTAIN focus styles - ensure keyboard focus matches hover appearances
+6. ADD scroll transitions - smooth scrolling between sections
+7. IMPLEMENT modal transitions - consistent open/close animations for modals
+8. USE consistent link behaviors - maintain predictable interaction patterns
+
+## Data Management
+
+1. FOLLOW the existing data structure in lib/data.ts
+2. EXTEND interfaces in lib/types.ts when needed - maintain type safety
+3. USE type guards for optional fields - handle undefined values gracefully
+4. IMPLEMENT helper functions for data transformation - keep components clean
+5. CREATE proper filtering for projects by category - support UI filtering
+6. MAINTAIN proper data relationships - link services to projects correctly
+
+## Styling 
+
+1. USE consistent CSS approach - either CSS modules, styled-components, or Tailwind
+2. IMPLEMENT responsive design - support all device sizes
+3. MAINTAIN brutalist design aesthetic - follow RAW/STUDIO's visual identity
+4. CREATE reusable style tokens - colors, typography, spacing
+5. IMPLEMENT accessible styles - ensure proper contrast and focus states
+6. USE semantic HTML elements - enhance accessibility and SEO
+
+## A11y (Accessibility)
+
+1. IMPLEMENT proper ARIA attributes - provide context for screen readers
+2. ENSURE keyboard navigation - all interactive elements must be keyboard accessible
+3. MAINTAIN sufficient color contrast - minimum 4.5:1 for normal text, 3:1 for large text
+4. ADD descriptive alt text for images - include relevant context from project descriptions
+5. USE appropriate heading hierarchy - maintain logical document structure
+6. IMPLEMENT focus management - visible focus states for all interactive elements
+7. ENSURE custom cursor doesn't interfere with assistive technologies
+8. ADD skip links - allow users to bypass repetitive navigation
+9. IMPLEMENT reduced motion options - respect user preferences for animations
+10. USE aria-live regions for dynamic content - announce project details and modal changes
+11. ENSURE proper form labeling - all inputs must have associated labels
+12. TEST with screen readers - verify compatibility with NVDA, JAWS, and VoiceOver
+
+## Testing
+
+1. WRITE unit tests for UI components - test rendering and interactions
+2. CREATE integration tests for page components
+3. USE mocks for data - don't depend on actual data in tests
+4. IMPLEMENT test fixtures for common test scenarios
+5. ENSURE tests are independent - no test should depend on another
+6. TEST responsive behavior - verify mobile and desktop layouts
+7. INCLUDE accessibility tests - verify WCAG compliance
+
+## Error Handling
+
+1. IMPLEMENT loading states - show loading indicators during data fetching
+2. CREATE fallback UI for missing data - handle optional fields gracefully
+3. ADD error boundaries - prevent entire app crashes
+4. IMPLEMENT 404 pages - handle missing projects/services gracefully
+5. LOG errors to console in development - provide helpful debug information
+
+## Performance
+
+1. USE image optimization - implement Next.js Image component
+2. IMPLEMENT code splitting - optimize bundle size
+3. AVOID unnecessary re-renders - use memoization where appropriate
+4. OPTIMIZE animations - ensure smooth transitions
+5. IMPLEMENT lazy loading - defer non-critical resources
+6. USE static generation where possible - optimize page loading
+
+## SEO & Accessibility
+
+1. IMPLEMENT proper meta tags - enhance SEO
+2. USE semantic HTML - improve accessibility and SEO
+3. ADD alt text to all images - improve screen reader experience
+4. IMPLEMENT proper heading hierarchy - maintain document outline
+5. ENSURE keyboard navigation - make site fully accessible
+6. TEST with accessibility tools - verify WCAG compliance
+
+## Code Review Checklist
+
+- Are components properly typed with TypeScript?
+- Is the code well-documented with JSDoc comments?
+- Do components follow single-responsibility principle?
+- Is error handling comprehensive (loading/error states)?
+- Are new components properly tested?
+- Does the code follow the project's component architecture?
+- Is the brutalist design aesthetic maintained?
+- Are components responsive and accessible?
+- Are data transformations efficient?
+- Is the code optimized for performance?
+- Does the code meet WCAG 2.1 AA accessibility standards?
+- Have accessibility features been tested with assistive technologies?
+- Is the custom cursor behavior consistent across interactive elements?
+- Do animations follow established patterns using Framer Motion?
+- Are interaction states (hover, focus, active) consistently implemented?
+- Are Radix UI components properly styled to match the design system?
+- Is library usage consistent across the application?
+
+You are an expert in TypeScript, React/Next.js, and portfolio website development.
+
+Key Principles
+
+- Write concise, modern React components with proper TypeScript types
+- Use functional components and React hooks instead of class components
+- Prefer composition over inheritance for component structure
+- Use descriptive variable and component names (e.g., isLoading, hasGallery)
+- Use PascalCase for components and camelCase for functions/variables
+- Maintain brutalist design aesthetic throughout the UI
+- Follow the existing data structure in lib/data.ts
+- Ensure all components are accessible to all users
+
+React/Next.js
+
+- Use function components with explicit return types
+- Use proper TypeScript interfaces for props and state
+- Include proper loading and error states for async operations
+- Structure files by feature: pages, components, hooks, utils
+- Use Next.js Image component for optimized images
+- Implement proper routing using Next.js file-based routing
+- Create reusable components for project cards, service details, etc.
+- Include appropriate accessibility attributes in all components
+
+Error Handling and Validation
+
+- Handle optional fields with proper null checking or defaults
+- Implement proper loading states during data fetching
+- Use error boundaries to prevent entire app crashes
+- Provide meaningful error messages and fallback UI
+- Validate data structure matches expected interfaces
+- Ensure error states are accessible and clearly communicated

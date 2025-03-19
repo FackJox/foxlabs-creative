@@ -5,7 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { X, ArrowUpRight, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui"
 import type { Project } from "@/lib/types"
 
 interface ProjectDetailProps {

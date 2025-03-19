@@ -6,10 +6,9 @@ import { useSearchParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Plus, Minus, ArrowRight, ExternalLink } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import Header from "@/components/header"
-import ContactSection from "@/components/contact-section"
-import Footer from "@/components/footer"
+import { Button } from "@/components/ui"
+import { Header, Footer } from "@/components/layout"
+import { ContactSection } from "@/components/sections"
 import { cn } from "@/lib/utils"
 import { services } from "@/lib/data"
 
