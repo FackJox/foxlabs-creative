@@ -398,4 +398,323 @@ These tests provide comprehensive coverage of the service-related components:
 - **Edge Cases**: Tests ensure components handle minimal data, missing data, and other edge cases gracefully
 - **Cursor Behavior**: Verifies that all interactive elements update the custom cursor correctly
 
-All service components are tested with both complete and minimal data to ensure they handle all scenarios gracefully. Integration tests validate that components work well together and maintain proper behavior when combined on service detail pages. 
+All service components are tested with both complete and minimal data to ensure they handle all scenarios gracefully. Integration tests validate that components work well together and maintain proper behavior when combined on service detail pages.
+
+## 7. Team Component Tests
+
+### 7.1 Overview
+
+The test suite for team-related components covers the `TeamMember` component and the team section of the About page. These components are responsible for displaying information about team members.
+
+### 7.2 Test Files
+
+The test suite consists of the following files:
+
+- `__tests__/core/TeamMember.test.tsx`: Tests for the core TeamMember component
+- `__tests__/core/TeamMemberEdgeCases.test.tsx`: Tests for edge cases in the TeamMember component
+- `__tests__/pages/AboutPage.test.tsx`: Tests for the team section in the About page
+- `__tests__/pages/AboutPageEmptyTeam.test.tsx`: Tests for the About page when no team members exist
+
+### 7.3 TeamMember Component Tests
+
+#### 7.3.1 Basic Functionality Tests
+
+The `TeamMember.test.tsx` file contains tests for the basic functionality of the TeamMember component:
+
+- **Rendering**: Tests that the component renders the team member's name, role, and image correctly.
+- **Animation Props**: Tests that the component accepts and processes the index prop correctly for animations.
+- **Image Handling**: Tests that the component displays a placeholder image when no image is provided.
+- **Cursor Behavior**: Tests that the component updates the cursor text on hover and clears it on mouse leave.
+
+#### 7.3.2 Edge Case Tests
+
+The `TeamMemberEdgeCases.test.tsx` file contains tests for various edge cases:
+
+- **Long Names**: Tests that the component can handle team members with very long names.
+- **Long Roles**: Tests that the component can handle team members with very long role titles.
+- **Missing Images**: Tests that the component handles missing images gracefully by displaying a placeholder.
+- **Broken Image URLs**: Tests that the component handles broken image URLs.
+- **Index Values**: Tests that the component handles negative and very large index values for animation delays.
+
+### 7.4 About Page Team Section Tests
+
+The `AboutPage.test.tsx` file contains tests specifically for the team section in the About page:
+
+- **Rendering**: Tests that the team section renders with the correct heading.
+- **Team Members**: Tests that all team members are displayed correctly.
+- **Grid Layout**: Tests that team members are displayed in a proper grid layout with responsive columns.
+- **Visual Effects**: Tests that the grayscale effect is applied to team member images and changes on hover.
+- **Cursor Behavior**: Tests that the cursor text updates on team member hover and clears on mouse leave.
+
+The `AboutPageEmptyTeam.test.tsx` file tests the About page when no team members exist:
+
+- **Empty State Handling**: Tests that the team section still renders even when the team members array is empty.
+- **No Team Members**: Verifies that no team member cards are rendered when the team array is empty.
+- **Other Sections**: Confirms that other page sections still render correctly regardless of team data.
+
+### 7.5 Mock Strategy
+
+The tests use the following mocking strategy:
+
+- **Data**: Team member data is mocked using `mockTeamMembers` from the fixtures.
+- **Components**: Header, Footer, and ContactSection components are mocked to focus testing on the team section.
+- **Animations**: Framer Motion is mocked to avoid animation-related complexities in testing.
+- **Cursor Behavior**: The useCursor hook is mocked to verify cursor text updates.
+- **Images**: Next.js Image component is mocked to simplify image testing.
+
+### 7.6 Testing Coverage
+
+The tests aim to provide comprehensive coverage of the team-related components, including:
+
+- Basic rendering and display
+- Responsive behavior
+- Animations and transitions
+- User interactions (hover effects, cursor behavior)
+- Edge cases and error handling
+
+### 7.7 Running Team Component Tests
+
+To run the tests specifically for team components:
+
+```bash
+npm test -- --testPathPattern=TeamMember
+npm test -- --testPathPattern=AboutPage
+```
+
+To run tests for the edge case of an empty team:
+
+```bash
+npm test -- --testPathPattern=AboutPageEmptyTeam
+```
+
+### 7.8 Accessibility Testing
+
+The team component tests include basic accessibility checks:
+
+- Proper alt text for images
+- Semantic HTML structure
+- Keyboard navigation
+
+For more comprehensive accessibility testing, additional tests using tools like jest-axe are recommended.
+
+## Future Improvements
+
+Potential future improvements to the test suite:
+
+- Add more comprehensive accessibility tests
+- Test for specific animation parameters and timing
+- Test for specific responsive behavior at different viewport sizes
+- Add visual regression tests for the team section 
+
+# Testing Documentation for RAW/STUDIO Portfolio Website
+
+## Overview
+
+This document outlines the testing approach, best practices, and common issues for the RAW/STUDIO portfolio website. The project uses Jest and React Testing Library for unit and integration testing.
+
+## Testing Structure
+
+- `__tests__/` - Contains all test files, organized by folders matching the structure of components/pages:
+  - `__tests__/pages/` - Tests for Next.js page components
+  - `__tests__/core/` - Tests for core UI components
+  - `__tests__/components/` - Tests for shared components
+
+## Mock Data
+
+Mock data is available in:
+- `__tests__/fixtures/mockData.ts` - Contains mock project and service data for testing
+
+## Common Testing Patterns
+
+### 1. Mocking Approach
+
+When testing components that use external data or components, use the following mocking pattern:
+
+```tsx
+// Define mock data first
+const mockTeamMembers = [
+  { name: 'John Doe', role: 'Creative Director', image: '/images/team/member1.jpg' },
+  { name: 'Jane Smith', role: 'Lead Developer', image: '/images/team/member2.jpg' },
+  { name: 'Sam Wilson', role: 'Design Lead', image: '/images/team/member3.jpg' }
+];
+
+// Mock dependencies before importing the component under test
+jest.mock('@/lib/data', () => ({
+  getTeamMembers: () => mockTeamMembers,
+  getProjects: jest.requireActual('@/lib/data').getProjects,
+  getServices: jest.requireActual('@/lib/data').getServices
+}));
+
+// Import the component after mocking
+import AboutPage from '@/app/about/page';
+```
+
+### 2. Component Mocking
+
+For complex components with many dependencies, mock child components:
+
+```tsx
+// Mock layout components
+jest.mock('@/components/layout/Header', () => {
+  return function MockHeader() {
+    return <div data-testid="header" />;
+  };
+});
+
+jest.mock('@/components/layout/Footer', () => {
+  return function MockFooter() {
+    return <div data-testid="footer" />;
+  };
+});
+```
+
+### 3. Testing Empty States
+
+Always test components with both normal and edge cases:
+
+```tsx
+// Test with empty data
+it('still renders the team section even with empty team data', () => {
+  render(<AboutPage />);
+  expect(screen.getByText('OUR TEAM')).toBeInTheDocument();
+});
+
+it('does not render any team member cards when team array is empty', () => {
+  render(<AboutPage />);
+  const teamSection = screen.getByText('OUR TEAM').closest('section');
+  const teamCards = within(teamSection).queryAllByTestId('team-member-card');
+  expect(teamCards.length).toBe(0);
+});
+```
+
+### 4. Handling Next.js Image Component
+
+The Next.js Image component needs special handling in tests:
+
+```tsx
+jest.mock('next/image', () => {
+  return function MockImage(props) {
+    // Convert boolean 'fill' to string to avoid React DOM warnings
+    const imgProps = {...props};
+    if (typeof props.fill === 'boolean') {
+      imgProps.fill = props.fill.toString();
+    }
+    return <img {...imgProps} />;
+  };
+});
+```
+
+### 5. Handling Framer Motion Components
+
+For Framer Motion components, create simple mock implementations:
+
+```tsx
+jest.mock('framer-motion', () => {
+  const actual = jest.requireActual('framer-motion');
+  return {
+    ...actual,
+    motion: {
+      div: (props) => <div {...props} data-testid={`motion-div-${props.className || 'default'}`} />,
+      h1: (props) => <h1 {...props} data-testid={`motion-h1-${props.className || 'default'}`} />,
+      span: (props) => <span {...props} data-testid={`motion-span-${props.className || 'default'}`} />,
+      // Add more components as needed
+    },
+    AnimatePresence: ({ children }) => <>{children}</>,
+  };
+});
+```
+
+## Common Issues and Solutions
+
+### 1. Jest Hoisting Issues
+
+**Problem**: `Cannot access 'mockTeamMembers' before initialization` error.
+
+**Solution**: Define mock data before using it in `jest.mock()`:
+
+```tsx
+// ❌ Incorrect order
+jest.mock('@/lib/data', () => ({
+  getTeamMembers: () => mockTeamMembers // Error: mockTeamMembers not defined yet
+}));
+const mockTeamMembers = [...]; 
+
+// ✅ Correct order
+const mockTeamMembers = [...];
+jest.mock('@/lib/data', () => ({
+  getTeamMembers: () => mockTeamMembers
+}));
+```
+
+### 2. Text Matching Issues
+
+**Problem**: Unable to find text elements when they span multiple DOM elements.
+
+**Solution**: Use `{ exact: false }` option with `getByText`:
+
+```tsx
+// ❌ May fail if "WHO WE ARE" spans multiple elements
+expect(screen.getByText('WHO')).toBeInTheDocument();
+
+// ✅ More robust approach
+expect(screen.getByText('WHO WE ARE', { exact: false })).toBeInTheDocument();
+```
+
+### 3. React Warnings for Boolean Attributes
+
+**Problem**: React DOM warnings about non-boolean attributes like `fill` from Next.js Image.
+
+**Solution**: Convert boolean attributes to strings in mocks:
+
+```tsx
+// Convert boolean props to strings
+if (typeof props.fill === 'boolean') {
+  imgProps.fill = props.fill.toString();
+}
+```
+
+## Current Test Coverage
+
+As of the latest update, test coverage is:
+- Statements: 44.04%
+- Branches: 20.79%
+- Functions: 26.1%
+- Lines: 49.54%
+
+The global coverage thresholds are set to 80% for all metrics, which indicates further test development is needed.
+
+## Improving Test Coverage
+
+To improve test coverage:
+
+1. Focus on core components and pages first
+2. Create tests for edge cases and error states
+3. Test user interactions using `fireEvent` or `userEvent`
+4. Verify that accessibility features work correctly
+
+## Running Tests
+
+Run all tests:
+```
+npm test
+```
+
+Run a specific test file:
+```
+npm test -- __tests__/pages/AboutPage.test.tsx
+```
+
+Run tests with coverage report:
+```
+npm test -- --coverage
+```
+
+## Best Practices
+
+1. **Test behavior, not implementation**: Focus on what the component does, not how it does it
+2. **Use semantic queries**: Prefer `getByRole`, `getByLabelText`, and `getByText` over `getByTestId`
+3. **Isolate tests**: Each test should be independent and not rely on state from other tests
+4. **Mock minimum required**: Only mock what is necessary for the test to run
+5. **Test edge cases**: Test empty states, error states, and loading states
+6. **Follow AAA pattern**: Arrange, Act, Assert
+7. **Keep tests simple**: Each test should verify one specific behavior 
