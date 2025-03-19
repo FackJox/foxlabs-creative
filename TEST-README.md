@@ -98,3 +98,78 @@ When adding new data utility functions:
 2. Create tests in the corresponding test file
 3. Ensure all edge cases are covered
 4. Update this documentation 
+
+## Custom React Hooks Testing
+
+The portfolio uses several custom React hooks to manage state and interactions. These hooks are tested using the `renderHook` function from `@testing-library/react`.
+
+### Hook Test Structure
+
+Tests for custom hooks are located in `__tests__/hooks/` and follow these patterns:
+
+1. **Initial State**: Test that hooks provide expected initial values
+2. **State Updates**: Test that hooks correctly update their state
+3. **Side Effects**: Test any side effects (like event listeners)
+4. **Cleanup**: Test that hooks properly clean up resources on unmount
+
+### Tested Hooks
+
+| Hook | Description | Test File |
+|------|-------------|-----------|
+| `useCursor` | Manages cursor position and text for custom cursor interactions | `__tests__/hooks/use-cursor.test.tsx` |
+| `useIsMobile` | Detects if the viewport is mobile-sized | `__tests__/hooks/use-mobile.test.tsx` |
+| `useToast` | Manages toast notifications | `__tests__/hooks/use-toast.test.tsx` |
+
+### Testing Patterns
+
+#### Wrapping Context Providers
+
+Some hooks rely on React context and need to be wrapped in their provider:
+
+```tsx
+const wrapper = ({ children }) => (
+  <CursorProvider>{children}</CursorProvider>
+);
+
+const { result } = renderHook(() => useCursor(), { wrapper });
+```
+
+#### Testing Browser APIs
+
+For hooks that interact with browser APIs, we mock the relevant APIs:
+
+```tsx
+// Mock window properties
+window.matchMedia = jest.fn().mockImplementation(/* implementation */);
+Object.defineProperty(window, 'innerWidth', { value: 767 });
+```
+
+#### Testing Effects and Cleanup
+
+Hooks that set up and clean up effects are tested by checking if they properly add and remove event listeners:
+
+```tsx
+// Verify event listener is added
+expect(window.addEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function));
+
+// Unmount to trigger cleanup
+const { unmount } = renderHook(() => useHook());
+unmount();
+
+// Verify event listener is removed
+expect(window.removeEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function));
+```
+
+### Running Hook Tests
+
+To run tests for all hooks:
+
+```bash
+npm test -- __tests__/hooks
+```
+
+To run tests for a specific hook:
+
+```bash
+npm test -- __tests__/hooks/use-cursor.test.tsx
+``` 
