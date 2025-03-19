@@ -355,3 +355,176 @@ UI components should maintain at least 85% test coverage, with particular emphas
 - Accessibility features
 - Event handlers
 - Responsive behavior where applicable 
+
+## Interactive UI Component Tests
+
+The portfolio website implements various interactive UI components that manage state changes and user interactions. These components are extensively tested to ensure they work correctly across different interaction methods and maintain accessibility standards.
+
+### Interactive Component Test Structure
+
+Tests for interactive UI components follow these patterns:
+
+1. **Initial State Rendering**: Verify components render correctly in their initial state
+2. **State Changes**: Test that components update their state correctly after user interactions
+3. **Keyboard Accessibility**: Ensure all interactions are possible using only a keyboard
+4. **Screen Reader Accessibility**: Verify proper ARIA attributes and roles for screen readers
+5. **Focus Management**: Test that components correctly manage focus, especially those that create/remove elements
+6. **Custom Cursor Behavior**: Verify cursor text changes appropriately during interactions
+
+### Newly Tested Interactive Components
+
+| Component | Description | Test File |
+|-----------|-------------|-----------|
+| `Header` | Main navigation header with mobile menu | `__tests__/ui/Header.test.tsx` |
+| `DropdownMenu` | Menu with dropdown options and multiple item types | `__tests__/ui/DropdownMenu.test.tsx` |
+| `Tabs` | Tabbed interface for content organization | `__tests__/ui/Tabs.test.tsx` |
+| `Accordion` | Collapsible content sections | `__tests__/ui/Accordion.test.tsx` |
+| `Dialog` | Modal dialog with focus trapping | `__tests__/ui/Dialog.test.tsx` |
+
+### Testing Interaction Patterns
+
+The tests use Testing Library's `userEvent` to simulate realistic user interactions:
+
+```tsx
+// Example: Testing tab keyboard navigation
+it('handles keyboard navigation correctly', async () => {
+  const user = userEvent.setup();
+  
+  render(<Tabs>...</Tabs>);
+  
+  // Tab to focus the component
+  await user.tab();
+  expect(firstTab).toHaveFocus();
+  
+  // Use arrow keys to navigate
+  await user.keyboard('{ArrowRight}');
+  expect(secondTab).toHaveFocus();
+  
+  // Activate with Enter/Space
+  await user.keyboard('{Enter}');
+  expect(secondTabContent).toBeInTheDocument();
+});
+```
+
+### Testing Focus Management
+
+For components that create and destroy elements (like modals), we test proper focus management:
+
+```tsx
+it('returns focus to trigger when dialog is closed', async () => {
+  const user = userEvent.setup();
+  
+  render(<Dialog>...</Dialog>);
+  
+  // Click to open dialog
+  const trigger = screen.getByRole('button', { name: 'Open Dialog' });
+  await user.click(trigger);
+  
+  // Verify dialog opened
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  
+  // Close dialog
+  await user.click(screen.getByRole('button', { name: 'Close' }));
+  
+  // Verify focus returns to trigger
+  expect(trigger).toHaveFocus();
+});
+```
+
+### Testing Custom Cursor Behavior
+
+Interactive components are tested for proper cursor text changes during interactions:
+
+```tsx
+it('sets cursor text on hover and clears on leave', () => {
+  const setCursorText = jest.fn();
+  
+  render(<Component setCursorText={setCursorText} />);
+  
+  // Hover the element
+  fireEvent.mouseEnter(element);
+  expect(setCursorText).toHaveBeenCalledWith('EXPECTED_TEXT');
+  
+  // Leave the element
+  fireEvent.mouseLeave(element);
+  expect(setCursorText).toHaveBeenCalledWith('');
+});
+```
+
+### Testing Controlled vs. Uncontrolled Components
+
+For components that support both controlled and uncontrolled modes, we test:
+
+1. **Uncontrolled Mode**: Component manages its own state
+2. **Controlled Mode**: Parent component passes state and update handlers
+
+```tsx
+it('properly handles controlled tabs with value and onValueChange', async () => {
+  const handleValueChange = jest.fn();
+  const user = userEvent.setup();
+  
+  const TestComponent = () => {
+    const [activeTab, setActiveTab] = React.useState('tab1');
+    
+    return (
+      <Tabs 
+        value={activeTab} 
+        onValueChange={(value) => {
+          setActiveTab(value);
+          handleValueChange(value);
+        }}
+      >
+        {/* Tab content */}
+      </Tabs>
+    );
+  };
+  
+  render(<TestComponent />);
+  
+  // Test interactions with controlled component
+  await user.click(screen.getByText('Tab 2'));
+  
+  // Verify handler was called
+  expect(handleValueChange).toHaveBeenCalledWith('tab2');
+});
+```
+
+### Accessibility Testing
+
+All interactive components are tested for accessibility using jest-axe:
+
+```tsx
+it('has no accessibility violations', async () => {
+  const { container } = render(<Component />);
+  
+  // For components that need to be in a specific state for testing
+  // (e.g., open modals, expanded accordions)
+  fireEvent.click(screen.getByRole('button', { name: 'Open' }));
+  
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+### Running Interactive Component Tests
+
+To run tests for all interactive components:
+
+```bash
+npm test -- __tests__/ui
+```
+
+To run tests for a specific component:
+
+```bash
+npm test -- __tests__/ui/Dialog.test.tsx
+```
+
+### Test Coverage Requirements
+
+Interactive components should maintain at least 90% test coverage, with particular emphasis on:
+- All interaction methods (mouse, keyboard, touch)
+- All component states (open/closed, active/inactive, etc.)
+- Focus management and keyboard accessibility
+- Screen reader support
+- Custom cursor text updates 

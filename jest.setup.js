@@ -138,6 +138,10 @@ global.ResizeObserver = class ResizeObserverMock {
   disconnect = jest.fn();
 };
 
+// Add jest-axe setup
+import { toHaveNoViolations } from 'jest-axe';
+expect.extend(toHaveNoViolations);
+
 // At the end of jest.setup.js, add the following:
 beforeAll(() => {
   global.fetch = myFetch;
