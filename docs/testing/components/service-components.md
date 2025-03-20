@@ -168,3 +168,48 @@ Both components follow these key design patterns:
 4. **Animation**: Consistent use of Framer Motion for animations
 5. **Conditional Rendering**: Proper handling of optional data
 6. **Clear Error States**: Fallback UI for missing data 
+
+### 3.4 ServiceCard Component
+
+The `ServiceCard` component (implemented as `ServiceItem` in the codebase) displays service information in a card format with:
+
+1. **Title**: The service title displayed prominently
+2. **Description**: Shown when the detailed prop is true
+3. **Icon**: Features an ArrowUpRight icon indicating interactivity
+4. **Animation**: Implements entrance animations and hover effects using Framer Motion
+5. **Custom Cursor**: Sets cursor text to "VIEW" on hover
+6. **Dark Mode Support**: Supports different styling based on darkMode prop
+
+#### Test Coverage
+
+The `ServiceCard` component tests verify:
+
+- **Data Rendering**:
+  - Rendering with complete service data
+  - Rendering with minimal service data (only required fields)
+  - Conditional rendering of description based on detailed prop
+  - Proper application of dark mode styling
+
+- **Icon Rendering**:
+  - Proper rendering of ArrowUpRight icon
+
+- **Interaction Behavior**:
+  - Setting cursor text to "VIEW" on mouse enter
+  - Clearing cursor text on mouse leave
+  - Handling click events correctly
+
+- **Animation**:
+  - Verifying the presence of animation attributes
+  - Group hover effects for coordinated animations
+
+- **Accessibility**:
+  - Keyboard navigability
+  - Proper role attributes for interactive elements
+  - Appropriate CSS classes indicating interactivity
+
+The tests use the mockDataFactory to create test services with both complete and minimal configurations, ensuring the component handles all data scenarios gracefully.
+
+```bash
+# Run the ServiceCard component tests
+npm test -- __tests__/components/services/ServiceCard.test.tsx
+``` 

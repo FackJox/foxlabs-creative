@@ -125,6 +125,45 @@ const appData = createMockApplicationData();
 
 5. **Maintain type consistency**: Ensure that any custom test fixtures maintain consistency with the TypeScript interfaces defined in the project.
 
+## Usage Examples in Tests
+
+### ServiceCard Component Tests
+
+The ServiceCard component tests demonstrate effective use of the mock data factory:
+
+```typescript
+// Import factory functions
+import {
+  createMockService,
+  createMinimalService
+} from '@/__tests__/fixtures/mockDataFactory';
+
+describe('ServiceCard Component', () => {
+  // Test with complete service data
+  it('should render with complete service data', () => {
+    const mockService = createMockService();
+    render(<ServiceItem service={mockService} />);
+    // assertions...
+  });
+
+  // Test with minimal service data
+  it('should render with minimal service data', () => {
+    const mockMinimalService = createMinimalService();
+    render(<ServiceItem service={mockMinimalService} />);
+    // assertions...
+  });
+
+  // Test with dark mode
+  it('should apply dark mode styling', () => {
+    const mockService = createMockService();
+    render(<ServiceItem service={mockService} darkMode={true} />);
+    // assertions...
+  });
+});
+```
+
+This approach ensures consistent test data while allowing tests to focus on specific component behaviors.
+
 ## Implementation Details
 
 The mock data factory is designed to be flexible and extensible. Each factory function:

@@ -20,6 +20,7 @@ The test suite has been updated to fix several issues:
 - Navigation tests simplified to focus on URL validation for pages not yet fully implemented
 - TypeScript type definitions improved for Jest and Testing Library matchers
 - Test files updated to use proper TypeScript typings for mocks and assertions
+- ServiceCard component tests implemented and passing with 100% coverage
 
 ## Table of Contents
 

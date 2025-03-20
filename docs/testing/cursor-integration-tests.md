@@ -109,4 +109,24 @@ When extending these tests or implementing cursor behavior in new components:
 
 - [Animation Integration Tests](./animation-integration-tests.md) - Related to cursor animations
 - [Component Tests](./components/) - Individual component tests that include cursor behavior
-- [Accessibility Testing](./accessibility-testing.md) - Focus and keyboard navigation testing 
+- [Accessibility Testing](./accessibility-testing.md) - Focus and keyboard navigation testing
+
+## Tested Components
+
+The cursor integration tests cover cursor behavior for the following components:
+
+- Buttons - Cursor text: "CLICK"
+- Navigation links - Cursor text: "VISIT"
+- Project cards - Cursor text: "VIEW"
+- Service cards - Cursor text: "VIEW" 
+- Team member cards - Cursor text: "MEET"
+- Form elements - Cursor text: "INTERACT"
+
+### Individual Component Tests
+
+In addition to the integration tests, cursor behavior is also tested in individual component test files:
+
+1. **ProjectCard.test.tsx** - Verifies setting cursor text to "VIEW" on hover
+2. **ServiceCard.test.tsx** - Verifies setting cursor text to "VIEW" on hover and clearing on mouse leave
+3. **Button.test.tsx** - Verifies setting cursor text to "CLICK" on hover
+4. **NavigationLink.test.tsx** - Verifies setting cursor text to "VISIT" on hover 

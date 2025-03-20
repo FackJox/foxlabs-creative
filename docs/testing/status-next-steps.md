@@ -243,4 +243,4 @@ The following components have complete test coverage:
 - Header
 - Navigation
 - ProjectCard
-- ServiceCard 
+- ServiceCard ✅ 
