@@ -17,6 +17,9 @@ export default function WorkPage() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
   const [cursorText, setCursorText] = useState("")
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -51,6 +54,22 @@ export default function WorkPage() {
   const closeProject = () => {
     setSelectedProject(null)
   }
+  
+  const filterByCategory = (category: string) => {
+    setSelectedCategory(category === selectedCategory ? null : category)
+  }
+  
+  const clearFilters = () => {
+    setSelectedCategory(null)
+  }
+  
+  // Get unique categories for filter buttons
+  const categories = [...new Set(projects.map(p => p.category))]
+  
+  // Filter projects based on selected category
+  const filteredProjects = selectedCategory 
+    ? projects.filter(p => p.category === selectedCategory)
+    : projects
 
   return (
     <main className="relative bg-white text-black selection:bg-black selection:text-white" ref={scrollRef}>
@@ -115,52 +134,112 @@ export default function WorkPage() {
           <h2 className="text-4xl font-bold uppercase tracking-tighter md:text-5xl">ALL PROJECTS</h2>
           <span className="text-sm uppercase">SORTED BY DATE</span>
         </div>
-
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className="group relative cursor-pointer overflow-hidden border border-black"
-              onClick={() => handleProjectClick(project.id)}
-              onMouseEnter={() => setCursorText("EXPAND")}
-              onMouseLeave={() => setCursorText("")}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 0.98 }}
-              layoutId={`project-container-${project.id}`}
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <Image
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-20" />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-white p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <motion.h3 className="text-xl font-bold" layoutId={`project-title-${project.id}`}>
-                      {project.title}
-                    </motion.h3>
-                    <div className="flex gap-4 text-sm">
-                      <span>{project.category}</span>
-                      <span>{project.year}</span>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-600 max-w-md line-clamp-2">{project.description}</p>
-                  </div>
-                  <ArrowUpRight
-                    size={24}
-                    className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        
+        {/* Category filters */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`border ${
+                  selectedCategory === category ? 'bg-black text-white' : 'bg-white text-black'
+                } border-black px-4 py-2 transition-colors hover:bg-black hover:text-white`}
+                onClick={() => filterByCategory(category)}
+                onMouseEnter={() => setCursorText("FILTER")}
+                onMouseLeave={() => setCursorText("")}
+                data-testid="category-filter"
+                aria-label={`Filter by ${category}`}
+              >
+                {category}
+              </button>
+            ))}
+            {selectedCategory && (
+              <button
+                className="border border-black bg-white px-4 py-2 text-black transition-colors hover:bg-black hover:text-white"
+                onClick={clearFilters}
+                onMouseEnter={() => setCursorText("CLEAR")}
+                onMouseLeave={() => setCursorText("")}
+                data-testid="clear-filter"
+              >
+                CLEAR FILTERS
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Loading state */}
+        {loading && (
+          <div className="flex h-64 w-full items-center justify-center" data-testid="project-loading">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-black border-t-transparent"></div>
+            <span className="ml-4 text-lg font-bold">Loading projects...</span>
+          </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div className="border border-red-500 bg-red-50 p-6 text-center" data-testid="project-error" role="alert" aria-live="polite">
+            <h3 className="mb-2 text-xl font-bold text-red-700">Failed to load projects</h3>
+            <p className="mb-4 text-red-600">{error}</p>
+            <Button 
+              className="border border-red-500 bg-white px-6 py-2 text-red-600 hover:bg-red-500 hover:text-white"
+              onClick={() => window.location.reload()}
+              data-testid="retry-button"
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+
+        {/* Project grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2" data-testid="project-grid" aria-label="Projects grid">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="group relative cursor-pointer overflow-hidden border border-black"
+                onClick={() => handleProjectClick(project.id)}
+                onMouseEnter={() => setCursorText("EXPAND")}
+                onMouseLeave={() => setCursorText("")}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 0.98 }}
+                layoutId={`project-container-${project.id}`}
+                data-testid="project-card"
+              >
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image
+                    src={project.image || "/placeholder.svg"}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    data-testid="project-image"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-20" />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-white p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <motion.h3 className="text-xl font-bold" layoutId={`project-title-${project.id}`} data-testid="project-title" aria-label={project.title}>
+                        {project.title}
+                      </motion.h3>
+                      <div className="flex gap-4 text-sm">
+                        <span data-testid="project-category">{project.category}</span>
+                        <span data-testid="project-year">{project.year}</span>
+                      </div>
+                      <p className="mt-2 text-sm text-gray-600 max-w-md line-clamp-2">{project.description}</p>
+                    </div>
+                    <ArrowUpRight
+                      size={24}
+                      className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         <div className="mt-12 flex justify-center">
           <Link href="/">
@@ -168,6 +247,7 @@ export default function WorkPage() {
               className="group border border-black bg-white px-8 py-6 text-black hover:bg-black hover:text-white"
               onMouseEnter={() => setCursorText("HOME")}
               onMouseLeave={() => setCursorText("")}
+              data-testid="back-to-projects"
             >
               <span className="mr-2 text-lg font-bold uppercase">BACK TO HOME</span>
               <ArrowUpRight

@@ -31,6 +31,7 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
         z: 50,
         scale: 0.98,
       }}
+      data-testid="project-card"
     >
       <div className={`relative ${detailed ? "aspect-[3/2]" : "aspect-[4/3]"} w-full overflow-hidden`}>
         <motion.div
@@ -46,6 +47,7 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
             alt={project.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
+            data-testid="project-image"
           />
         </motion.div>
         <motion.div
@@ -67,10 +69,10 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
       >
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold">{project.title}</h3>
+            <h3 className="text-xl font-bold" data-testid="project-title" aria-label={project.title}>{project.title}</h3>
             <div className="flex gap-4 text-sm">
-              <span>{project.category}</span>
-              <span>{project.year}</span>
+              <span data-testid="project-category">{project.category}</span>
+              <span data-testid="project-year">{project.year}</span>
             </div>
             {detailed && <p className="mt-2 text-sm text-gray-600 max-w-md">{project.description}</p>}
           </div>

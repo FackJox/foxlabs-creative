@@ -1,0 +1,777 @@
+# Comprehensive Testing Strategy Implementation Blueprint
+
+## Overview of Testing Implementation Approach
+
+This blueprint outlines a systematic approach to improve test coverage and quality for the RAW/STUDIO portfolio website. The implementation is broken down into six iterations, each with small, manageable steps that build on previous work.
+
+The current coverage metrics (statements: 41.78%, branches: 17.87%, functions: 23.15%, lines: 47.12%) indicate significant gaps that need to be addressed systematically. This plan prioritizes:
+
+1. Building a solid testing foundation
+2. Testing critical components first
+3. Progressively expanding to integration and E2E tests
+4. Continuous review and improvement
+
+## Implementation Steps by Iteration
+
+### Iteration 1: Critical Component Testing Foundation
+
+#### 1.1. Setup Test Infrastructure
+
+```
+Create a standardized test utilities file that will be used across all component tests. Include:
+1. A custom render function that wraps components with necessary providers (ThemeProvider, CursorProvider)
+2. Common user interaction helpers that work with React Testing Library
+3. A setupAxe utility for accessibility testing
+4. Screen size simulation utilities for responsive tests
+
+The file should be placed in __tests__/utils/test-utils.ts and include proper TypeScript typing.
+
+Ensure the utilities handle common testing patterns like:
+- Setting up mock cursor context
+- Simulating different viewport sizes
+- Checking for accessibility violations
+
+Example structure:
+- Custom render function with all providers
+- User event setup for interactions
+- Accessibility testing setup with jest-axe
+- Screen size simulation helpers
+- Type definitions for test utilities
+```
+
+#### 1.2. Create Mock Data Factory
+
+```
+Create a comprehensive mock data factory system for generating test data. The system should:
+
+1. Create a mockDataFactory.ts file in __tests__/fixtures/ directory
+2. Include factory functions for all major data types (projects, services, team members)
+3. Support generating both minimal and complete data objects
+4. Include helper functions to create arrays of mock objects
+5. Support overriding specific fields for test-specific scenarios
+
+The factory should be able to generate:
+- Complete project objects with all fields populated
+- Minimal project objects with only required fields
+- Services with varying numbers of process steps
+- Team members with different roles and skills
+
+Ensure all mock objects comply with the TypeScript interfaces defined in the project.
+
+Example functions to include:
+- createMockProject(overrides?: Partial<Project>): Project
+- createMockService(overrides?: Partial<Service>): Service
+- createMockTeamMember(overrides?: Partial<TeamMember>): TeamMember
+- createMockProjects(count: number, overrides?: Partial<Project>): Project[]
+```
+
+#### 1.3. Test Header Component
+
+```
+Create a comprehensive test suite for the Header component. The tests should verify:
+
+1. Proper rendering of the logo and navigation links
+2. Active state highlighting for current page links
+3. Mobile menu toggle functionality
+4. Responsive behavior at different viewport sizes
+5. Correct cursor text updates on navigation link hover
+
+Place the test in __tests__/components/layout/Header.test.tsx and structure it with describe blocks for different aspects:
+- Basic rendering
+- Navigation link behavior
+- Mobile menu functionality
+- Accessibility compliance
+
+Use the previously created test utilities and mock data. Implement tests for all supported screen sizes using the viewport simulation utilities.
+
+Make sure to test:
+- Header rendering with different active routes
+- Mobile menu opening and closing
+- Cursor text updates when hovering navigation items
+- Screen reader accessibility for navigation
+```
+
+#### 1.4. Test Footer Component
+
+```
+Create a comprehensive test suite for the Footer component. The tests should verify:
+
+1. Proper rendering of copyright information
+2. Rendering of social media links
+3. Rendering of policy/terms links
+4. Correct cursor text updates on link hover
+5. Accessibility compliance
+
+Place the test in __tests__/components/layout/Footer.test.tsx and structure it with describe blocks for:
+- Basic content rendering
+- Link behavior
+- Accessibility compliance
+
+Use the previously created test utilities. Test that all links have proper cursor behavior and correct href attributes.
+
+Specifically test:
+- Social media links render with correct icons and URLs
+- Copyright information shows the current year
+- Links update cursor text on hover
+- All links are keyboard accessible
+- No accessibility violations are found
+```
+
+#### 1.5. Test Button Component
+
+```
+Create a comprehensive test suite for the Button component. The tests should verify:
+
+1. Rendering of all button variants (primary, secondary, text, etc.)
+2. Different button states (default, hover, focus, disabled)
+3. Button click handler functionality
+4. Loading state rendering
+5. Cursor text updates on hover
+6. Accessibility compliance
+
+Place the test in __tests__/components/ui/Button.test.tsx and structure it with describe blocks for:
+- Rendering different variants
+- Button state behavior
+- Click handling
+- Accessibility compliance
+
+Test all props combinations that the Button component accepts, including:
+- Different visual variants
+- With and without icons
+- Full width vs. default width
+- Disabled state behavior
+- Loading state spinner
+
+Verify:
+- onClick handlers are called correctly
+- Disabled buttons don't trigger onClick
+- Loading buttons show the loading indicator
+- Cursor text updates on hover and clears on leave
+- Button is accessible via keyboard
+```
+
+### Iteration 2: Project and Service Component Testing
+
+#### 2.1. Test ProjectCard Component
+
+```
+Create a comprehensive test suite for the ProjectCard component. The tests should verify:
+
+1. Rendering with complete project data
+2. Rendering with minimal project data (only required fields)
+3. Image rendering with proper alt text
+4. Handling of missing images or data
+5. Click behavior for navigation
+6. Cursor text updates on hover
+7. Animation behavior
+
+Place the test in __tests__/components/projects/ProjectCard.test.tsx and structure it with describe blocks for:
+- Rendering with different data variations
+- Interaction behavior
+- Accessibility compliance
+
+Use the mockDataFactory to create test data with various configurations.
+
+Test specifically:
+- Rendering of project title, category, and year
+- Project image with proper alt text
+- Click handler for navigation
+- Cursor text updates to "VIEW" on hover
+- Keyboard accessibility for project card
+- Handling of missing or undefined fields
+
+Mock any navigation functionality and verify that the correct project ID is passed to navigation handlers.
+```
+
+#### 2.2. Test ProjectList Component
+
+```
+Create a comprehensive test suite for the ProjectList component. The tests should verify:
+
+1. Rendering a list of project cards
+2. Empty state handling when no projects are available
+3. Filtering functionality by category
+4. Grid layout at different viewport sizes
+5. Animation sequencing for list items
+6. Accessibility of the list structure
+
+Place the test in __tests__/components/projects/ProjectList.test.tsx and structure it with describe blocks for:
+- Rendering project lists
+- Empty state handling
+- Filtering behavior
+- Responsive layout
+- Accessibility compliance
+
+Use the mockDataFactory to create arrays of test projects.
+
+Test specifically:
+- Rendering the correct number of ProjectCard components
+- Proper filtering when category filter is applied
+- Empty state message when no projects match filter
+- Grid layout changes at different viewport widths
+- Animation variants are applied correctly to list items
+- List is properly announced to screen readers
+
+Mock any context providers needed for filtering functionality.
+```
+
+#### 2.3. Test ServiceCard Component
+
+```
+Create a comprehensive test suite for the ServiceCard component. The tests should verify:
+
+1. Rendering with complete service data
+2. Rendering with minimal service data (only required fields)
+3. Icon rendering for the service
+4. Click behavior for navigation
+5. Cursor text updates on hover
+6. Animation behavior
+
+Place the test in __tests__/components/services/ServiceCard.test.tsx and structure it with describe blocks for:
+- Rendering with different data variations
+- Interaction behavior
+- Accessibility compliance
+
+Use the mockDataFactory to create test services with various configurations.
+
+Test specifically:
+- Rendering of service title and summary
+- Service icon rendering
+- Click handler for navigation
+- Cursor text updates to "VIEW" on hover
+- Keyboard accessibility for service card
+- Handling of missing or undefined fields
+
+Mock any navigation functionality and verify that the correct service ID is passed to navigation handlers.
+```
+
+#### 2.4. Test Data Fetching Hooks
+
+```
+Create tests for the data fetching hooks used in the application. The tests should verify:
+
+1. Proper loading states during data fetching
+2. Successful data return when API responds
+3. Error handling when API fails
+4. Caching behavior if implemented
+5. Refetching functionality
+
+Create the following test files:
+- __tests__/hooks/useProjects.test.ts
+- __tests__/hooks/useProject.test.ts (for single project)
+- __tests__/hooks/useServices.test.ts
+- __tests__/hooks/useService.test.ts (for single service)
+
+For each test file, use Jest's mocking capabilities to mock the API responses. Test:
+- Initial loading state is true
+- Data is correctly returned when API resolves
+- Error state when API rejects
+- Any data transformation logic applied to API responses
+- Parameters like filters are correctly passed to API calls
+
+Use React Testing Library's renderHook function to test the hooks.
+
+Example test structure:
+- Loading state initial value
+- Data state after successful fetch
+- Error state after failed fetch
+- Refetch functionality
+```
+
+### Iteration 3: Interactive Component Testing
+
+#### 3.1. Test Form Input Components
+
+```
+Create tests for the form input components used in the application. Start with the TextInput component. The tests should verify:
+
+1. Rendering with different props configurations
+2. Value updates when user types
+3. Error state rendering
+4. Label rendering and association with input
+5. Placeholder text display
+6. Disabled state behavior
+7. Accessibility compliance
+
+Create the test file:
+- __tests__/components/forms/TextInput.test.tsx
+
+Structure the tests with describe blocks for:
+- Rendering behavior
+- User interaction
+- Accessibility compliance
+
+Test specifically:
+- Input renders with label correctly associated
+- User typing updates input value
+- Error messages are displayed when provided
+- Required field indication is displayed
+- Placeholder text is shown when value is empty
+- Focus and blur events work as expected
+- Input is accessible via keyboard
+- Labels are properly associated with inputs for screen readers
+
+Use React Testing Library's userEvent for simulating user interactions.
+```
+
+#### 3.2. Test Form Validation
+
+```
+Create tests for the form validation logic used in the application. The tests should verify:
+
+1. Validation rules for required fields
+2. Validation rules for email format
+3. Validation rules for minimum/maximum length
+4. Multiple validation errors handled correctly
+5. Form-level validation beyond individual fields
+
+Create the test file:
+- __tests__/utils/validation.test.ts
+
+Test each validation function individually, then test combined validation logic:
+- Required field validation
+- Email format validation
+- Length validation rules
+- Custom validation rules
+- Multiple errors on the same field
+- Form-level validation (e.g., password confirmation matching)
+
+For each validation rule, test both success and failure cases with various input values.
+
+Example:
+- Empty string fails required validation
+- Non-empty string passes required validation
+- Invalid email format fails email validation
+- Valid email format passes email validation
+- String shorter than minimum length fails length validation
+- String longer than maximum length fails length validation
+```
+
+#### 3.3. Test Contact Form Component
+
+```
+Create a comprehensive test suite for the ContactForm component. The tests should verify:
+
+1. Rendering of all form fields
+2. Form submission behavior
+3. Validation error display
+4. Success state after submission
+5. Loading state during submission
+6. Error handling for failed submissions
+7. Accessibility compliance
+
+Create the test file:
+- __tests__/components/contact/ContactForm.test.tsx
+
+Structure the tests with describe blocks for:
+- Form rendering
+- Validation behavior
+- Submission behavior
+- Success/error state handling
+- Accessibility compliance
+
+Test specifically:
+- All form fields render correctly
+- Validation errors appear when submitting incomplete form
+- Form submission handler is called with correct data
+- Loading indicator shows during submission
+- Success message appears after successful submission
+- Error message appears after failed submission
+- Form is reset after successful submission
+- All form fields are accessible via keyboard
+- Error messages are announced to screen readers
+
+Mock the form submission API call to test both success and error scenarios.
+```
+
+#### 3.4. Test Custom Cursor Component
+
+```
+Create a comprehensive test suite for the custom cursor functionality. The tests should verify:
+
+1. CursorProvider renders correctly
+2. setCursorText updates cursor text state
+3. clearCursorText clears cursor text
+4. Cursor position updates with mouse movement
+5. Cursor appearance changes based on text state
+6. Accessibility considerations (cursor doesn't interfere with assistive tech)
+
+Create the following test files:
+- __tests__/components/cursor/CursorProvider.test.tsx
+- __tests__/hooks/useCursor.test.ts
+
+Structure the tests with describe blocks for:
+- Provider rendering
+- Hook functionality
+- Cursor positioning
+- Accessibility concerns
+
+Test specifically:
+- CursorProvider renders its children
+- useCursor hook returns setCursorText and clearCursorText functions
+- setCursorText updates the cursor text state
+- clearCursorText removes the cursor text
+- Custom cursor renders correctly with different text values
+- Cursor respects reduced motion preferences
+- Cursor positioning follows mouse movement
+- Cursor is hidden when mouse leaves the window
+
+Mock mouse movement events to test cursor positioning behavior.
+```
+
+### Iteration 4: Integration Testing
+
+#### 4.1. Test Project Page Integration
+
+```
+Create an integration test for the Projects page. The test should verify:
+
+1. Complete rendering of the page with all components
+2. Project list renders with project cards
+3. Category filtering functionality works
+4. Project cards navigate to detail pages
+5. Loading and error states are handled
+6. Animations and transitions work correctly
+7. Cursor behavior is consistent across components
+
+Create the test file:
+- __tests__/integration/ProjectsPage.test.tsx
+
+Structure the tests to verify:
+- Page renders with header, project list, and footer
+- Project cards display correctly with data
+- Filtering controls work and update displayed projects
+- Clicking a project card triggers navigation
+- Loading state is shown while data is loading
+- Error state is shown if data fails to load
+- Animation sequences work correctly
+- Cursor text updates on interactive elements
+
+Mock the data fetching to test different states:
+- Successful data load with multiple projects
+- Empty project list
+- Loading state
+- Error state
+
+Test both desktop and mobile layouts.
+```
+
+#### 4.2. Test Project Detail Page Integration
+
+```
+Create an integration test for the Project Detail page. The test should verify:
+
+1. Complete rendering of the page with all components
+2. Project details are displayed correctly
+3. Image gallery works if present
+4. Related projects section works
+5. Navigation back to projects list
+6. Loading and error states are handled
+7. Animations and transitions work correctly
+8. Cursor behavior is consistent across components
+
+Create the test file:
+- __tests__/integration/ProjectDetailPage.test.tsx
+
+Structure the tests to verify:
+- Page renders with header, project content, and footer
+- Project title, category, and description display correctly
+- Project images display in gallery format if multiple images exist
+- Gallery navigation works (next/previous images)
+- "Back to Projects" navigation works
+- Related projects section shows other project cards
+- Loading state is shown while data is loading
+- Error state is shown if project is not found
+- Animations work correctly on page load
+- Cursor text updates on interactive elements
+
+Mock the data fetching to test different scenarios:
+- Project with complete data including gallery
+- Project with minimal data (no gallery)
+- Loading state
+- Error/not found state
+
+Test both desktop and mobile layouts.
+```
+
+#### 4.3. Test Navigation Flow Integration
+
+```
+Create integration tests for navigation flows between pages. The tests should verify:
+
+1. Navigation between main sections (Home, Projects, Services)
+2. Navigation to detail pages
+3. Navigation back to listing pages
+4. URL updates during navigation
+5. Browser history behavior (back/forward)
+6. Active link highlighting in navigation
+7. Animation transitions between pages
+
+Create the test file:
+- __tests__/integration/Navigation.test.tsx
+
+Structure the tests to verify:
+- Main navigation links navigate to correct pages
+- Page content updates after navigation
+- URLs match expected routes after navigation
+- Active link highlighting updates after navigation
+- Browser back button navigates to previous page
+- Browser forward button navigates forward
+- Page transitions animate correctly
+- State is preserved when navigating (e.g., filter selections)
+
+Use React Router's memory router for testing navigation without browser.
+
+Test navigation patterns:
+- Home → Projects → Project Detail → Back to Projects
+- Home → Services → Service Detail → Back to Services
+- Projects with filter → Specific Project → Back (should preserve filter)
+- Browser history navigation with back/forward
+```
+
+### Iteration 5: End-to-End Testing
+
+#### 5.1. Test Core User Journeys (Cypress)
+
+```
+Create Cypress end-to-end tests for the core user journey of exploring projects. The tests should verify:
+
+1. Navigation from homepage to projects
+2. Filtering projects by category
+3. Selecting a specific project
+4. Viewing project details
+5. Navigating to related projects
+6. Returning to projects list
+
+Create the test file:
+- cypress/e2e/project-journey.cy.ts
+
+Structure the test to follow a complete user journey:
+- Visit the homepage
+- Navigate to the projects/work page
+- Verify projects are displayed in a grid
+- Filter projects by a specific category
+- Verify filtered results show only matching projects
+- Click on a specific project
+- Verify project detail page loads with correct content
+- Check gallery navigation if present
+- Click on a related project
+- Verify new project detail page loads
+- Navigate back to projects list
+- Verify return to the projects page
+
+Use meaningful assertions that verify both URL changes and content changes.
+
+Add wait strategies that don't rely on arbitrary timeouts:
+- Wait for specific elements to be visible
+- Wait for network requests to complete
+- Wait for animations to finish before interactions
+```
+
+#### 5.2. Test Contact Form Journey (Cypress)
+
+```
+Create Cypress end-to-end tests for the contact form submission journey. The tests should verify:
+
+1. Navigation to contact page
+2. Form field validation
+3. Error message display for invalid inputs
+4. Successful form submission
+5. Form submission error handling
+6. Success message display
+
+Create the test file:
+- cypress/e2e/contact-form.cy.ts
+
+Structure the test to follow a complete user journey:
+- Visit the contact page
+- Verify form fields are present
+- Submit the empty form
+- Verify validation errors appear
+- Fill in one field and submit
+- Verify remaining validation errors
+- Fill in all fields with valid data
+- Intercept form submission API call
+- Mock successful response
+- Submit the form
+- Verify success message appears
+- Verify form is reset
+
+Create a second test for error handling:
+- Fill in all fields with valid data
+- Intercept form submission API call
+- Mock error response
+- Submit the form
+- Verify error message appears
+- Verify form data is preserved
+
+Use cy.intercept() to mock API responses for testing both success and error cases.
+```
+
+#### 5.3. Test Accessibility Compliance (Cypress)
+
+```
+Create Cypress end-to-end tests for accessibility compliance across the site. The tests should verify:
+
+1. Keyboard navigation through all pages
+2. Focus management in interactive components
+3. ARIA attributes on dynamic content
+4. Color contrast compliance
+5. Screen reader announcements for state changes
+
+Create the test file:
+- cypress/e2e/accessibility.cy.ts
+
+Use cypress-axe to perform accessibility checks on each page:
+- Visit each main page and run accessibility checks
+- Test keyboard navigation through main pages
+- Test keyboard interaction with forms and interactive elements
+- Verify modal focus trap behavior
+- Verify dynamic content updates are announced to screen readers
+- Test reduced motion preferences are respected
+
+Structure tests to focus on different aspect of accessibility:
+- Page-level axe checks for WCAG violations
+- Keyboard navigation through site
+- Focus management in complex components (modals, galleries)
+- Screen reader announcements for dynamic content
+- Motion reduction preferences
+
+Use the cy.tab() command from cypress-testing-library to simulate keyboard navigation.
+```
+
+### Iteration 6: Continuous Improvement
+
+#### 6.1. Create Coverage Improvement Plan
+
+```
+Create a script to analyze test coverage reports and generate a prioritized list of untested code. The script should:
+
+1. Parse Jest coverage reports
+2. Identify components, functions, and branches with no coverage
+3. Sort by importance/usage in the application
+4. Generate a prioritized list of items to test
+
+Create the script in:
+- scripts/analyze-coverage.js
+
+The script should:
+- Read the coverage JSON report from coverage/coverage-final.json
+- Calculate coverage percentages by component
+- Identify uncovered lines and branches
+- Generate a markdown report with prioritized test targets
+- Separate the report into high, medium, and low priority sections
+
+Output should include:
+- Component name
+- File path
+- Current coverage percentage
+- Number of uncovered lines/branches
+- Example test targets with line numbers
+
+The report should be saved to docs/testing/coverage-targets.md and should be structured to guide the next round of test implementations.
+```
+
+#### 6.2. Set Up CI Test Automation
+
+```
+Create GitHub Actions workflow configuration for automated testing. The workflow should:
+
+1. Run on pull requests and pushes to main branch
+2. Set up the Node.js environment
+3. Install dependencies
+4. Run linting
+5. Run unit and integration tests
+6. Run end-to-end tests
+7. Generate and store coverage reports
+8. Fail if coverage decreases significantly
+
+Create the workflow file:
+- .github/workflows/test.yml
+
+Configure the workflow to:
+- Run on pull requests to main and pushes to main
+- Use Node.js 16.x
+- Cache dependencies for faster runs
+- Install dependencies with npm ci
+- Run linting with npm run lint
+- Run tests with npm test
+- Run E2E tests with npm run test:e2e:headless
+- Generate coverage report with npm run test:coverage
+- Store coverage reports as artifacts
+- Use a GitHub action to comment coverage changes on PRs
+- Fail the workflow if coverage decreases by more than 1%
+
+Include appropriate timeout settings and retry logic for potentially flaky tests.
+```
+
+#### 6.3. Implement Test Documentation Generation
+
+```
+Create a script to automatically generate test documentation from test files. The script should:
+
+1. Parse test files to extract structure and descriptions
+2. Generate markdown documentation of test coverage
+3. Include examples of how to run specific test suites
+4. Track coverage metrics over time
+
+Create the script in:
+- scripts/generate-test-docs.js
+
+The script should:
+- Scan all test files in the __tests__ directory
+- Parse describe and it blocks to extract test structure
+- Generate markdown documentation organized by component/feature
+- Include code examples of how to run specific tests
+- Link to coverage reports
+- Track coverage metrics changes over time
+- Update the testing README with the latest information
+
+The script should output updated documentation to:
+- docs/testing/components/*.md (component-specific docs)
+- docs/testing/integration/*.md (integration test docs)
+- docs/testing/e2e/*.md (end-to-end test docs)
+
+The documentation should follow the existing structure but include:
+- Test descriptions from describe/it blocks
+- Examples of how to run specific test suites
+- Current coverage metrics
+- Notes about test dependencies and mocks
+```
+
+## Final Steps: Tying Everything Together
+
+```
+Create a centralized test runner script that:
+
+1. Provides a unified interface for running different test types
+2. Includes options for filtering tests by component or feature
+3. Generates comprehensive reports after test runs
+4. Tracks test performance and reliability over time
+5. Makes it easy to run the most relevant tests during development
+
+Create the script in:
+- scripts/test-runner.js
+
+The script should support:
+- Running unit tests for specific components
+- Running integration tests for specific features
+- Running E2E tests for specific user journeys
+- Generating combined coverage reports
+- Tracking test performance and flakiness
+- Providing a simple CLI interface with helpful options
+
+Update package.json scripts to include:
+- "test:component": "node scripts/test-runner.js --type component"
+- "test:integration": "node scripts/test-runner.js --type integration"
+- "test:e2e": "node scripts/test-runner.js --type e2e"
+- "test:all": "node scripts/test-runner.js --type all"
+- "test:watch": "node scripts/test-runner.js --watch"
+- "test:component:watch": "node scripts/test-runner.js --type component --watch"
+
+The script should be well-documented with help text and examples.
+```
+
+This implementation blueprint provides a systematic, iterative approach to implementing a comprehensive testing strategy for the RAW/STUDIO portfolio website. Each step builds on previous work, ensuring continuous progress toward the coverage goals of 80% for statements, branches, functions, and lines.
+
+The approach prioritizes testing core components first, then progressively adds integration and end-to-end tests to verify complete user journeys. The final steps focus on continuous improvement through automated analysis, reporting, and test maintenance.
