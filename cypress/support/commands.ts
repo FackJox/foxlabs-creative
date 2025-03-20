@@ -46,12 +46,32 @@ Cypress.Commands.add('navigateAndWait', (path: string) => {
   cy.get('[data-loading-state="false"]').should('exist', { timeout: 10000 });
 });
 
+// Custom command to check navigation menu consistency
+Cypress.Commands.add('checkNavigationMenu', () => {
+  // Verify all main navigation items exist
+  cy.get('nav').within(() => {
+    cy.contains('a', /work|projects/i).should('exist');
+    cy.contains('a', /services/i).should('exist');
+    cy.contains('a', /team|about/i).should('exist');
+    cy.contains('a', /contact/i).should('exist');
+  });
+  
+  // Verify logo exists
+  cy.get('[data-test="logo"]').should('exist');
+  
+  // Check cursor functionality on nav items
+  cy.contains('a', /work|projects/i).trigger('mouseenter');
+  cy.get('[data-cursor-text]').should('exist');
+  cy.contains('a', /work|projects/i).trigger('mouseleave');
+});
+
 declare global {
   namespace Cypress {
     interface Chainable {
       checkCustomCursor(): Chainable<void>;
       hoverWithCustomCursor(): Chainable<Element>;
       navigateAndWait(path: string): Chainable<void>;
+      checkNavigationMenu(): Chainable<void>;
     }
   }
 }
