@@ -6,6 +6,7 @@ This documentation provides an overview of the testing strategy and implementati
 
 The test suite has been updated to fix several issues:
 
+- Button component tests are now fully implemented and passing with 90% code coverage
 - MSW v2 implementation updated from REST API to HTTP API
 - Directory structure created to satisfy test imports
 - Form validation testing in ContactPage improved

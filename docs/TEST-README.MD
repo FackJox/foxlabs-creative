@@ -21,6 +21,7 @@ Detailed documentation for component tests can be found in the following files:
 - [Service Components](./testing/components/service-components.md)
 - [Project Components](./testing/components/project-components.md)
 - [Animation Components](./testing/components/animation-components.md)
+- [ProjectCard](./testing/components/ProjectCard.md) - Documentation for testing the project card component
 
 ## 3. Integration Tests
 
@@ -58,6 +59,8 @@ Documentation for test utilities and helpers:
 
 ## 7. Recently Updated Test Documentation
 
+- **[ProjectCard](./testing/components/ProjectCard.md)** - Added comprehensive ProjectCard component test suite documentation with structured organization covering rendering variations, interaction behaviors, and accessibility compliance
+- **[UI Components](./testing/components/ui-components.md)** - Added comprehensive Button component test suite documentation with structured organization and key testing techniques for all variants, states, cursor behavior, and accessibility
 - **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Footer component test suite documentation with structured organization and key testing techniques for social links, cursor behavior, and accessibility
 - **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Header component test suite documentation with structured organization and key testing techniques
 - **[Mock Data Factory](./testing/utilities/mock-data-factory.md)** - Added comprehensive mock data factory for generating test data
