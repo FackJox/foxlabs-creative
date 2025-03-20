@@ -61,6 +61,14 @@ Documentation for test utilities and helpers:
 
 ## 7. Recently Updated Test Documentation
 
+- **[Custom Cursor Component](./testing/components/custom-cursor.md)** - Updated with comprehensive test documentation for the custom cursor functionality:
+  - Enhanced CursorProvider tests with detailed cursor positioning verification
+  - Extended useCursor hook tests with cursor text updates and position tracking
+  - Added documentation for integration patterns with other components
+  - Included common usage examples and best practices
+  - Comprehensive testing of event listener management
+  - Verification of accessibility compliance
+
 - **[Contact Components](./testing/components/contact-components.md)** - Added comprehensive ContactForm component test suite documentation with structured organization covering:
   - Form rendering tests for all required and optional fields
   - Validation behavior for all field types
@@ -237,3 +245,105 @@ The tests use:
 - Jest as the test runner
 - React Testing Library's `renderHook` function to test hooks
 - MSW (Mock Service Worker) for mocking API requests 
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Testing Approach](#testing-approach)
+- [Custom Cursor Testing](#custom-cursor-testing)
+- [Running Tests](#running-tests)
+
+## Introduction
+
+This document provides an overview of the testing strategy and implementation for the portfolio website. It outlines the types of tests we've implemented, how to run them, and specific details about our approach to testing key features.
+
+## Testing Approach
+
+Our testing strategy combines several types of tests:
+
+1. **Unit Tests**: Testing individual components and hooks in isolation
+2. **Integration Tests**: Testing how components work together
+3. **Accessibility Tests**: Ensuring the site is accessible to all users
+4. **UI Behavior Tests**: Verifying specific UI interactions work as expected
+
+## Custom Cursor Testing
+
+The portfolio features a custom cursor implementation that enhances the user experience by providing visual feedback when interacting with clickable elements.
+
+### Test Files
+
+- `__tests__/components/cursor/CursorProvider.test.tsx` - Tests for the CursorProvider component
+- `__tests__/hooks/useCursor.test.ts` - Tests for the useCursor hook
+
+### What is Tested
+
+#### CursorProvider Component Tests
+
+The CursorProvider tests verify that:
+
+1. The provider properly renders its children components
+2. The provider adds a mousemove event listener when mounted
+3. The provider removes the event listener when unmounted
+4. The component handles cursor positioning correctly
+5. The component meets accessibility requirements
+
+#### useCursor Hook Tests
+
+The useCursor hook tests verify that:
+
+1. The hook returns the expected properties (cursorPosition, cursorText, setCursorText)
+2. The hook has the correct initial state
+3. setCursorText properly updates the cursor text state
+4. The hook can clear cursor text by setting it to an empty string
+5. The hook correctly hooks into mousemove events to update cursor position
+6. The hook cleans up event listeners when unmounted
+
+### Accessibility Considerations
+
+The tests specifically address accessibility concerns by:
+
+1. Verifying the custom cursor doesn't interfere with keyboard navigation
+2. Ensuring the component has no accessibility violations (using jest-axe)
+3. Documenting how the cursor behaves with assistive technologies
+
+### Running Cursor Tests
+
+To run the cursor-specific tests, use the following command:
+
+```bash
+npm test -- -t "useCursor|CursorProvider"
+```
+
+### Test Coverage
+
+Test coverage for the cursor functionality aims for:
+
+- 90%+ statement coverage
+- 80%+ branch coverage 
+- 90%+ function coverage
+
+Current coverage can be viewed by running the tests with the `--coverage` flag.
+
+## Running Tests
+
+To run the tests, use the following commands:
+
+```bash
+# Run all tests
+npm test
+
+# Run cursor-specific tests
+npm test -- -t "useCursor|CursorProvider"
+
+# Run with coverage report
+npm test -- --coverage
+```
+
+### Test Coverage
+
+Test coverage ensures that our code is thoroughly tested. For the cursor functionality, we aim for:
+
+- 90%+ statement coverage
+- 80%+ branch coverage 
+- 90%+ function coverage
+
+Current coverage can be viewed by running the tests with the `--coverage` flag. 
