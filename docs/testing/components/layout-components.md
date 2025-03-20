@@ -206,6 +206,123 @@ The new comprehensive test implementation for the Header component in `__tests__
 
 The Header component test suite achieves 100% code coverage for the component and verifies all critical aspects of functionality, styling, and user interaction across all supported viewport sizes.
 
+## Footer Component Test Implementation
+
+The new comprehensive test implementation for the Footer component in `__tests__/components/layout/Footer.test.tsx` follows a structured approach with discrete test sections:
+
+### Test Organization
+
+1. **Basic Content Rendering**
+   - Tests the proper rendering of the brand name (RAW/STUDIO)
+   - Verifies copyright information shows the current year
+   - Tests the rendering of social media links with correct icons
+   - Checks for policy/terms links rendering
+
+2. **Link Behavior**
+   - Tests social media links have correct href attributes
+   - Tests policy links have correct href attributes 
+   - Tests cursor text updates on link hover
+   - Verifies cursor text is cleared on mouse leave
+
+3. **Accessibility Compliance**
+   - Verifies all links are keyboard accessible
+   - Runs accessibility tests with jest-axe
+   - Ensures proper semantic structure for screen readers
+
+### Key Testing Techniques
+
+1. **Mocking Cursor Context**
+   ```tsx
+   // Import the mock cursor state to access it in tests
+   jest.mock('@/hooks/use-cursor', () => {
+     const mockCursorState = {
+       cursorPosition: { x: 0, y: 0 },
+       cursorText: '',
+       setCursorText: jest.fn((text: string) => {
+         mockCursorState.cursorText = text;
+       })
+     };
+     
+     return {
+       __esModule: true,
+       useCursor: () => mockCursorState,
+       CursorProvider: ({ children }: { children: React.ReactNode }) => children,
+     };
+   });
+   ```
+
+2. **Testing Current Year in Copyright**
+   ```tsx
+   it('renders copyright information with current year', () => {
+     customRender(<Footer />);
+     const currentYear = new Date().getFullYear().toString();
+     const copyrightText = screen.getByText(
+       (content) => content.includes(`© ${currentYear} RAW/STUDIO`)
+     );
+     expect(copyrightText).toBeInTheDocument();
+     expect(copyrightText).toHaveTextContent('ALL RIGHTS RESERVED');
+   });
+   ```
+
+3. **Testing Social Media Links**
+   ```tsx
+   it('social media links have correct href attributes', () => {
+     customRender(<Footer />);
+     
+     const instagramLink = screen.getByRole('link', { name: 'Instagram' });
+     expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/rawstudio');
+     
+     const twitterLink = screen.getByRole('link', { name: 'Twitter' });
+     expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/rawstudio');
+     
+     const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' });
+     expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/company/rawstudio');
+     
+     const githubLink = screen.getByRole('link', { name: 'GitHub' });
+     expect(githubLink).toHaveAttribute('href', 'https://github.com/rawstudio');
+   });
+   ```
+
+4. **Testing Cursor Text Changes**
+   ```tsx
+   it('updates cursor text on social media link hover', () => {
+     customRender(<Footer />);
+     const { useCursor } = require('@/hooks/use-cursor');
+     const mockCursor = useCursor();
+     
+     // Test Instagram link
+     const instagramLink = screen.getByRole('link', { name: 'Instagram' });
+     fireEvent.mouseEnter(instagramLink);
+     expect(mockCursor.cursorText).toBe('VISIT');
+     
+     fireEvent.mouseLeave(instagramLink);
+     expect(mockCursor.cursorText).toBe('');
+   });
+   ```
+
+5. **Testing Keyboard Accessibility**
+   ```tsx
+   it('all links are keyboard accessible', async () => {
+     const user = setupUserEvent();
+     customRender(<Footer />);
+     
+     // Get all links
+     const allLinks = screen.getAllByRole('link');
+     
+     // Test first link focus
+     await user.tab();
+     expect(allLinks[0]).toHaveFocus();
+     
+     // Test that we can tab through all links
+     for (let i = 1; i < allLinks.length; i++) {
+       await user.tab();
+       expect(allLinks[i]).toHaveFocus();
+     }
+   });
+   ```
+
+The Footer component test suite thoroughly tests the rendering, behavior, and accessibility of the footer, ensuring it correctly displays brand information, copyright notices, social media links, and policy links while maintaining proper cursor behavior and keyboard accessibility.
+
 ## Test Implementation
 
 The test implementation for layout components follows these patterns:

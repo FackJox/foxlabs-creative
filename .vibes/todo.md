@@ -40,8 +40,8 @@
 - [x] 1.1. Create standardized test utilities file with custom render function, interaction helpers, accessibility testing setup, and responsive utilities
 - [x] 1.2. Develop comprehensive mock data factory system with functions for all major data types and support for minimal/complete data generation
 - [x] 1.3. Implement Header component test suite verifying rendering, navigation links, mobile menu, responsive behavior, and cursor interactions
-- [ ] 1.4. Implement Footer component test suite verifying content rendering, link behavior, cursor interactions, and accessibility compliance
-- [ ] 1.5. Create Button component test suite testing all variants, states, click handlers, loading states, and accessibility
+- [x] 1.4. Implement Footer component test suite verifying content rendering, link behavior, cursor interactions, and accessibility compliance
+- [x] 1.5. Create Button component test suite testing all variants, states, click handlers, loading states, and accessibility
 
 ## Iteration 2: Project and Service Component Testing
 

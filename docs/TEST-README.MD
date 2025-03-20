@@ -58,6 +58,7 @@ Documentation for test utilities and helpers:
 
 ## 7. Recently Updated Test Documentation
 
+- **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Footer component test suite documentation with structured organization and key testing techniques for social links, cursor behavior, and accessibility
 - **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Header component test suite documentation with structured organization and key testing techniques
 - **[Mock Data Factory](./testing/utilities/mock-data-factory.md)** - Added comprehensive mock data factory for generating test data
 - **[Service Components](./testing/components/service-components.md)** - Updated with ServiceBenefits and ServiceItem component tests 
