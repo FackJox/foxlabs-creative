@@ -65,4 +65,118 @@ Documentation for test utilities and helpers:
 - **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Footer component test suite documentation with structured organization and key testing techniques for social links, cursor behavior, and accessibility
 - **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Header component test suite documentation with structured organization and key testing techniques
 - **[Mock Data Factory](./testing/utilities/mock-data-factory.md)** - Added comprehensive mock data factory for generating test data
-- **[Service Components](./testing/components/service-components.md)** - Updated with ServiceBenefits and ServiceItem component tests 
+- **[Service Components](./testing/components/service-components.md)** - Updated with ServiceBenefits and ServiceItem component tests
+
+## Data Fetching Hooks
+
+The portfolio website uses custom React hooks for data fetching. These hooks are responsible for fetching data from the API endpoints, managing loading and error states, and providing mechanisms for refetching and caching data.
+
+### Hooks Overview
+
+- `useProjects`: Fetches all projects or projects filtered by category
+- `useProject`: Fetches a single project by ID
+- `useServices`: Fetches all services with optional sorting
+- `useService`: Fetches a single service by title
+
+### Test Files
+
+The following test files have been created for the data fetching hooks:
+
+- `__tests__/hooks/useProjects.test.ts`
+- `__tests__/hooks/useProject.test.ts`
+- `__tests__/hooks/useServices.test.ts`
+- `__tests__/hooks/useService.test.ts`
+
+### Test Coverage
+
+Each test file covers the following aspects:
+
+1. **Initial Loading State**: 
+   - Tests that the hook returns `isLoading: true` initially
+   - Tests that data and error are `null` during loading
+
+2. **Successful Data Fetching**:
+   - Tests that data is correctly set after a successful API response
+   - Tests that loading state is set to `false` after data is loaded
+   - Tests that the correct API function is called with the right parameters
+
+3. **Error Handling**:
+   - Tests that errors from the API are correctly captured
+   - Tests that the error state is populated and data remains `null`
+
+4. **Refetching Functionality**:
+   - Tests that the refetch function works as expected
+   - Tests that loading state is updated during refetch
+
+5. **Caching Behavior**:
+   - Tests that cached data is used when enabled
+   - Tests that API is not called again when using cached data
+
+### State Update Handling
+
+All data fetching hook tests utilize the `act()` function from `@testing-library/react` to properly handle React state updates:
+
+```typescript
+import { renderHook, waitFor, act } from '@testing-library/react';
+```
+
+The `act()` function is crucial for:
+
+- Ensuring state updates are processed correctly during tests
+- Wrapping operations that cause React state updates
+- Preventing warnings about state updates outside React's lifecycle
+- Creating tests that accurately simulate how React handles asynchronous state changes
+
+State updates are wrapped in `act()` specifically when:
+
+1. Calling the `refetch()` function:
+   ```typescript
+   await act(async () => {
+     result.current.refetch();
+   });
+   ```
+
+2. Rerendering hooks with new props:
+   ```typescript
+   await act(async () => {
+     rerender('Branding');
+   });
+   ```
+
+This approach ensures that all state updates are properly flushed and processed before test assertions are made.
+
+### Additional Test Cases
+
+- **Parameter Changes**: 
+  - Tests that the hook refetches data when key parameters change
+  - For example, changing project ID or service title
+
+- **Sorting and Filtering**:
+  - Tests that sorting works correctly for the services hook
+  - Tests that category filtering works for the projects hook
+
+## Running Tests
+
+To run all tests:
+
+```bash
+npm test
+```
+
+To run a specific test file:
+
+```bash
+npm test -- __tests__/hooks/useProjects.test.ts
+```
+
+## Mock Data
+
+Tests use mock data from `__tests__/fixtures/mockData.ts` and mock API handlers from `__tests__/mocks/handlers.ts` to simulate API responses without making actual network requests.
+
+## Testing Setup
+
+The tests use:
+
+- Jest as the test runner
+- React Testing Library's `renderHook` function to test hooks
+- MSW (Mock Service Worker) for mocking API requests 
