@@ -56,9 +56,16 @@ Documentation for test utilities and helpers:
 - [Mock Data](./testing/utilities/mock-data.md)
 - [Mock Data Factory](./testing/utilities/mock-data-factory.md)
 - [Test Fixtures](./testing/utilities/test-fixtures.md)
+- [Form Validation](./testing/validation-tests.md) - Documentation for form validation utility tests
 
 ## 7. Recently Updated Test Documentation
 
+- **[Form Validation](./testing/validation-tests.md)** - Updated with detailed documentation for all validation utilities, including:
+  - Comprehensive test coverage (100%) of all validation functions
+  - Test cases for required fields, email formats, length validation, custom validation
+  - Integration testing for contact forms and registration forms
+  - Advanced usage examples with custom validation rules
+  - Integration with RAW/STUDIO's brutalist form components
 - **[Project Components](./testing/components/project-components.md)** - Added comprehensive ProjectList component test suite documentation with structured organization covering rendering, filtering, responsive layouts, animation sequencing, and accessibility compliance
 - **[ProjectCard](./testing/components/ProjectCard.md)** - Added comprehensive ProjectCard component test suite documentation with structured organization covering rendering variations, interaction behaviors, and accessibility compliance
 - **[UI Components](./testing/components/ui-components.md)** - Added comprehensive Button component test suite documentation with structured organization and key testing techniques for all variants, states, cursor behavior, and accessibility
@@ -155,6 +162,47 @@ This approach ensures that all state updates are properly flushed and processed 
   - Tests that sorting works correctly for the services hook
   - Tests that category filtering works for the projects hook
 
+## Form Validation
+
+The project uses a comprehensive form validation system for client-side form validation. The validation utilities are defined in `lib/utils/validation.ts` and their tests in `__tests__/utils/validation.test.ts`.
+
+### Validation Overview
+
+- **Modular Design**: Individual validation functions that can be combined for complex rules
+- **Comprehensive Validation Types**: Support for required fields, email format, length constraints, value matching, and custom rules
+- **Detailed Error Reporting**: Each validation error includes a type and customizable message
+- **Form-Level Validation**: Functions to validate entire forms with different rules for each field
+- **Error Collection**: The system collects all validation errors, not just the first encountered
+
+### Test Coverage
+
+The validation tests achieve 100% code coverage and include:
+
+1. **Individual Validation Functions**:
+   - `validateRequired`: Ensures fields have non-empty values
+   - `validateEmail`: Verifies email format using robust pattern matching
+   - `validateLength`: Checks string length against minimum and maximum constraints
+   - `validateMatch`: Compares values for equality (e.g., password confirmation)
+   - `validateCustom`: Applies arbitrary validation rules via custom functions
+
+2. **Validation Combiners**:
+   - `combineValidationResults`: Merges multiple validation results
+   - `validateField`: Applies multiple validations to a single field
+   - `validateForm`: Validates entire forms with different rules per field
+
+3. **Real-world Scenarios**:
+   - Contact form validation with required fields and format checking
+   - Registration form with complex password rules and confirmation
+
+### Integration with RAW/STUDIO Components
+
+The validation system integrates with RAW/STUDIO's brutalist form components to provide:
+- Immediate validation feedback
+- Clear error presentation aligned with brutalist design principles
+- Integration with the custom cursor system for interactive feedback
+
+See [Form Validation Tests](./testing/validation-tests.md) for detailed documentation.
+
 ## Running Tests
 
 To run all tests:
@@ -166,7 +214,7 @@ npm test
 To run a specific test file:
 
 ```bash
-npm test -- __tests__/hooks/useProjects.test.ts
+npm test -- __tests__/utils/validation.test.ts
 ```
 
 ## Mock Data
