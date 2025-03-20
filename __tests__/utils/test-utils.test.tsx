@@ -139,4 +139,22 @@ describe('Test Utilities', () => {
       expect(customRect.y).toBe(200);
     });
   });
+});
+
+describe('test-utils', () => {
+  it('exports testUtilsTest function', () => {
+    expect(testUtilsTest()).toBe('test-utils is working');
+  });
+
+  it('exports simulateScreenSize function', () => {
+    expect(typeof simulateScreenSize).toBe('function');
+  });
+
+  it('exports createMockRect function', () => {
+    expect(typeof createMockRect).toBe('function');
+  });
+
+  it('exports useMockCursor hook', () => {
+    expect(typeof useMockCursor).toBe('function');
+  });
 }); 

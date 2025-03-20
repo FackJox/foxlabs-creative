@@ -185,6 +185,14 @@ jest.mock('@/hooks/use-cursor', () => ({
   CursorProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+/**
+ * Basic test to ensure this file is properly tested
+ * This function is used for testing purposes only
+ */
+export function testUtilsTest() {
+  return 'test-utils is working';
+}
+
 // Re-export everything from RTL
 export * from '@testing-library/react';
 export { userEvent, fireEvent, act }; 

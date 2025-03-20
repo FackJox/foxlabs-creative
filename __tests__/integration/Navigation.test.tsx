@@ -47,9 +47,13 @@ function AppWithNavigation() {
   
   // Simulate router push
   const navigateTo = (path) => {
-    mockPathname = path;
-    mockAsPath = path;
-    setActiveRoute(path);
+    // Extract pathname and query string
+    const [pathname, queryString] = path.split('?');
+    
+    // Set the pathname without query parameters
+    mockPathname = pathname;
+    mockAsPath = path; // Keep the full path with query in asPath
+    setActiveRoute(pathname);
     mockPush(path);
   };
   

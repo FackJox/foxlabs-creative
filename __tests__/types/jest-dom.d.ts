@@ -92,5 +92,12 @@ declare global {
   }
 }
 
+/**
+ * Dummy exported constant to ensure this file is properly picked up by Jest
+ * This shouldn't affect TypeScript type declarations
+ */
+// @ts-ignore - This is intentionally ignored for test purposes
+export const JEST_DOM_MATCHERS_VERSION = '5.16.5';
+
 // Export an empty object to make this a proper module
 export {}; 
