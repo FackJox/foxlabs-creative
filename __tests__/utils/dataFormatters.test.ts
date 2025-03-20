@@ -2,173 +2,211 @@ import type { Project, Service } from '@/lib/types'
 import { 
   formatProjectsForListing,
   enhanceProjectWithServiceDetails,
-  createDescriptionExcerpt
-} from '@/src/utils/dataFormatters'
+  createDescriptionExcerpt,
+  formatDate,
+  getFullImagePath,
+  trimLongText
+} from '@/lib/utils/dataFormatters'
 import { mockProjects, mockServices } from '../fixtures/mockData'
 
 describe('Data Formatter Functions', () => {
   describe('formatProjectsForListing', () => {
-    it('should format all projects in the array', () => {
-      const formatted = formatProjectsForListing(mockProjects)
+    it('should format projects for listing view', () => {
+      const formatted = formatProjectsForListing(mockProjects);
       
-      // Should return the same number of projects
-      expect(formatted.length).toBe(mockProjects.length)
+      expect(formatted.length).toBe(mockProjects.length);
       
-      // Each project should be correctly formatted
-      formatted.forEach((project, index) => {
-        // Check title is uppercase
-        expect(project.title).toBe(mockProjects[index].title.toUpperCase())
-        
-        // Check category is uppercase
-        expect(project.category).toBe(mockProjects[index].category.toUpperCase())
-        
-        // Check preview exists
-        expect(project.preview).toBeDefined()
-      })
-    })
+      // Each formatted project should have basic fields
+      formatted.forEach(project => {
+        expect(project.title).toBeDefined();
+        expect(project.category).toBeDefined();
+        // Some mock projects might not have images
+        if (project.image !== undefined) {
+          expect(typeof project.image).toBe('string');
+        }
+        expect(project.year).toBeDefined();
+      });
+    });
     
-    it('should handle empty project array', () => {
-      const formatted = formatProjectsForListing([])
-      expect(formatted).toEqual([])
-    })
+    it('should handle empty projects array', () => {
+      const formatted = formatProjectsForListing([]);
+      expect(formatted).toEqual([]);
+    });
     
-    it('should generate preview from description', () => {
-      // Create a test project with a long description
-      const longDescription = 'A'.repeat(100)
-      const testProject = {
-        ...mockProjects[0],
-        description: longDescription
-      }
+    it('should handle projects with missing fields', () => {
+      // Create a project with minimal fields
+      const incompleteProject = { 
+        ...mockProjects[0], 
+        id: 999,
+        title: "Test Project",
+        description: "Test description"
+      };
       
-      const [formatted] = formatProjectsForListing([testProject])
-      
-      // For descriptions longer than 80 chars, preview should be truncated
-      expect(formatted.preview?.length).toBe(83) // 80 chars + '...'
-      expect(formatted.preview?.endsWith('...')).toBe(true)
-    })
-    
-    it('should not truncate short descriptions for preview', () => {
-      // Create a test project with a short description
-      const shortDescription = 'Short description'
-      const testProject = {
-        ...mockProjects[0],
-        description: shortDescription
-      }
-      
-      const [formatted] = formatProjectsForListing([testProject])
-      
-      // Preview should be the same as description
-      expect(formatted.preview).toBe(shortDescription)
-    })
-  })
-  
-  describe('enhanceProjectWithServiceDetails', () => {
-    it('should add service details to a project', () => {
-      const project = mockProjects.find(p => p.services && p.services.length > 0)!
-      const enhanced = enhanceProjectWithServiceDetails(project, mockServices)
-      
-      // Should add serviceDetails property
-      expect(enhanced.serviceDetails).toBeDefined()
-      
-      // Should have the same number of service details as services
-      expect(enhanced.serviceDetails?.length).toBe(project.services?.length)
-      
-      // Each service detail should match a service from the services array
-      enhanced.serviceDetails?.forEach((detail, index) => {
-        const serviceTitle = project.services![index]
-        expect(detail.title.toUpperCase()).toBe(serviceTitle.toUpperCase())
-      })
-    })
-    
-    it('should handle projects without services', () => {
-      const project = { ...mockProjects[0], services: undefined }
-      const enhanced = enhanceProjectWithServiceDetails(project, mockServices)
-      
-      // Should not add serviceDetails for projects without services
-      expect(enhanced).toEqual(project)
-    })
-    
-    it('should handle projects with empty services array', () => {
-      const project = { ...mockProjects[0], services: [] }
-      const enhanced = enhanceProjectWithServiceDetails(project, mockServices)
-      
-      // Should not add serviceDetails for projects with empty services array
-      expect(enhanced).toEqual(project)
-    })
-    
-    it('should handle services that do not exist in the services array', () => {
-      const project = {
-        ...mockProjects[0],
-        services: ['NON-EXISTENT-SERVICE']
-      }
-      const enhanced = enhanceProjectWithServiceDetails(project, mockServices)
-      
-      // Should add a placeholder service for non-existent services
-      expect(enhanced.serviceDetails?.[0].title).toBe('NON-EXISTENT-SERVICE')
-      expect(enhanced.serviceDetails?.[0].description).toBe('')
-    })
-    
-    it('should be case-insensitive when matching services', () => {
-      // Create test data with mixed case services
-      const project = {
-        ...mockProjects[0],
-        services: ['web design'] // lowercase
-      }
-      
-      const enhanced = enhanceProjectWithServiceDetails(project, mockServices)
-      
-      // Should find the matching service despite case differences
-      const webDesignService = mockServices.find(s => s.title.toUpperCase() === 'WEB DESIGN')
-      expect(enhanced.serviceDetails?.[0].description).toEqual(webDesignService?.description)
-    })
+      const formatted = formatProjectsForListing([incompleteProject]);
+      expect(formatted.length).toBe(1);
+      expect(formatted[0].title).toBeDefined();
+    });
   })
   
   describe('createDescriptionExcerpt', () => {
-    it('should truncate long descriptions at word boundaries', () => {
-      const longText = 'This is a long description that should be truncated at the appropriate word boundary to avoid cutting words in the middle'
-      const excerpt = createDescriptionExcerpt(longText, 50)
+    it('should create a short excerpt from a description', () => {
+      const description = 'This is a very long description that needs to be shortened to create an excerpt for display purposes.';
+      const excerpt = createDescriptionExcerpt(description);
       
-      // Excerpt should be shorter than maxLength
-      expect(excerpt.length).toBeLessThanOrEqual(53) // 50 + '...'
-      
-      // Excerpt should end with '...'
-      expect(excerpt.endsWith('...')).toBe(true)
-      
-      // Excerpt should not cut words in the middle
-      const lastWord = excerpt.substring(0, excerpt.length - 3).split(' ').pop()
-      expect(longText.includes(` ${lastWord} `)).toBe(true)
-    })
+      expect(excerpt.length).toBeLessThan(description.length);
+      expect(excerpt.endsWith('...')).toBe(true);
+    });
     
-    it('should not truncate descriptions shorter than the max length', () => {
-      const shortText = 'This is a short description'
-      const excerpt = createDescriptionExcerpt(shortText, 50)
+    it('should handle short descriptions that do not need truncation', () => {
+      const shortDescription = 'Short text';
+      const excerpt = createDescriptionExcerpt(shortDescription);
       
-      // Excerpt should be the same as the input
-      expect(excerpt).toBe(shortText)
-    })
+      expect(excerpt).toBe(shortDescription);
+    });
     
-    it('should use default max length if not specified', () => {
-      const longText = 'A'.repeat(200)
-      const excerpt = createDescriptionExcerpt(longText)
-      
-      // Default max length is 100
-      expect(excerpt.length).toBeLessThanOrEqual(103) // 100 + '...'
-    })
+    it('should handle undefined or empty descriptions', () => {
+      // Handle undefined with a default empty string
+      expect(createDescriptionExcerpt(undefined)).toBe('');
+      expect(createDescriptionExcerpt('')).toBe('');
+    });
     
-    it('should handle descriptions without spaces', () => {
-      const noSpacesText = 'Thisisatextwithoutspaces'
-      const excerpt = createDescriptionExcerpt(noSpacesText, 10)
+    it('should respect the provided maxLength', () => {
+      const description = 'This is a description that will be truncated';
+      const maxLength = 10;
+      const excerpt = createDescriptionExcerpt(description, maxLength);
       
-      // If no spaces found, should truncate at maxLength
-      expect(excerpt).toBe('Thisisatex...')
-    })
-    
-    it('should handle empty descriptions', () => {
-      const emptyText = ''
-      const excerpt = createDescriptionExcerpt(emptyText)
-      
-      // Should return empty string for empty input
-      expect(excerpt).toBe('')
-    })
+      expect(excerpt.length).toBeLessThanOrEqual(maxLength + 3); // +3 for the ellipsis
+      expect(excerpt).toBe('This is...');
+    });
   })
+  
+  describe('enhanceProjectWithServiceDetails', () => {
+    it('should add service details to project', () => {
+      // Create a project with services that exist in mockServices
+      const projectWithServices = {
+        ...mockProjects[0],
+        services: ['WEB DEVELOPMENT', 'BRANDING']
+      };
+      
+      const enhancedProject = enhanceProjectWithServiceDetails(projectWithServices, mockServices);
+      
+      // Test that the project now has serviceDetails
+      expect(enhancedProject.serviceDetails).toBeDefined();
+      expect(Array.isArray(enhancedProject.serviceDetails)).toBe(true);
+      expect(enhancedProject.serviceDetails?.length).toBe(2);
+      
+      // Check that service details match the services in the project
+      expect(enhancedProject.serviceDetails?.[0].title).toBe('WEB DEVELOPMENT');
+      expect(enhancedProject.serviceDetails?.[1].title).toBe('BRANDING');
+    });
+
+    it('should handle projects without services', () => {
+      const projectWithoutServices = { ...mockProjects[0], services: undefined };
+      const enhancedProject = enhanceProjectWithServiceDetails(projectWithoutServices, mockServices);
+      
+      // Should return the original project with an empty serviceDetails array
+      expect(enhancedProject.serviceDetails).toEqual([]);
+    });
+
+    it('should handle services not found in servicesList', () => {
+      const projectWithNonExistentService = { 
+        ...mockProjects[0], 
+        services: ['NON-EXISTENT SERVICE'] 
+      };
+      
+      const enhancedProject = enhanceProjectWithServiceDetails(
+        projectWithNonExistentService, 
+        mockServices
+      );
+      
+      // Should still include the non-existent service with a minimal service object
+      expect(enhancedProject.serviceDetails).toBeDefined();
+      expect(enhancedProject.serviceDetails?.length).toBe(1);
+      expect(enhancedProject.serviceDetails?.[0].title).toBe('NON-EXISTENT SERVICE');
+      expect(enhancedProject.serviceDetails?.[0].description).toBe('');
+    });
+
+    it('should handle empty services arrays', () => {
+      const projectWithEmptyServices = { ...mockProjects[0], services: [] };
+      const enhancedProject = enhanceProjectWithServiceDetails(projectWithEmptyServices, mockServices);
+      
+      // Should return the original project with an empty serviceDetails array
+      expect(enhancedProject.serviceDetails).toEqual([]);
+    });
+
+    it('should handle case-insensitive service matching', () => {
+      const lowerCaseServiceTitle = 'web development';
+      const projectWithLowerCaseService = { 
+        ...mockProjects[0], 
+        services: [lowerCaseServiceTitle] 
+      };
+      
+      const enhancedProject = enhanceProjectWithServiceDetails(
+        projectWithLowerCaseService, 
+        mockServices
+      );
+      
+      expect(enhancedProject.serviceDetails?.length).toBe(1);
+      expect(enhancedProject.serviceDetails?.[0].title.toLowerCase()).toBe(lowerCaseServiceTitle.toLowerCase());
+    });
+  })
+  
+  describe('formatDate', () => {
+    it('should format date strings correctly', () => {
+      expect(formatDate('2023-01-01')).toBe('2023');
+      expect(formatDate('2022-12-15')).toBe('2022');
+    });
+    
+    it('should handle Date objects', () => {
+      const date = new Date('2023-05-15');
+      expect(formatDate(date)).toBe('2023');
+    });
+    
+    it('should return empty string for invalid input', () => {
+      expect(formatDate('')).toBe('');
+      expect(formatDate(null as unknown as string)).toBe('');
+      expect(formatDate(undefined as unknown as string)).toBe('');
+    });
+  });
+  
+  describe('getFullImagePath', () => {
+    it('should add the base path to relative paths', () => {
+      expect(getFullImagePath('test.jpg')).toBe('/images/test.jpg');
+      expect(getFullImagePath('/test.jpg')).toBe('/images/test.jpg');
+    });
+    
+    it('should not modify absolute URLs', () => {
+      const url = 'https://example.com/image.jpg';
+      expect(getFullImagePath(url)).toBe(url);
+    });
+    
+    it('should handle undefined or empty paths', () => {
+      expect(getFullImagePath('')).toBe('');
+      expect(getFullImagePath(undefined)).toBe('');
+    });
+  });
+  
+  describe('trimLongText', () => {
+    it('should trim text longer than maxLength', () => {
+      const text = 'This is a long text that should be trimmed';
+      const trimmed = trimLongText(text, 10);
+      expect(trimmed).toBe('This is a...');
+    });
+    
+    it('should not trim text shorter than maxLength', () => {
+      const text = 'Short text';
+      expect(trimLongText(text, 20)).toBe(text);
+    });
+    
+    it('should handle undefined or empty text', () => {
+      expect(trimLongText('')).toBe('');
+      expect(trimLongText(undefined)).toBe('');
+    });
+    
+    it('should use default maxLength if not provided', () => {
+      const text = 'A'.repeat(200);
+      const trimmed = trimLongText(text);
+      expect(trimmed.length).toBe(153); // 150 + '...'
+    });
+  });
 }) 

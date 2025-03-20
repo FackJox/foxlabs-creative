@@ -21,6 +21,7 @@ const customJestConfig = {
     // Handle module aliases
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
+    '^@/app/(.*)$': '<rootDir>/app/$1', // Explicitly handle app directory
     '^@/(.*)$': '<rootDir>/$1',
     // Map msw modules
     '^msw/node$': '<rootDir>/node_modules/msw/lib/node/index.js',

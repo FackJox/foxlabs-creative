@@ -12,6 +12,7 @@ The test documentation is organized into the following files:
 - [Test Structure](./docs/testing/test-structure.md) - Information about test organization, naming conventions, and mocking strategies
 - [Testing Best Practices](./docs/testing/best-practices.md) - Common patterns, approaches, and solutions to common issues
 - [Test Status and Next Steps](./docs/testing/status-next-steps.md) - Current coverage status and plans for improvement
+- [Integration Tests](./docs/testing/integration-tests.md) - Details on integration testing approach for page components
 
 ### 2. Component-Specific Test Documentation
 

@@ -66,7 +66,7 @@ describe('API Client Utility Functions', () => {
 
   describe('filterProjectsByCategory', () => {
     it('should filter projects by category', () => {
-      const category = 'WEBSITE'
+      const category = 'BRANDING'
       const result = filterProjectsByCategory(mockProjects, category)
       
       expect(result.length).toBeGreaterThan(0)
@@ -76,8 +76,8 @@ describe('API Client Utility Functions', () => {
     })
 
     it('should be case-insensitive', () => {
-      const lowercaseResult = filterProjectsByCategory(mockProjects, 'website')
-      const uppercaseResult = filterProjectsByCategory(mockProjects, 'WEBSITE')
+      const lowercaseResult = filterProjectsByCategory(mockProjects, 'branding')
+      const uppercaseResult = filterProjectsByCategory(mockProjects, 'BRANDING')
       
       expect(lowercaseResult).toEqual(uppercaseResult)
     })
@@ -89,7 +89,7 @@ describe('API Client Utility Functions', () => {
 
   describe('getServiceByTitle', () => {
     it('should find a service by title', () => {
-      const serviceTitle = 'WEB DESIGN'
+      const serviceTitle = 'WEB DEVELOPMENT'
       const result = getServiceByTitle(mockServices, serviceTitle)
       
       expect(result).toBeDefined()
@@ -97,8 +97,8 @@ describe('API Client Utility Functions', () => {
     })
 
     it('should be case-insensitive', () => {
-      const lowercaseResult = getServiceByTitle(mockServices, 'web design')
-      const uppercaseResult = getServiceByTitle(mockServices, 'WEB DESIGN')
+      const lowercaseResult = getServiceByTitle(mockServices, 'web development')
+      const uppercaseResult = getServiceByTitle(mockServices, 'WEB DEVELOPMENT')
       
       expect(lowercaseResult).toEqual(uppercaseResult)
     })
@@ -108,7 +108,7 @@ describe('API Client Utility Functions', () => {
     })
 
     it('should handle an empty services array', () => {
-      expect(getServiceByTitle([], 'WEB DESIGN')).toBeUndefined()
+      expect(getServiceByTitle([], 'WEB DEVELOPMENT')).toBeUndefined()
     })
   })
 }) 

@@ -1,109 +1,53 @@
+// Import polyfills first
 import './jest.polyfill.js';
-import { myFetch } from './jest.polyfill.js';
-global.fetch = myFetch;
-// Learn more: https://github.com/testing-library/jest-dom
+
+// Import Jest's extended matchers
 import '@testing-library/jest-dom';
 
-// Import our test utilities
-import { setupJestMocks } from './src/tests/test-utils';
+// Add polyfills for TextEncoder/TextDecoder
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
-// Mock Next.js router
-jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-    };
-  },
-  usePathname() {
-    return '';
-  },
-  useSearchParams() {
-    return new URLSearchParams();
-  },
-}));
+// Add polyfill for TransformStream
+class MockTransformStream {
+  constructor() {
+    this.readable = {};
+    this.writable = {};
+  }
+}
 
-// Mock Next.js image component
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props) => {
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    return <img {...props} />;
-  },
-}));
+global.TransformStream = MockTransformStream;
 
-// Mock framer-motion
-jest.mock('framer-motion', () => ({
-  ...jest.requireActual('framer-motion'),
-  motion: {
-    div: 'div',
-    span: 'span',
-    button: 'button',
-    a: 'a',
-    ul: 'ul',
-    li: 'li',
-    section: 'section',
-    header: 'header',
-    footer: 'footer',
-    nav: 'nav',
-    form: 'form',
-    input: 'input',
-    textarea: 'textarea',
-    p: 'p',
-    h1: 'h1',
-    h2: 'h2',
-    h3: 'h3',
-    h4: 'h4',
-    h5: 'h5',
-    h6: 'h6',
-    svg: 'svg',
-    path: 'path',
-    circle: 'circle',
-    img: 'img',
-    article: 'article',
-  },
-  AnimatePresence: ({ children }) => children,
-  useAnimation: () => ({
-    start: jest.fn(),
-    stop: jest.fn(),
-    set: jest.fn(),
-  }),
-  useMotionValue: (initial) => ({
-    get: () => initial,
-    set: jest.fn(),
-    onChange: jest.fn(),
-  }),
-  useSpring: (initial) => ({
-    get: () => initial,
-    set: jest.fn(),
-  }),
-  useTransform: jest.fn(() => ({
-    get: jest.fn(),
-    set: jest.fn(),
-  })),
-  useScroll: jest.fn(() => ({
-    scrollY: {
-      get: jest.fn(),
-      onChange: jest.fn(),
-    },
-    scrollYProgress: {
-      get: jest.fn(),
-      onChange: jest.fn(),
-    },
-  })),
-  useInView: jest.fn(() => [jest.fn(), true]),
-}));
+// Mock BroadcastChannel
+class MockBroadcastChannel {
+  constructor() {
+    this.name = '';
+    this.onmessage = null;
+  }
+  
+  postMessage() {}
+  close() {}
+}
 
-// Mock Radix UI portals to render content inside the test container
-jest.mock('@radix-ui/react-portal', () => ({
-  Portal: ({ children }) => children,
-}));
+global.BroadcastChannel = MockBroadcastChannel;
+
+// Setup global fetch 
+const originalFetch = global.fetch;
+
+global.fetch = async function myFetch(url, options) {
+  if (global.__simulateFetchError__) {
+    return Promise.reject(new Error('Simulated fetch error'));
+  }
+  
+  // Pass through to original fetch
+  return originalFetch(url, options);
+};
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -116,33 +60,135 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserverMock {
+class MockIntersectionObserver {
   constructor(callback) {
     this.callback = callback;
   }
   
-  observe = jest.fn();
-  unobserve = jest.fn();
-  disconnect = jest.fn();
-  takeRecords = jest.fn(() => []);
-};
+  observe() {
+    return null;
+  }
+  
+  unobserve() {
+    return null;
+  }
+  
+  disconnect() {
+    return null;
+  }
+}
 
-// Mock ResizeObserver
-global.ResizeObserver = class ResizeObserverMock {
-  constructor(callback) {
-    this.callback = callback;
-  }
+global.IntersectionObserver = MockIntersectionObserver;
+
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, priority, className, fill, sizes }) => {
+    return (
+      <img 
+        src={src} 
+        alt={alt || ''} 
+        className={className} 
+        data-priority={priority} 
+        data-fill={fill}
+        data-sizes={sizes}
+      />
+    );
+  },
+}));
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+  })),
+  usePathname: jest.fn(() => '/'),
+  useSearchParams: jest.fn(() => ({
+    get: jest.fn(),
+    getAll: jest.fn(),
+    has: jest.fn(),
+    forEach: jest.fn(),
+    entries: jest.fn(),
+    keys: jest.fn(),
+    values: jest.fn(),
+  })),
+}));
+
+// Mock next/head
+jest.mock('next/head', () => {
+  const Head = ({ children }) => children;
+  Head.displayName = 'Head';
+  return {
+    __esModule: true,
+    default: Head,
+  };
+});
+
+// Mock framer-motion
+jest.mock('framer-motion', () => {
+  const originalModule = jest.requireActual('framer-motion');
   
-  observe = jest.fn();
-  unobserve = jest.fn();
-  disconnect = jest.fn();
-};
+  return {
+    __esModule: true,
+    ...originalModule,
+    motion: {
+      div: 'div',
+      span: 'span',
+      button: 'button',
+      a: 'a',
+      section: 'section',
+      article: 'article',
+      main: 'main',
+      header: 'header',
+      footer: 'footer',
+      aside: 'aside',
+      nav: 'nav',
+      form: 'form',
+      input: 'input',
+      textarea: 'textarea',
+      select: 'select',
+      option: 'option',
+      h1: 'h1',
+      h2: 'h2',
+      h3: 'h3',
+      h4: 'h4',
+      h5: 'h5',
+      h6: 'h6',
+      p: 'p',
+      ul: 'ul',
+      ol: 'ol',
+      li: 'li',
+      img: 'img',
+      svg: 'svg',
+      path: 'path',
+    },
+    AnimatePresence: ({ children }) => children,
+    useAnimation: () => ({
+      start: jest.fn(),
+      stop: jest.fn(),
+    }),
+    useInView: jest.fn(() => true),
+    useReducedMotion: jest.fn(() => false),
+  };
+});
+
+// Mock radix-ui Portal
+jest.mock('@radix-ui/react-portal', () => ({
+  Portal: ({ children }) => children,
+}));
+
+// Mock form submission actions
+jest.mock('@/lib/actions', () => ({
+  submitContactForm: jest.fn().mockImplementation(() => {
+    return { 
+      success: true,
+      message: 'Form submitted successfully'
+    };
+  }),
+}));
 
 // Add jest-axe setup
 import { toHaveNoViolations } from 'jest-axe';
-expect.extend(toHaveNoViolations);
-
-// At the end of jest.setup.js, add the following:
-beforeAll(() => {
-  global.fetch = myFetch;
-}); 
+expect.extend(toHaveNoViolations); 

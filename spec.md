@@ -183,22 +183,126 @@ interface TeamMember {
 
 *   **`lib/data.ts`:**  This file serves as the primary data source. It exports arrays of `Project` and `Service` objects (`projects` and `services` constants).  It likely also exports `team` as an array of `TeamMember` objects (though not shown in the snippet). This suggests a static data approach, where content is directly coded into the application.
 
-### 4. Inferred Architecture
+### 4. API Client
+
+The API client provides functions for fetching data from the backend server. These functions handle network requests and error cases, providing a clean interface for components to use.
+
+#### 4.1. API Client Structure
+
+The API client is defined in `lib/api/client.ts` and exports several functions for retrieving data:
+
+```typescript
+// Helper function for handling API responses
+const handleResponse = async <T>(response: Response, errorMessage: string): Promise<T> => {
+  if (!response.ok) {
+    throw new Error(errorMessage);
+  }
+  
+  return response.json() as Promise<T>;
+};
+
+// Exported API functions
+export const fetchProjects = async (): Promise<Project[]> => { /* ... */ };
+export const fetchProjectById = async (id: number | string): Promise<Project> => { /* ... */ };
+export const fetchProjectsByCategory = async (category: string): Promise<Project[]> => { /* ... */ };
+export const fetchServices = async (): Promise<Service[]> => { /* ... */ };
+export const fetchServiceByTitle = async (title: string): Promise<Service> => { /* ... */ };
+export const fetchTeamMembers = async (): Promise<TeamMember[]> => { /* ... */ };
+```
+
+#### 4.2. API Endpoints
+
+The API client interacts with the following endpoints:
+
+| Function | Endpoint | Description |
+|----------|----------|-------------|
+| `fetchProjects` | `/api/projects` | Get all projects |
+| `fetchProjectById` | `/api/projects/{id}` | Get a project by its ID |
+| `fetchProjectsByCategory` | `/api/projects/category/{category}` | Get projects filtered by category |
+| `fetchServices` | `/api/services` | Get all services |
+| `fetchServiceByTitle` | `/api/services/{title}` | Get a service by its title |
+| `fetchTeamMembers` | `/api/team` | Get all team members |
+
+#### 4.3. Error Handling
+
+Each API function includes comprehensive error handling:
+
+1. **Network Errors**: Catches and rethrows errors from the `fetch` call
+2. **Response Validation**: Checks if the response is OK and throws specific errors if not
+3. **Type Safety**: Uses TypeScript generics to ensure type safety of returned data
+
+**Example error handling pattern:**
+
+```typescript
+try {
+  const response = await fetch('/api/endpoint');
+  return handleResponse<DataType>(response, 'Error message');
+} catch (error) {
+  throw error instanceof Error 
+    ? error 
+    : new Error('Default error message');
+}
+```
+
+#### 4.4. Usage Example
+
+To use the API client in a component:
+
+```typescript
+import { fetchProjects } from '@/lib/api/client';
+import { useState, useEffect } from 'react';
+
+const ProjectList = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProjects();
+        setProjects(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      {projects.map(project => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
+    </div>
+  );
+};
+```
+
+### 5. Inferred Architecture
 
 Based on the file structure and data, the architecture is likely a **Frontend-Centric Application**, possibly built with:
 
 *   **Frontend Framework:**  React or Next.js are strong possibilities given the TypeScript and file paths.
 *   **Component-Based Structure:** The application is likely built using reusable UI components to display projects, services, team members, etc.
-*   **Static Data Fetching:** Data is directly imported from `lib/data.ts`, suggesting a static site generation (SSG) or client-side rendering (CSR) approach where data is bundled with the application or fetched on initial load.
+*   **Data Fetching:** Data is fetched from API endpoints using the client functions in `lib/api/client.ts`.
 *   **Routing:**  A routing mechanism (like React Router or Next.js routing) is expected to handle navigation between different sections (homepage, projects, services, team, contact, individual project/service pages).
 
 **Simplified Architecture Diagram:**
 
 ```
-Data (lib/data.ts) --> Components (React/Next.js) --> UI (Browser)
+API Endpoints <--> API Client (lib/api/client.ts) <--> Components (React/Next.js) <--> UI (Browser)
 ```
 
-### 5. Conceptual Component Structure (Frontend - Inferred)
+### 6. Conceptual Component Structure (Frontend - Inferred)
 
 Based on the data models and project purpose, here's a conceptual component structure:
 
@@ -220,11 +324,11 @@ Based on the data models and project purpose, here's a conceptual component stru
 
 **Note:** This is a conceptual structure. The actual component names and organization might differ in the implemented codebase.
 
-### 5.1. Component Directory Structure
+### 6.1. Component Directory Structure
 
 The components are organized into a logical, maintainable structure to help developers easily locate and work with code. The organization follows a categorical approach with barrel exports to simplify imports.
 
-#### 5.1.1. Top-Level Structure
+#### 6.1.1. Top-Level Structure
 
 ```
 /components
@@ -237,7 +341,7 @@ The components are organized into a logical, maintainable structure to help deve
 └── index.ts           # Main barrel file
 ```
 
-#### 5.1.2. UI Component Organization
+#### 6.1.2. UI Component Organization
 
 UI components are further categorized by functionality:
 
@@ -255,7 +359,7 @@ UI components are further categorized by functionality:
 └── index.ts           # UI barrel file
 ```
 
-#### 5.1.3. Component Imports
+#### 6.1.3. Component Imports
 
 Components use barrel files for cleaner imports. For example:
 
@@ -277,124 +381,160 @@ This structure provides several benefits:
 - Better maintainability with clear component boundaries
 - Organized separation of concerns
 
-### 6. Data Flow (Inferred)
+### 7. Data Flow
 
-1.  **Data Loading:** When a page is loaded (e.g., Homepage, ProjectsPage, ServicesPage), the relevant data (projects, services, team members) is imported from `lib/data.ts`.
-2.  **Component Rendering:** Components use this imported data to render the UI. For example:
-    *   `ProjectsPage` component maps over the `projects` array and renders `ProjectCard` components for each project.
-    *   `ProjectCard` components receive a `Project` object as props and display project information (title, image, category).
-    *   `ProjectDetailPage` component likely receives a specific `Project` object (perhaps via routing parameters) and displays all details of that project.
-3.  **User Interaction:** User interactions (navigation, filtering, etc.) trigger re-renders or navigation to different routes, loading and displaying different sets of data.
+1.  **API Requests:** When data is needed, the component calls the appropriate function from the API client (`lib/api/client.ts`).
+2.  **Data Fetching:** The API client sends a request to the appropriate endpoint and handles any errors or response parsing.
+3.  **Component State:** The component stores the returned data in state, along with loading and error states.
+4.  **Rendering:** Components render UI based on the data received from the API client.
+5.  **User Interaction:** User interactions (navigation, filtering, etc.) trigger new API requests or navigation to different routes, loading and displaying different sets of data.
 
-### 7. How-To Guides: Data Management
+### 8. How-To Guides: Data Management
 
-Since the data is currently static in `lib/data.ts`, managing content involves directly modifying this file.
+#### 8.1. Fetching Data in Components
 
-#### 7.1. Adding a New Project
-
-1.  **Open `lib/data.ts`.**
-2.  **Locate the `projects` array.** (`3:34:lib/data.ts`)
-3.  **Create a new `Project` object** following the `Project` interface (`9:23:lib/types.ts`). Ensure you provide all required fields (`id`, `title`, `category`, `year`, `image`, `description`).  Assign a unique `id`.
-4.  **Push the new `Project` object** to the `projects` array.
-5.  **Save `lib/data.ts`.**
-6.  **Run the development server** to see the changes reflected in the application.
-
-**Example:**
-
-```typescript:lib/data.ts
-// ... existing code ...
-export const projects: Project[] = [
-    // ... existing projects ...
-    {
-      id: 6, // Ensure unique ID
-      title: "NEW PROJECT TITLE",
-      category: "WEBSITE",
-      year: "2024",
-      image: "/path/to/new-project-image.svg",
-      description: "Description of the new project...",
-      // ... other project fields ...
-    },
-  ];
-// ... existing code ...
-```
-
-#### 7.2. Adding a New Service
-
-1.  **Open `lib/data.ts`.**
-2.  **Locate the `services` array.** (Not explicitly shown in snippets, but expected to be in `lib/data.ts` similar to `projects`)
-3.  **Create a new `Service` object** following the `Service` interface (`37:43:lib/types.ts`). Provide `title` and `description` at minimum.
-4.  **Push the new `Service` object** to the `services` array.
-5.  **Save `lib/data.ts`.**
-6.  **Run the development server** to see the changes.
-
-#### 7.3. Updating Existing Data
-
-1.  **Open `lib/data.ts`.**
-2.  **Locate the `projects` or `services` array.**
-3.  **Find the specific `Project` or `Service` object** you want to update (likely by `id` or `title`).
-4.  **Modify the fields** of the object as needed.
-5.  **Save `lib/data.ts`.**
-6.  **Run the development server** to see the changes.
-
-**Note:** For a production website, a more robust content management system (CMS) or database would be recommended to manage data instead of directly editing code files.
-
-#### 7.4. Adding New Components
-
-When adding new components to the codebase, follow the established directory structure to maintain consistency and organization.
-
-##### 7.4.1. Identifying Component Category
-
-First, determine which category your component belongs to:
-
-- **Core Components**: Business-domain components specific to the portfolio (e.g., `ProjectFilter`, `ServiceProcess`)
-- **Layout Components**: Structural elements (e.g., `Header`, `SidePanel`) 
-- **Section Components**: Full page sections (e.g., `HeroSection`, `PortfolioSection`)
-- **Effect Components**: Visual effects (e.g., `ParallaxScroll`, `AnimatedBackground`)
-- **Typography Components**: Text-related components (e.g., `Heading`, `HighlightedText`)
-- **UI Components**: Reusable interface elements (categorized further, see below)
-
-For UI components, determine the appropriate subcategory:
-- **data-display**: For presenting data (tables, cards, avatars)
-- **inputs**: User input controls (buttons, forms, checkboxes)
-- **feedback**: User feedback indicators (alerts, toasts, progress bars)
-- **navigation**: Navigation elements (menus, breadcrumbs, pagination)
-- **overlay**: Overlay UI elements (modals, dialogs, popovers)
-- **layout**: Layout UI components (accordions, tabs, carousels)
-- **utils**: Utility components (separators, skeletons, calendars)
-- **hooks**: UI-related custom hooks
-
-##### 7.4.2. Creating the Component
-
-1. **Create a new file** in the appropriate directory with a descriptive name:
-   ```
-   touch components/ui/inputs/social-button.tsx
-   ```
-
-2. **Implement your component** with proper TypeScript typing.
-
-3. **Update the barrel file** in the component's directory to export your new component:
-   ```typescript
-   // components/ui/inputs/index.ts
-   // ... existing exports
-   export { SocialButton } from './social-button'
-   ```
-
-##### 7.4.3. Using the Component
-
-Import the component using the barrel files for cleaner imports:
+To fetch and display data in a component:
 
 ```typescript
-// Good: Using barrel imports
-import { SocialButton } from '@/components/ui'
+import { fetchProjects } from '@/lib/api/client';
+import { useState, useEffect } from 'react';
 
-// Acceptable alternative for specific imports:
-import { SocialButton } from '@/components/ui/inputs'
+function ProjectsGrid() {
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-// Avoid: Direct file imports
-// import SocialButton from '@/components/ui/inputs/social-button'
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setIsLoading(true);
+        const projectData = await fetchProjects();
+        setProjects(projectData);
+      } catch (err) {
+        setError(err.message || 'Failed to fetch projects');
+        console.error('Error fetching projects:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (isLoading) return <div>Loading projects...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div className="projects-grid">
+      {projects.map(project => (
+        <ProjectCard key={project.id} project={project} />
+      ))}
+    </div>
+  );
+}
 ```
 
-##### 7.4.4. Component Standards
+#### 8.2. Filtering Projects by Category
+
+To filter projects by category using the API client:
+
+```typescript
+import { fetchProjectsByCategory } from '@/lib/api/client';
+
+// In a component or event handler
+const loadProjectsByCategory = async (category) => {
+  try {
+    setIsLoading(true);
+    const filteredProjects = await fetchProjectsByCategory(category);
+    setProjects(filteredProjects);
+    setError(null);
+  } catch (err) {
+    setError(`Failed to load ${category} projects`);
+    console.error(`Error loading ${category} projects:`, err);
+  } finally {
+    setIsLoading(false);
+  }
+};
+```
+
+#### 8.3. Loading a Specific Project
+
+To load and display a specific project by ID:
+
+```typescript
+import { fetchProjectById } from '@/lib/api/client';
+import { useParams } from 'react-router-dom'; // or next/router for Next.js
+
+function ProjectDetailPage() {
+  const { id } = useParams(); // Get ID from URL
+  const [project, setProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function loadProject() {
+      try {
+        setIsLoading(true);
+        const projectData = await fetchProjectById(id);
+        setProject(projectData);
+      } catch (err) {
+        setError('Project not found or failed to load');
+        console.error('Error loading project:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (id) {
+      loadProject();
+    }
+  }, [id]);
+
+  if (isLoading) return <div>Loading project details...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!project) return <div>Project not found</div>;
+
+  return (
+    <div className="project-detail">
+      <h1>{project.title}</h1>
+      <p>{project.description}</p>
+      {/* Other project details */}
+    </div>
+  );
+}
+```
+
+#### 8.4. Adding a New Data Endpoint
+
+If you need to add a new API endpoint function:
+
+1. Open `lib/api/client.ts`
+2. Add a new function following the existing pattern:
+
+```typescript
+/**
+ * Fetch projects by client name
+ * @param clientName Client name to filter by
+ * @returns Promise resolving to filtered projects
+ */
+export const fetchProjectsByClient = async (clientName: string): Promise<Project[]> => {
+  try {
+    const response = await fetch(`/api/projects/client/${encodeURIComponent(clientName)}`);
+    return handleResponse<Project[]>(
+      response, 
+      `Failed to fetch projects for client ${clientName}`
+    );
+  } catch (error) {
+    throw error instanceof Error 
+      ? error 
+      : new Error(`Failed to fetch projects for client ${clientName}`);
+  }
+};
+```
+
+3. Use the new function in your components as needed.
+
+### 9. Component Standards
 
 When creating new components, adhere to these standards:
 
@@ -405,6 +545,7 @@ When creating new components, adhere to these standards:
 5. **Follow the established styling patterns** (Tailwind CSS, CSS modules, etc.)
 6. **Support the custom cursor** functionality where appropriate
 7. **Use the brutalist design aesthetic** consistent with the portfolio theme
+8. **Implement proper loading and error states** when fetching data
 
 </FINAL_ANSWER>
 

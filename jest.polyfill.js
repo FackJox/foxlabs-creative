@@ -10,7 +10,7 @@ if (typeof window !== 'undefined' && window.fetch) { delete window.fetch; }
 // Register ts-node to allow requiring TypeScript files in this setup file
 require('ts-node').register();
 
-// Import data from lib/data (assuming it compiles via ts-node)
+// Import data from lib/data for our mock responses
 const { projects, services } = require('./lib/data');
 console.log('Data loaded: projects =', projects, ', services =', services);
 
@@ -33,24 +33,29 @@ const teamMembers = [
   }
 ];
 
-// UPDATED myFetch function with additional routes
-async function myFetch(input, init) {
-  console.log('myFetch called with:', input);
-  
-  // If the global error simulation flag is set, return an error response
-  if (global.__simulateFetchError__ === true) {
-    console.log('Simulating error response for:', input);
-    return {
-      ok: false,
-      status: 500,
-      json: async () => ({ error: 'Simulated fetch error' })
-    };
+// This file provides polyfills for browser globals that are required by MSW in Node environment
+
+// Polyfill for TextEncoder/TextDecoder
+const util = require('util');
+global.TextEncoder = util.TextEncoder;
+global.TextDecoder = util.TextDecoder;
+
+// Polyfill for Response, Request and Headers from whatwg-fetch
+const { Response, Request, Headers, fetch } = require('whatwg-fetch');
+global.Response = Response;
+global.Request = Request;
+global.Headers = Headers;
+
+// Create our custom fetch implementation for tests
+const myFetch = async (input, init) => {
+  // For MSW: if the request is being handled by MSW, delegate to the original fetch
+  if (typeof input === 'object' && input._bypass === true) {
+    return fetch(input.url, init);
   }
   
   try {
     const url = new URL(input.toString(), 'http://localhost');
     const path = url.pathname;
-    console.log('Parsed path:', path);
 
     // GET /api/projects
     if (path === '/api/projects') {
@@ -129,12 +134,8 @@ async function myFetch(input, init) {
       };
     }
 
-    // Fallback for unmatched endpoints
-    return {
-      ok: false,
-      status: 404,
-      json: async () => ({ error: 'Not Found' }),
-    };
+    // Fallback: delegate to MSW through the original fetch
+    return fetch(input, init);
   } catch (error) {
     console.error('Error in myFetch:', error);
     return {
@@ -143,43 +144,12 @@ async function myFetch(input, init) {
       json: async () => ({ error: 'Internal Server Error' }),
     };
   }
-}
+};
 
-// Use Object.defineProperty to override any read-only definitions
-try {
-  Object.defineProperty(globalThis, 'fetch', {
-    value: myFetch,
-    writable: true,
-    configurable: true
-  });
-} catch (err) {
-  globalThis.fetch = myFetch;
-}
+// Assign our custom fetch to global objects
+global.fetch = myFetch;
 
-if (typeof window !== 'undefined') {
-  try {
-    Object.defineProperty(window, 'fetch', {
-      value: myFetch,
-      writable: true,
-      configurable: true
-    });
-  } catch (err) {
-    window.fetch = myFetch;
-  }
-}
-
-// Also assign to global (for Node compatibility)
-try {
-  Object.defineProperty(global, 'fetch', {
-    value: myFetch,
-    writable: true,
-    configurable: true
-  });
-} catch (err) {
-  global.fetch = myFetch;
-}
-
-// Export our custom fetch implementation for further enforcement
+// Export our custom fetch implementation
 module.exports = { myFetch };
 
 // Override fetch using getters to always return myFetch

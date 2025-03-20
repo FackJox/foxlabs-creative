@@ -1,8 +1,12 @@
 import { projects, services } from '../../lib/data';
 import type { Project, Service, TeamMember } from '../../lib/types';
 
+// Export mock data for tests
+export const mockProjects = projects;
+export const mockServices = services;
+
 // Mock team members since we only have projects and services in data.ts
-const teamMembers: TeamMember[] = [
+export const mockTeamMembers: TeamMember[] = [
   {
     name: 'SARAH JOHNSON',
     role: 'CREATIVE DIRECTOR',
@@ -36,7 +40,7 @@ export function setupApiMock() {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: () => Promise.resolve(projects)
+        json: () => Promise.resolve(mockProjects)
       } as unknown as Response);
     }
     
@@ -44,7 +48,7 @@ export function setupApiMock() {
       const idMatch = path.match(/\/api\/projects\/(\d+)/);
       if (idMatch) {
         const id = parseInt(idMatch[1], 10);
-        const project = projects.find(p => p.id === id);
+        const project = mockProjects.find(p => p.id === id);
         
         if (project) {
           return Promise.resolve({
@@ -66,7 +70,7 @@ export function setupApiMock() {
       const categoryMatch = path.match(/\/api\/projects\/category\/(.+)/);
       if (categoryMatch) {
         const category = decodeURIComponent(categoryMatch[1]);
-        const filteredProjects = projects.filter(
+        const filteredProjects = mockProjects.filter(
           p => p.category.toUpperCase() === category.toUpperCase()
         );
         
@@ -82,7 +86,7 @@ export function setupApiMock() {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: () => Promise.resolve(services)
+        json: () => Promise.resolve(mockServices)
       } as unknown as Response);
     }
     
@@ -90,7 +94,7 @@ export function setupApiMock() {
       const titleMatch = path.match(/\/api\/services\/(.+)/);
       if (titleMatch) {
         const title = decodeURIComponent(titleMatch[1]);
-        const service = services.find(
+        const service = mockServices.find(
           s => s.title.toUpperCase() === title.toUpperCase()
         );
         
@@ -114,7 +118,7 @@ export function setupApiMock() {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: () => Promise.resolve(teamMembers)
+        json: () => Promise.resolve(mockTeamMembers)
       } as unknown as Response);
     }
     

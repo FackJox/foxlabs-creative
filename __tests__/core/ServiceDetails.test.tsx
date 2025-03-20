@@ -90,7 +90,16 @@ describe('ServiceDetails Component', () => {
   });
 
   it('renders service with all fields correctly', () => {
-    const service = mockServices[0]; // Service with all fields
+    // Create a service with all fields including caseStudy
+    const service = {
+      ...mockServices[0],
+      caseStudy: {
+        title: "RAW Studio Website",
+        description: "A brutalist website for a cutting-edge design studio",
+        image: "/images/case-studies/raw-studio.jpg",
+        link: "#"
+      }
+    };
     
     render(<ServiceDetails service={service} />);
     
@@ -206,7 +215,17 @@ describe('ServiceDetails Component', () => {
   });
 
   it('sets cursor text on case study link hover', () => {
-    const service = mockServices[0]; // Service with case study link
+    // Create a service with caseStudy that includes a link
+    const service = {
+      title: "TEST SERVICE",
+      description: "Service with case study link",
+      caseStudy: {
+        title: "TEST CASE STUDY",
+        description: "Case study with link",
+        image: "/test.jpg",
+        link: "#"
+      }
+    };
     
     render(<ServiceDetails service={service} />);
     

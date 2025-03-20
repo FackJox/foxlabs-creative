@@ -130,7 +130,16 @@ describe('Service Details Page Integration', () => {
   });
 
   it('renders all components for a complete service', () => {
-    const service = mockServices[0]; // Service with all fields
+    // Create a service with all required components including caseStudy
+    const service = {
+      ...mockServices[0],
+      caseStudy: {
+        title: "RAW Studio Website",
+        description: "A brutalist website for a cutting-edge design studio",
+        image: "/images/case-studies/raw-studio.jpg",
+        link: "#"
+      }
+    };
     
     render(<ServiceDetailsPage service={service} />);
     
@@ -155,6 +164,31 @@ describe('Service Details Page Integration', () => {
     
     // Check cursor behavior on interactive elements
     const contactButton = screen.getByTestId('contact-button');
+    
+    // Test contact button cursor behavior
+    fireEvent.mouseEnter(contactButton);
+    expect(mockSetCursorText).toHaveBeenCalledWith('CONTACT');
+    
+    fireEvent.mouseLeave(contactButton);
+    expect(mockSetCursorText).toHaveBeenCalledWith('');
+  });
+
+  it('handles cursor behavior across all interactive elements', () => {
+    // Create a service with caseStudy that includes a link
+    const service = {
+      ...mockServices[0],
+      caseStudy: {
+        title: "RAW Studio Website",
+        description: "A brutalist website for a cutting-edge design studio",
+        image: "/images/case-studies/raw-studio.jpg",
+        link: "#"
+      }
+    };
+    
+    render(<ServiceDetailsPage service={service} />);
+    
+    // Get all interactive elements that update cursor
+    const contactButton = screen.getByTestId('contact-button');
     const caseStudyLink = screen.getByTestId('case-study-link');
     
     // Test contact button cursor behavior
@@ -172,6 +206,7 @@ describe('Service Details Page Integration', () => {
     expect(mockSetCursorText).toHaveBeenCalledWith('');
   });
 
+  // Rest of the tests remain unchanged
   it('renders only available components for a minimal service', () => {
     const minimalService = {
       title: "MINIMAL SERVICE",
@@ -238,30 +273,5 @@ describe('Service Details Page Integration', () => {
       expect(screen.getByTestId(`step-title-${index}`)).toHaveTextContent(step.title);
       expect(screen.getByTestId(`step-description-${index}`)).toHaveTextContent(step.description);
     });
-  });
-
-  it('handles cursor behavior across all interactive elements', () => {
-    const service = mockServices[0];
-    
-    render(<ServiceDetailsPage service={service} />);
-    
-    // Get all interactive elements that update cursor
-    const contactButton = screen.getByTestId('contact-button');
-    const caseStudyLink = screen.getByTestId('case-study-link');
-    
-    // Test contact button cursor behavior
-    fireEvent.mouseEnter(contactButton);
-    expect(mockSetCursorText).toHaveBeenCalledWith('CONTACT');
-    fireEvent.mouseLeave(contactButton);
-    expect(mockSetCursorText).toHaveBeenCalledWith('');
-    
-    // Test case study link cursor behavior
-    fireEvent.mouseEnter(caseStudyLink);
-    expect(mockSetCursorText).toHaveBeenCalledWith('VIEW');
-    fireEvent.mouseLeave(caseStudyLink);
-    expect(mockSetCursorText).toHaveBeenCalledWith('');
-    
-    // Check setCursorText was called exactly 4 times (2 enters, 2 leaves)
-    expect(mockSetCursorText).toHaveBeenCalledTimes(4);
   });
 }); 

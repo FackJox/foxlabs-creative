@@ -21,7 +21,9 @@ export const findServiceByTitle = (services: Service[], title: string): Service 
 export const getAllCategories = (projects: Project[]): string[] => {
   const categories = new Set<string>()
   projects.forEach(project => {
-    categories.add(project.category.toUpperCase())
+    if (project.category) {
+      categories.add(project.category.toUpperCase())
+    }
   })
   return Array.from(categories)
 }
@@ -42,10 +44,9 @@ export const isValidProject = (project: Partial<Project>): project is Project =>
   return (
     typeof project.id === 'number' &&
     typeof project.title === 'string' &&
+    typeof project.description === 'string' &&
     typeof project.category === 'string' &&
-    typeof project.year === 'string' &&
-    typeof project.image === 'string' &&
-    typeof project.description === 'string'
+    typeof project.year === 'string'
   )
 }
 

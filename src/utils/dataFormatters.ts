@@ -53,9 +53,12 @@ export const enhanceProjectWithServiceDetails = (
  * @returns Formatted excerpt
  */
 export const createDescriptionExcerpt = (
-  description: string, 
+  description?: string, 
   maxLength: number = 100
 ): string => {
+  // Handle undefined or empty descriptions
+  if (!description) return ''
+  
   if (description.length <= maxLength) {
     return description
   }

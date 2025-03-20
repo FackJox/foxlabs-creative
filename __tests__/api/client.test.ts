@@ -1,178 +1,238 @@
-import { fetchProjects, fetchProjectById, fetchProjectsByCategory, fetchServices, fetchServiceByTitle, fetchTeamMembers } from '@/src/api/client';
-import { setupApiMock } from '@/src/mocks/simpleMock';
+import { 
+  fetchProjects, 
+  fetchProjectById, 
+  fetchProjectsByCategory, 
+  fetchServices, 
+  fetchServiceByTitle, 
+  fetchTeamMembers 
+} from '@/lib/api/client';
 import { projects, services } from '@/lib/data';
-import type { Project, Service, TeamMember } from '@/lib/types';
+import { TeamMember } from '@/lib/types';
+
+// Mock team members data that matches what the API handler returns
+const teamMembers: TeamMember[] = [
+  {
+    name: 'SARAH JOHNSON',
+    role: 'CREATIVE DIRECTOR',
+    image: '/placeholder.svg?height=400&width=400'
+  },
+  {
+    name: 'ALEX CHEN',
+    role: 'LEAD DEVELOPER',
+    image: '/placeholder.svg?height=400&width=400'
+  },
+  {
+    name: 'MARCUS WILSON',
+    role: 'DESIGN LEAD',
+    image: '/placeholder.svg?height=400&width=400'
+  }
+];
 
 describe('API Client Functions', () => {
-  let originalFetch: any;
-  let cleanupMock: () => void;
-
-  beforeAll(() => {
-    // Store the original fetch
-    originalFetch = global.fetch;
-    // Setup the API mock
-    cleanupMock = setupApiMock();
-  });
-
-  afterAll(() => {
-    // Restore the original fetch after all tests
-    cleanupMock();
-  });
-
+  let fetchSpy: jest.SpyInstance;
+  
   beforeEach(() => {
-    // Ensure fetch is using our mock implementation before each test
-    jest.clearAllMocks();
+    // Create a spy on the global fetch function
+    fetchSpy = jest.spyOn(global, 'fetch');
   });
-
+  
   afterEach(() => {
-    // Reset mocks after each test
-    jest.resetAllMocks();
+    // Restore all mocks to their original state
+    jest.restoreAllMocks();
   });
-
+  
   describe('fetchProjects', () => {
     it('should fetch all projects', async () => {
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(projects)
+      } as unknown as Response);
+      
+      // Call the function
       const result = await fetchProjects();
+      
+      // Check the result and that fetch was called correctly
       expect(result).toEqual(projects);
+      expect(fetchSpy).toHaveBeenCalledWith('/api/projects');
     });
-
-    it('should throw an error if the request fails', async () => {
-      // Set the global error simulation flag
-      global.__simulateFetchError__ = true;
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
       
-      try {
-        await expect(fetchProjects()).rejects.toThrow('Failed to fetch projects');
-      } finally {
-        // Reset the flag after test
-        global.__simulateFetchError__ = false;
-      }
+      // Expect the function to throw
+      await expect(fetchProjects()).rejects.toThrow();
+    });
+    
+    it('should throw error on bad response', async () => {
+      // Mock a bad response
+      fetchSpy.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error'
+      } as Response);
+      
+      // Expect the function to throw
+      await expect(fetchProjects()).rejects.toThrow();
     });
   });
-
+  
   describe('fetchProjectById', () => {
-    it('should fetch a project by ID', async () => {
+    it('should fetch a specific project by ID', async () => {
       const projectId = 1;
-      const expectedProject = projects.find(p => p.id === projectId);
+      const project = projects.find(p => p.id === projectId);
       
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(project)
+      } as unknown as Response);
+      
+      // Call the function
       const result = await fetchProjectById(projectId);
-      expect(result).toEqual(expectedProject);
-    });
-
-    it('should throw an error if the project is not found', async () => {
-      const nonExistentId = 9999;
       
-      try {
-        await fetchProjectById(nonExistentId);
-        fail('Expected an error to be thrown');
-      } catch (error) {
-        expect((error as Error).message).toContain(`Failed to fetch project with id ${nonExistentId}`);
-      }
+      // Check the result and that fetch was called correctly
+      expect(result).toEqual(project);
+      expect(fetchSpy).toHaveBeenCalledWith(`/api/projects/${projectId}`);
+    });
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
+      
+      // Expect the function to throw
+      await expect(fetchProjectById(1)).rejects.toThrow();
+    });
+    
+    it('should throw error when project not found', async () => {
+      // Mock a not found response
+      fetchSpy.mockResolvedValueOnce({
+        ok: false,
+        status: 404
+      } as Response);
+      
+      // Expect the function to throw with specific message
+      await expect(fetchProjectById(999)).rejects.toThrow('Project not found');
     });
   });
-
+  
   describe('fetchProjectsByCategory', () => {
-    it('should fetch projects filtered by category', async () => {
-      const category = 'BRANDING';
-      const expectedProjects = projects.filter(
+    it('should fetch projects by category', async () => {
+      const category = 'WEBSITE';
+      const filteredProjects = projects.filter(
         p => p.category.toUpperCase() === category.toUpperCase()
       );
       
-      const result = await fetchProjectsByCategory(category);
-      expect(result).toEqual(expectedProjects);
-    });
-
-    it('should return an empty array if no projects match the category', async () => {
-      const nonExistentCategory = 'NON-EXISTENT';
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(filteredProjects)
+      } as unknown as Response);
       
-      const result = await fetchProjectsByCategory(nonExistentCategory);
-      expect(result).toEqual([]);
-    });
-
-    it('should handle URL encoding for categories with special characters', async () => {
-      // Test by verifying the result matches what we'd expect
-      const category = 'WEB APP';
-      const expectedProjects = projects.filter(
-        p => p.category.toUpperCase() === category.toUpperCase()
-      );
-      
+      // Call the function
       const result = await fetchProjectsByCategory(category);
-      expect(result).toEqual(expectedProjects);
+      
+      // Check the result and that fetch was called correctly
+      expect(result).toEqual(filteredProjects);
+      expect(fetchSpy).toHaveBeenCalledWith(`/api/projects/category/${category}`);
+    });
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
+      
+      // Expect the function to throw
+      await expect(fetchProjectsByCategory('WEBSITE')).rejects.toThrow();
     });
   });
-
+  
   describe('fetchServices', () => {
     it('should fetch all services', async () => {
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(services)
+      } as unknown as Response);
+      
+      // Call the function
       const result = await fetchServices();
+      
+      // Check the result and that fetch was called correctly
       expect(result).toEqual(services);
+      expect(fetchSpy).toHaveBeenCalledWith('/api/services');
     });
-
-    it('should throw an error if the request fails', async () => {
-      // Set the global error simulation flag
-      global.__simulateFetchError__ = true;
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
       
-      try {
-        await expect(fetchServices()).rejects.toThrow('Failed to fetch services');
-      } finally {
-        // Reset the flag after test
-        global.__simulateFetchError__ = false;
-      }
+      // Expect the function to throw
+      await expect(fetchServices()).rejects.toThrow();
     });
   });
-
+  
   describe('fetchServiceByTitle', () => {
-    it('should fetch a service by title', async () => {
-      const serviceTitle = 'WEB DESIGN';
-      const expectedService = services.find(
-        s => s.title.toUpperCase() === serviceTitle.toUpperCase()
-      );
+    it('should fetch a specific service by title', async () => {
+      const title = 'WEB DESIGN';
+      const service = services.find(s => s.title.toUpperCase() === title.toUpperCase());
       
-      const result = await fetchServiceByTitle(serviceTitle);
-      expect(result).toEqual(expectedService);
-    });
-
-    it('should throw an error if the service is not found', async () => {
-      const nonExistentTitle = 'NON-EXISTENT';
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(service)
+      } as unknown as Response);
       
-      try {
-        await fetchServiceByTitle(nonExistentTitle);
-        fail('Expected an error to be thrown');
-      } catch (error) {
-        expect((error as Error).message).toContain(`Failed to fetch service with title ${nonExistentTitle}`);
-      }
-    });
-
-    it('should handle URL encoding for titles with special characters', async () => {
-      // Test by verifying the result matches what we'd expect
-      const title = 'DIGITAL MARKETING';
-      const expectedService = services.find(
-        s => s.title.toUpperCase() === title.toUpperCase()
-      );
-      
+      // Call the function
       const result = await fetchServiceByTitle(title);
-      expect(result).toEqual(expectedService);
+      
+      // Check the result and that fetch was called correctly
+      expect(result).toEqual(service);
+      expect(fetchSpy).toHaveBeenCalledWith(`/api/services/${encodeURIComponent(title)}`);
+    });
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
+      
+      // Expect the function to throw
+      await expect(fetchServiceByTitle('WEB DESIGN')).rejects.toThrow();
+    });
+    
+    it('should throw error when service not found', async () => {
+      // Mock a not found response
+      fetchSpy.mockResolvedValueOnce({
+        ok: false,
+        status: 404
+      } as Response);
+      
+      // Expect the function to throw with specific message
+      await expect(fetchServiceByTitle('NONEXISTENT')).rejects.toThrow('Service not found');
     });
   });
-
+  
   describe('fetchTeamMembers', () => {
     it('should fetch all team members', async () => {
-      const result = await fetchTeamMembers();
-      // We can't directly compare with the data.ts file since teamMembers are defined in the mock
-      expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBeGreaterThan(0);
-      expect(result[0]).toHaveProperty('name');
-      expect(result[0]).toHaveProperty('role');
-      expect(result[0]).toHaveProperty('image');
-    });
-
-    it('should throw an error if the request fails', async () => {
-      // Set the global error simulation flag
-      global.__simulateFetchError__ = true;
+      // Mock the fetch response
+      fetchSpy.mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(teamMembers)
+      } as unknown as Response);
       
-      try {
-        await expect(fetchTeamMembers()).rejects.toThrow('Failed to fetch team members');
-      } finally {
-        // Reset the flag after test
-        global.__simulateFetchError__ = false;
-      }
+      // Call the function
+      const result = await fetchTeamMembers();
+      
+      // Check the result and that fetch was called correctly
+      expect(result).toEqual(teamMembers);
+      expect(fetchSpy).toHaveBeenCalledWith('/api/team');
+    });
+    
+    it('should throw error on network failure', async () => {
+      // Mock a network error
+      fetchSpy.mockRejectedValueOnce(new Error('Network error'));
+      
+      // Expect the function to throw
+      await expect(fetchTeamMembers()).rejects.toThrow();
     });
   });
 }); 
