@@ -21,6 +21,7 @@ The test suite has been updated to fix several issues:
 - TypeScript type definitions improved for Jest and Testing Library matchers
 - Test files updated to use proper TypeScript typings for mocks and assertions
 - ServiceCard component tests implemented and passing with 100% coverage
+- Navigation Integration Tests added to verify navigation flows, URL updates, and browser history behavior
 
 ## Table of Contents
 
@@ -38,8 +39,9 @@ The test suite has been updated to fix several issues:
 8. [Data Flow Integration Tests](./data-flow-integration-tests.md)
 9. [Custom Cursor Integration Tests](./cursor-integration-tests.md)
 10. [Navigation End-to-End Tests](./navigation-e2e-tests.md)
-11. [Troubleshooting Guide](./troubleshooting.md)
-12. [Status and Next Steps](./status-next-steps.md)
+11. [Navigation Integration Tests](./navigation-integration-tests.md)
+12. [Troubleshooting Guide](./troubleshooting.md)
+13. [Status and Next Steps](./status-next-steps.md)
 
 ## Layout Components Testing
 
@@ -110,4 +112,21 @@ The navigation tests are implemented in four Cypress test files:
 - `projects.cy.ts` - Tests navigation from the projects/work page
 - `services.cy.ts` - Tests navigation from the services page
 
-For details on navigation testing, see the [Navigation End-to-End Tests](./navigation-e2e-tests.md) documentation. 
+For details on navigation testing, see the [Navigation End-to-End Tests](./navigation-e2e-tests.md) documentation.
+
+## Navigation Integration Tests
+
+The navigation integration tests verify the internal navigation flow between pages:
+
+1. Navigation between main sections (Home, Projects, Services)
+2. Navigation to detail pages and back to listing pages
+3. URL updates during navigation
+4. Browser history behavior (back/forward)
+5. Active link highlighting in navigation
+6. State preservation when navigating between pages
+7. Complete navigation flow testing for key user paths
+
+The navigation integration tests are implemented in:
+- `__tests__/integration/Navigation.test.tsx`
+
+These tests complement the end-to-end Cypress tests by focusing on the internal behavior of navigation components and state management during navigation. For details, see the [Navigation Integration Tests](./navigation-integration-tests.md) documentation. 
