@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
+
 // Define Service interface to match the expected structure
 interface Service {
   title: string;

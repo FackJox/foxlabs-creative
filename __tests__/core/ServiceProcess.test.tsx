@@ -5,7 +5,11 @@ import { mockServiceProcess } from '../fixtures/mockData';
 
 // Create a mock ServiceProcess component for testing
 // This mirrors what would be in /components/sections/ServiceProcess or similar
-function ServiceProcess({ processSteps }) {
+function ServiceProcess({ processSteps }: { processSteps: Array<{
+  step?: string;
+  title: string;
+  description: string;
+}> }) {
   if (!processSteps || processSteps.length === 0) {
     return <div>No process steps available</div>;
   }
@@ -13,16 +17,14 @@ function ServiceProcess({ processSteps }) {
   return (
     <div data-testid="service-process">
       <h3>Our Process</h3>
-      <div className="space-y-6">
-        {processSteps.map((step, index) => (
-          <div key={index} data-testid={`process-step-${index}`} className="flex gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        {processSteps.map((step, index: number) => (
+          <div key={index} data-testid={`process-step-${index}`} className="process-step">
             <div className="step-number" data-testid={`step-number-${index}`}>
               {index + 1}
             </div>
-            <div>
-              <h4 data-testid={`step-title-${index}`}>{step.title}</h4>
-              <p data-testid={`step-description-${index}`}>{step.description}</p>
-            </div>
+            <h4 data-testid={`step-title-${index}`}>{step.title}</h4>
+            <p data-testid={`step-description-${index}`}>{step.description}</p>
           </div>
         ))}
       </div>

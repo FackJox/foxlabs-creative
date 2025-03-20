@@ -53,8 +53,11 @@ Documentation for test utilities and helpers:
 
 - [Testing Utilities](./testing/utilities/testing-utilities.md)
 - [Mock Data](./testing/utilities/mock-data.md)
+- [Mock Data Factory](./testing/utilities/mock-data-factory.md)
 - [Test Fixtures](./testing/utilities/test-fixtures.md)
 
 ## 7. Recently Updated Test Documentation
 
+- **[Layout Components](./testing/components/layout-components.md)** - Added comprehensive Header component test suite documentation with structured organization and key testing techniques
+- **[Mock Data Factory](./testing/utilities/mock-data-factory.md)** - Added comprehensive mock data factory for generating test data
 - **[Service Components](./testing/components/service-components.md)** - Updated with ServiceBenefits and ServiceItem component tests 

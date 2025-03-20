@@ -17,6 +17,8 @@ The test suite has been updated to fix several issues:
 - Navigation tests updated to handle element coverage issues with `{ force: true }` option
 - Navigation tests updated to handle 404s for pages under development with `{ failOnStatusCode: false }`
 - Navigation tests simplified to focus on URL validation for pages not yet fully implemented
+- TypeScript type definitions improved for Jest and Testing Library matchers
+- Test files updated to use proper TypeScript typings for mocks and assertions
 
 ## Table of Contents
 

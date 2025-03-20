@@ -3,10 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { mockServices } from '../fixtures/mockData';
 import { useCursor } from '@/hooks/use-cursor';
+import type { Service } from '@/lib/types';
 
 // Create a mock ServiceDetails component for testing
 // This mirrors what would be in /components/sections/ServiceDetails or similar
-function ServiceDetails({ service }) {
+function ServiceDetails({ service }: { service: Service | null }) {
   const { setCursorText } = useCursor();
   
   if (!service) return <div>No service selected</div>;
@@ -20,7 +21,7 @@ function ServiceDetails({ service }) {
         <div data-testid="service-benefits">
           <h3>Benefits</h3>
           <ul>
-            {service.benefits.map((benefit, index) => (
+            {service.benefits.map((benefit: string, index: number) => (
               <li key={index} data-testid={`benefit-${index}`}>{benefit}</li>
             ))}
           </ul>
@@ -31,7 +32,7 @@ function ServiceDetails({ service }) {
         <div data-testid="service-process">
           <h3>Process</h3>
           <div className="process-steps">
-            {service.process.map((step, index) => (
+            {service.process.map((step: { title: string; description: string }, index: number) => (
               <div key={index} data-testid={`process-step-${index}`}>
                 <h4>{step.title}</h4>
                 <p>{step.description}</p>
@@ -72,10 +73,27 @@ jest.mock('@/hooks/use-cursor', () => ({
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: (props: any) => {
     return <img {...props} />;
   },
 }));
+
+// Define the case study type
+interface CaseStudy {
+  title: string;
+  description: string;
+  image: string;
+  link?: string;
+}
+
+// Extend the Service type for our test cases
+interface TestService extends Partial<Service> {
+  title: string;
+  description: string;
+  benefits?: string[];
+  process?: Array<{ title: string; description: string }>;
+  caseStudy?: CaseStudy;
+}
 
 describe('ServiceDetails Component', () => {
   const mockSetCursorText = jest.fn();
@@ -84,14 +102,14 @@ describe('ServiceDetails Component', () => {
     jest.clearAllMocks();
     
     // Default mock implementation for useCursor
-    (useCursor as jest.Mock).mockReturnValue({
+    (useCursor as jest.Mock<any>).mockReturnValue({
       setCursorText: mockSetCursorText,
     });
   });
 
   it('renders service with all fields correctly', () => {
     // Create a service with all fields including caseStudy
-    const service = {
+    const service: TestService = {
       ...mockServices[0],
       caseStudy: {
         title: "RAW Studio Website",
@@ -101,7 +119,7 @@ describe('ServiceDetails Component', () => {
       }
     };
     
-    render(<ServiceDetails service={service} />);
+    render(<ServiceDetails service={service as Service} />);
     
     // Check basic service info
     expect(screen.getByText(service.title)).toBeInTheDocument();
@@ -109,32 +127,32 @@ describe('ServiceDetails Component', () => {
     
     // Check benefits
     expect(screen.getByTestId('service-benefits')).toBeInTheDocument();
-    service.benefits.forEach((benefit, index) => {
+    service.benefits?.forEach((benefit, index) => {
       expect(screen.getByTestId(`benefit-${index}`)).toHaveTextContent(benefit);
     });
     
     // Check process steps
     expect(screen.getByTestId('service-process')).toBeInTheDocument();
-    service.process.forEach((step, index) => {
+    service.process?.forEach((step, index) => {
       expect(screen.getByText(step.title)).toBeInTheDocument();
       expect(screen.getByText(step.description)).toBeInTheDocument();
     });
     
     // Check case study
     expect(screen.getByTestId('service-case-study')).toBeInTheDocument();
-    expect(screen.getByText(`Case Study: ${service.caseStudy.title}`)).toBeInTheDocument();
-    expect(screen.getByText(service.caseStudy.description)).toBeInTheDocument();
+    expect(screen.getByText(`Case Study: ${service.caseStudy?.title}`)).toBeInTheDocument();
+    expect(screen.getByText(service.caseStudy?.description as string)).toBeInTheDocument();
     expect(screen.getByTestId('case-study-image')).toBeInTheDocument();
     expect(screen.getByTestId('case-study-link')).toBeInTheDocument();
   });
 
   it('renders service with minimal fields correctly', () => {
-    const minimalService = {
+    const minimalService: TestService = {
       title: "MINIMAL SERVICE",
       description: "A minimal service with only required fields",
     };
     
-    render(<ServiceDetails service={minimalService} />);
+    render(<ServiceDetails service={minimalService as Service} />);
     
     // Check basic service info
     expect(screen.getByText(minimalService.title)).toBeInTheDocument();
@@ -147,20 +165,20 @@ describe('ServiceDetails Component', () => {
   });
 
   it('renders service with benefits but no process or case study', () => {
-    const partialService = {
+    const partialService: TestService = {
       title: "PARTIAL SERVICE",
       description: "A service with only benefits",
       benefits: ["Benefit 1", "Benefit 2"],
     };
     
-    render(<ServiceDetails service={partialService} />);
+    render(<ServiceDetails service={partialService as Service} />);
     
     // Check basic service info
     expect(screen.getByText(partialService.title)).toBeInTheDocument();
     
     // Benefits should be rendered
     expect(screen.getByTestId('service-benefits')).toBeInTheDocument();
-    partialService.benefits.forEach((benefit, index) => {
+    partialService.benefits?.forEach((benefit, index) => {
       expect(screen.getByTestId(`benefit-${index}`)).toHaveTextContent(benefit);
     });
     
@@ -170,7 +188,7 @@ describe('ServiceDetails Component', () => {
   });
 
   it('renders service with process but no benefits or case study', () => {
-    const processService = {
+    const processService: TestService = {
       title: "PROCESS SERVICE",
       description: "A service with only process steps",
       process: [
@@ -179,11 +197,11 @@ describe('ServiceDetails Component', () => {
       ],
     };
     
-    render(<ServiceDetails service={processService} />);
+    render(<ServiceDetails service={processService as Service} />);
     
     // Process should be rendered
     expect(screen.getByTestId('service-process')).toBeInTheDocument();
-    processService.process.forEach((step, index) => {
+    processService.process?.forEach((step, index) => {
       expect(screen.getByText(step.title)).toBeInTheDocument();
       expect(screen.getByText(step.description)).toBeInTheDocument();
     });
@@ -194,7 +212,7 @@ describe('ServiceDetails Component', () => {
   });
 
   it('renders case study without link correctly', () => {
-    const caseStudyService = {
+    const caseStudyService: TestService = {
       title: "CASE STUDY SERVICE",
       description: "A service with a case study without link",
       caseStudy: {
@@ -204,11 +222,11 @@ describe('ServiceDetails Component', () => {
       },
     };
     
-    render(<ServiceDetails service={caseStudyService} />);
+    render(<ServiceDetails service={caseStudyService as Service} />);
     
     // Case study should be rendered
     expect(screen.getByTestId('service-case-study')).toBeInTheDocument();
-    expect(screen.getByText(`Case Study: ${caseStudyService.caseStudy.title}`)).toBeInTheDocument();
+    expect(screen.getByText(`Case Study: ${caseStudyService.caseStudy?.title}`)).toBeInTheDocument();
     
     // But link should not be rendered
     expect(screen.queryByTestId('case-study-link')).not.toBeInTheDocument();
@@ -216,7 +234,7 @@ describe('ServiceDetails Component', () => {
 
   it('sets cursor text on case study link hover', () => {
     // Create a service with caseStudy that includes a link
-    const service = {
+    const service: TestService = {
       title: "TEST SERVICE",
       description: "Service with case study link",
       caseStudy: {
@@ -227,7 +245,7 @@ describe('ServiceDetails Component', () => {
       }
     };
     
-    render(<ServiceDetails service={service} />);
+    render(<ServiceDetails service={service as Service} />);
     
     // Get the case study link
     const caseStudyLink = screen.getByTestId('case-study-link');

@@ -12,6 +12,7 @@ The test documentation is organized into the following files:
 - [Test Structure](./docs/testing/test-structure.md) - Information about test organization, naming conventions, and mocking strategies
 - [Testing Best Practices](./docs/testing/best-practices.md) - Common patterns, approaches, and solutions to common issues
 - [Test Status and Next Steps](./docs/testing/status-next-steps.md) - Current coverage status and plans for improvement
+- [Test Utilities](./docs/testing/test-utils.md) - Standardized utilities for component testing, user interactions, accessibility, and responsive testing
 - [Integration Tests](./docs/testing/integration-tests.md) - Details on integration testing approach for page components
 - [Data Flow Integration Tests](./docs/testing/data-flow-integration-tests.md) - Specialized integration tests focusing on data flow and state management
 - [Animation Integration Tests](./docs/testing/animation-integration-tests.md) - Integration tests for animations and transitions using Framer Motion
@@ -127,6 +128,7 @@ Current coverage status can be found in the [Test Status and Next Steps](./docs/
 - `__tests__/integration/` - Integration tests
 - `__tests__/integration/animations/` - Animation integration tests
 - `__tests__/fixtures/` - Mock data for tests
+- `__tests__/utils/` - Test utilities and helper functions
 - `cypress/e2e/` - End-to-end tests with Cypress
 
 For more detailed information about the test structure, see the [Test Structure](./docs/testing/test-structure.md) document.

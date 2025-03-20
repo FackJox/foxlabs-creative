@@ -1,12 +1,32 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import ServiceList from '@/components/sections/service-list';
 import { mockServices } from '../fixtures/mockData';
 import { useCursor } from '@/hooks/use-cursor';
 
+// Mock the ServiceList component for the test
+function MockServiceList({ services }: { services: Array<any> }) {
+  return (
+    <div data-testid="service-list">
+      <h2>Our Services</h2>
+      <p>We offer a range of creative services to help your brand stand out.</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        {services.map((service: any, index: number) => (
+          <div key={index} data-testid={`service-item-${index}`}>
+            <h3>{service.name}</h3>
+            <p>{service.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // Create a mock ServiceList component for testing
 // This mirrors what would be in /components/sections/ServiceList or similar
-function ServiceList({ services }) {
+function ServiceListComponent({ services }) {
   const { setCursorText } = useCursor();
   
   return (
@@ -48,7 +68,7 @@ describe('ServiceList Component', () => {
   });
 
   it('renders all services correctly', () => {
-    render(<ServiceList services={mockServices} />);
+    render(<ServiceListComponent services={mockServices} />);
     
     expect(screen.getByTestId('service-list')).toBeInTheDocument();
     
@@ -61,7 +81,7 @@ describe('ServiceList Component', () => {
   });
 
   it('renders empty state when no services are provided', () => {
-    render(<ServiceList services={[]} />);
+    render(<ServiceListComponent services={[]} />);
     
     expect(screen.getByTestId('service-list')).toBeInTheDocument();
     expect(screen.getByText('Our Services')).toBeInTheDocument();
@@ -71,7 +91,7 @@ describe('ServiceList Component', () => {
   });
 
   it('sets cursor text on mouse enter and clears on mouse leave', () => {
-    render(<ServiceList services={mockServices} />);
+    render(<ServiceListComponent services={mockServices} />);
     
     // Get the first service item
     const serviceItem = screen.getByTestId('service-item-0');
@@ -89,7 +109,7 @@ describe('ServiceList Component', () => {
     // Create a test case with reversed services
     const reversedServices = [...mockServices].reverse();
     
-    render(<ServiceList services={reversedServices} />);
+    render(<ServiceListComponent services={reversedServices} />);
     
     // Get all service title elements
     const serviceTitles = screen.getAllByRole('heading', { level: 3 }).map(el => el.textContent);

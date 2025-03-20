@@ -33,6 +33,19 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />
 }));
 
+// Mock framer-motion to handle the whileHover prop
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, className, ...props }: React.PropsWithChildren<any>) => (
+      <div className={className}>{children}</div>
+    ),
+    p: ({ children, className, ...props }: React.PropsWithChildren<any>) => (
+      <p className={className}>{children}</p>
+    )
+  },
+  AnimatePresence: ({ children }: React.PropsWithChildren<any>) => <>{children}</>
+}));
+
 describe('AboutPage - Basic Rendering', () => {
   it('renders main page sections', () => {
     render(<AboutPage />);

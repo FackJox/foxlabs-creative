@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ProjectDetail from '@/components/core/project-detail';
 import { mockProjects, mockTestimonial } from '../fixtures/mockData';
 

@@ -269,6 +269,76 @@ Jest: "global" coverage threshold for statements (80%) not met: 42.19%
 
 3. **Create a coverage improvement plan**: Document which components need better coverage in the test status document.
 
+## TypeScript Test Type Issues
+
+### Problem: TypeScript errors with testing library matchers or Jest types
+
+```
+Property 'toBeInTheDocument' does not exist on type 'Assertion'.
+Generic type 'Mock' requires 1 type argument(s).
+```
+
+### Solutions:
+
+1. **Update type definitions file**: Create or update the TypeScript definition file for Jest and Testing Library.
+
+   ```typescript
+   // In __tests__/types/jest-dom.d.ts
+   import '@testing-library/jest-dom';
+
+   declare global {
+     namespace jest {
+       // Define the interface for DOM testing library matchers
+       interface Matchers<R> {
+         toBeInTheDocument(): R;
+         toHaveTextContent(text: string | RegExp): R;
+         toHaveAttribute(attr: string, value?: string | RegExp): R;
+         // Add other matchers as needed
+       }
+
+       // Define proper Mock interface
+       interface MockInstance<T extends (...args: any[]) => any> {
+         new (...args: Parameters<T>): ReturnType<T>;
+         (...args: Parameters<T>): ReturnType<T>;
+         mockImplementation(implementation: (...args: Parameters<T>) => ReturnType<T>): this;
+         mockReturnValue(value: ReturnType<T>): this;
+         // Other mock methods...
+       }
+
+       type Mock<T extends (...args: any[]) => any> = MockInstance<T>;
+     }
+   }
+   ```
+
+2. **Add type parameters to mocks**: When using Jest mocks, add type parameters.
+
+   ```typescript
+   // Instead of
+   (useCursor as jest.Mock).mockReturnValue({
+     setCursorText: mockSetCursorText,
+   });
+
+   // Use
+   (useCursor as jest.Mock<any>).mockReturnValue({
+     setCursorText: mockSetCursorText,
+   });
+   ```
+
+3. **Fix tsconfig.json**: Ensure your tsconfig.json includes the proper TypeScript settings for Jest.
+
+   ```json
+   {
+     "compilerOptions": {
+       // ... other settings
+       "typeRoots": [
+         "./node_modules/@types",
+         "./__tests__/types"
+       ]
+     },
+     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "__tests__/types/**/*.d.ts"]
+   }
+   ```
+
 ## General Troubleshooting Tips
 
 1. **Read the error message carefully**: Jest and React Testing Library provide detailed error messages that often point directly to the issue.
