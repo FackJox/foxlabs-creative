@@ -10,6 +10,9 @@ The tests are organized by component type in the `__tests__` directory:
 - `__tests__/pages`: Page components (WorkPage, AboutPage, etc.)
 - `__tests__/integration`: Integration tests for multiple components working together
 - `__tests__/ui`: UI component tests
+- `__tests__/components/ui`: Common UI components (Button, etc.)
+- `__tests__/components/forms`: Form-related components (TextInput, etc.)
+- `__tests__/components/layout`: Layout components (Header, Footer, etc.)
 - `__tests__/hooks`: Hook tests
 - `__tests__/utils`: Utility function tests
 - `__tests__/api`: API-related tests

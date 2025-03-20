@@ -6,7 +6,8 @@ This document provides detailed information on the testing strategy and implemen
 
 1. [Introduction](#introduction)
 2. [Button Component](#button-component)
-3. [Testing Approach](#testing-approach)
+3. [TextInput Component](#textinput-component)
+4. [Testing Approach](#testing-approach)
 
 ## Introduction
 
@@ -88,6 +89,75 @@ jest.mock('@/hooks/use-cursor', () => ({
 2. **Event Simulation**: Using userEvent to simulate user interactions.
 3. **Accessibility Testing**: Using jest-axe to test for accessibility violations.
 4. **Mock Function Verification**: Verifying that mock functions are called correctly.
+
+## TextInput Component
+
+The TextInput component is a form input element that includes a label, optional error messages, helper text, and proper accessibility attributes. It builds upon the basic Input component to provide a more feature-rich input experience.
+
+### Test File Location
+
+- `__tests__/components/forms/TextInput.test.tsx`
+
+### Test Status
+
+All tests for the TextInput component are **PASSING**. The component has 100% code coverage.
+
+### Key Test Cases
+
+The TextInput component test suite is organized into three logical sections:
+
+#### Rendering Behavior
+
+- **Default Props**: Verifies that the input renders correctly with default props.
+- **Placeholder Text**: Tests proper display of placeholder text when provided.
+- **Initial Value**: Validates that an initial value is correctly displayed.
+- **Required Indicator**: Confirms that required fields show an asterisk indicator.
+- **Error Messages**: Tests error message display and styling of the input in error state.
+- **Disabled State**: Verifies proper styling and attributes in the disabled state.
+- **Custom Styling**: Tests that custom class names are correctly applied.
+
+#### User Interaction
+
+- **Value Updates**: Confirms input value updates correctly when a user types.
+- **Focus Events**: Tests onFocus handler is called when input is focused.
+- **Blur Events**: Tests onBlur handler is called when input loses focus.
+- **Disabled Interaction**: Verifies that a disabled input cannot be edited.
+- **Cursor Text Updates**: Tests cursor text updates on hover with the cursorText prop.
+
+#### Accessibility Compliance
+
+- **WCAG Compliance**: Tests for accessibility violations using axe.
+- **Label Association**: Confirms proper association between label and input using htmlFor and id.
+- **Required Attributes**: Tests aria-required is properly applied.
+- **Error State Attributes**: Verifies aria-invalid and aria-describedby are properly applied in error state.
+- **Keyboard Navigation**: Tests keyboard navigation and interaction.
+- **Screen Reader Support**: Verifies proper aria-label support.
+- **Helper Text**: Tests helper text is correctly displayed and associated with the input.
+
+### Testing Implementation Details
+
+#### Mocks and Setup
+
+The test suite mocks the cursor hook to isolate the TextInput component:
+
+```tsx
+// Mock cursor hook
+const mockSetCursorText = jest.fn();
+jest.mock('@/hooks/use-cursor', () => ({
+  useCursor: () => ({
+    cursorText: '',
+    setCursorText: mockSetCursorText
+  })
+}));
+```
+
+#### Key Testing Patterns
+
+1. **User Interaction Testing**: Using userEvent to simulate typing, clicking, and keyboard navigation.
+2. **Accessibility Testing**: Using jest-axe to test for accessibility violations.
+3. **Conditional Rendering**: Testing the conditional rendering of error messages and helper text.
+4. **ARIA Attributes**: Thoroughly testing proper ARIA attributes in all states.
+5. **Event Handler Verification**: Verifying that event handlers are called correctly.
 
 ## Testing Approach
 

@@ -21,6 +21,8 @@ The test documentation is organized into the following files:
 
 ### 2. Component-Specific Test Documentation
 
+- [UI and Form Components Tests](./docs/testing/components/ui-components.md) - Documentation for testing reusable UI and form components
+- [Layout Components Tests](./docs/testing/components/layout-components.md) - Documentation for testing layout components
 - [Project Component Tests](./docs/testing/components/project-components.md) - Documentation for testing project-related components
 - [Service Component Tests](./docs/testing/components/service-components.md) - Documentation for testing service-related components
 - [Team Component Tests](./docs/testing/components/team-components.md) - Documentation for testing team-related components
