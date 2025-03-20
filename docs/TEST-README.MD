@@ -22,6 +22,7 @@ Detailed documentation for component tests can be found in the following files:
 - [Project Components](./testing/components/project-components.md)
 - [Animation Components](./testing/components/animation-components.md)
 - [ProjectCard](./testing/components/ProjectCard.md) - Documentation for testing the project card component
+- [Contact Components](./testing/components/contact-components.md) - Documentation for testing contact components including ContactForm
 
 ## 3. Integration Tests
 
@@ -59,6 +60,14 @@ Documentation for test utilities and helpers:
 - [Form Validation](./testing/validation-tests.md) - Documentation for form validation utility tests
 
 ## 7. Recently Updated Test Documentation
+
+- **[Contact Components](./testing/components/contact-components.md)** - Added comprehensive ContactForm component test suite documentation with structured organization covering:
+  - Form rendering tests for all required and optional fields
+  - Validation behavior for all field types
+  - Submission behavior with loading states
+  - Success/error state handling with proper user feedback
+  - Accessibility compliance for all form states and error handling
+  - Complete mock implementation for testing API interactions
 
 - **[Form Validation](./testing/validation-tests.md)** - Updated with detailed documentation for all validation utilities, including:
   - Comprehensive test coverage (100%) of all validation functions
