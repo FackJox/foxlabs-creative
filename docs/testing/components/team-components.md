@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Team Component Tests
+# FoxLabs//Creative Portfolio Website - Team Component Tests
 
-This document provides details about unit tests for team-related components in the RAW/STUDIO portfolio website.
+This document provides details about unit tests for team-related components in the FoxLabs//Creative portfolio website.
 
 ## 1. Team Component Overview
 

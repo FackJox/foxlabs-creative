@@ -1,4 +1,4 @@
-# RAW/STUDIO Portfolio Website Testing Implementation
+# FoxLabs//Creative Portfolio Website Testing Implementation
 
 ## Phase 1: Setup Testing Infrastructure
 - [x] **Step 1:** Basic Jest and React Testing Library Setup
@@ -33,7 +33,7 @@
 - [ ] **Step 25:** CI/CD Integration and Automation
 
 
-# RAW/STUDIO Testing Strategy Todo List
+# FoxLabs//Creative Testing Strategy Todo List
 
 ## Iteration 1: Critical Component Testing Foundation
 

@@ -1,10 +1,10 @@
-# RAW/STUDIO Portfolio Website - Service Component Tests
+# FoxLabs//Creative Portfolio Website - Service Component Tests
 
-This document provides details about unit tests for service-related components in the RAW/STUDIO portfolio website.
+This document provides details about unit tests for service-related components in the FoxLabs//Creative portfolio website.
 
 ## 1. Service Component Overview
 
-The service component tests validate the functionality of components that display information about services offered by RAW/STUDIO. These components include:
+The service component tests validate the functionality of components that display information about services offered by FoxLabs//Creative. These components include:
 
 - ServiceItem: Displays a service card with title and description
 - ServiceList: Renders a list of service items
@@ -164,7 +164,7 @@ Both components follow these key design patterns:
 
 1. **Responsive Design**: Mobile-first with appropriate text sizing for different screens
 2. **Accessibility**: Proper semantic HTML and ARIA attributes
-3. **Brutalist Design**: Following the RAW/STUDIO aesthetic
+3. **Brutalist Design**: Following the FoxLabs//Creative aesthetic
 4. **Animation**: Consistent use of Framer Motion for animations
 5. **Conditional Rendering**: Proper handling of optional data
 6. **Clear Error States**: Fallback UI for missing data 

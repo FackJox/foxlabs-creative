@@ -55,7 +55,7 @@ export default function AboutPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              RAW/STUDIO was founded with a clear mission: to cut through the digital noise with honest, functional
+              FoxLabs//Creative was founded with a clear mission: to cut through the digital noise with honest, functional
               design that makes an impact.
             </motion.p>
             <motion.p

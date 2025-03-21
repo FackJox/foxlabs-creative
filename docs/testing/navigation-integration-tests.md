@@ -1,6 +1,6 @@
 # Navigation Integration Tests
 
-This document provides an overview of the integration tests implemented for navigation flows in the RAW/STUDIO portfolio website. These tests verify that users can correctly navigate between different pages in the application and that the UI state updates appropriately.
+This document provides an overview of the integration tests implemented for navigation flows in the FoxLabs//Creative portfolio website. These tests verify that users can correctly navigate between different pages in the application and that the UI state updates appropriately.
 
 ## Test Coverage
 

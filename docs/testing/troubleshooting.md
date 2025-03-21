@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Test Troubleshooting Guide
+# FoxLabs//Creative Portfolio Website - Test Troubleshooting Guide
 
-This document provides solutions for common testing issues encountered in the RAW/STUDIO portfolio website project. Use it as a reference when fixing failing tests or adding new tests.
+This document provides solutions for common testing issues encountered in the FoxLabs//Creative portfolio website project. Use it as a reference when fixing failing tests or adding new tests.
 
 ## Module Resolution Issues
 

@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - API Documentation
+# FoxLabs//Creative Portfolio Website - API Documentation
 
-This document provides a comprehensive guide to the API client functions used throughout the RAW/STUDIO portfolio website. These functions enable components to fetch and display data from the backend server.
+This document provides a comprehensive guide to the API client functions used throughout the FoxLabs//Creative portfolio website. These functions enable components to fetch and display data from the backend server.
 
 ## Table of Contents
 

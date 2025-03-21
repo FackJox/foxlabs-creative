@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Project Component Tests
+# FoxLabs//Creative Portfolio Website - Project Component Tests
 
-This document provides details about unit tests for project-related components in the RAW/STUDIO portfolio website.
+This document provides details about unit tests for project-related components in the FoxLabs//Creative portfolio website.
 
 ## 1. Project Component Overview
 

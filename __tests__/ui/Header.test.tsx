@@ -39,7 +39,7 @@ describe('Header Component', () => {
     render(<Header setCursorText={mockSetCursorText} />);
     
     // Check logo
-    const logo = screen.getByText('RAW/STUDIO');
+    const logo = screen.getByText('FoxLabs//Creative');
     expect(logo).toBeInTheDocument();
     expect(logo.tagName).toBe('A');
     expect(logo).toHaveAttribute('href', '/');
@@ -85,7 +85,7 @@ describe('Header Component', () => {
     const user = userEvent.setup();
     render(<Header setCursorText={mockSetCursorText} />);
     
-    const logo = screen.getByText('RAW/STUDIO');
+    const logo = screen.getByText('FoxLabs//Creative');
     
     // Mouse enter
     await user.hover(logo);

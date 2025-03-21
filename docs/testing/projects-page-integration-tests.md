@@ -1,6 +1,6 @@
 # Projects Page Integration Tests
 
-This document outlines the integration tests implemented for the Projects page of the RAW/STUDIO portfolio website. These tests verify the complete functionality of the Projects page, including rendering, user interactions, data flow, animations, and responsive behavior.
+This document outlines the integration tests implemented for the Projects page of the FoxLabs//Creative portfolio website. These tests verify the complete functionality of the Projects page, including rendering, user interactions, data flow, animations, and responsive behavior.
 
 ## Test File
 

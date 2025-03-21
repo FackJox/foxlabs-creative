@@ -1,6 +1,6 @@
 # Custom Cursor Component Testing
 
-This document outlines the testing strategy and implementation for the custom cursor functionality in the RAW/STUDIO portfolio website.
+This document outlines the testing strategy and implementation for the custom cursor functionality in the FoxLabs//Creative portfolio website.
 
 ## Component Overview
 

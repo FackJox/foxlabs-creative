@@ -22,7 +22,7 @@ export default function Header({ setCursorText }: HeaderProps) {
           onMouseEnter={() => setCursorText("HOME")}
           onMouseLeave={() => setCursorText("")}
         >
-          RAW/STUDIO
+          FoxLabs//Creative
         </Link>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -75,7 +75,7 @@ export default function Header({ setCursorText }: HeaderProps) {
               <div className="flex flex-col justify-between">
                 <div>
                   <h3 className="mb-4 text-sm uppercase">Contact</h3>
-                  <p className="mb-2 text-xl font-bold">hello@rawstudio.design</p>
+                  <p className="mb-2 text-xl font-bold">hello@foxlabscreative.design</p>
                   <p className="mb-8 text-xl font-bold">+1 (555) 123-4567</p>
                 </div>
                 <div>
@@ -96,7 +96,7 @@ export default function Header({ setCursorText }: HeaderProps) {
                 </div>
               </div>
             </div>
-            <div className="mt-8 text-sm">© {new Date().getFullYear()} RAW/STUDIO. ALL RIGHTS RESERVED.</div>
+            <div className="mt-8 text-sm">© {new Date().getFullYear()} FoxLabs//Creative. ALL RIGHTS RESERVED.</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -31,14 +31,14 @@ describe('Footer Component', () => {
   describe('Basic content rendering', () => {
     it('renders the brand name', () => {
       customRender(<Footer />);
-      expect(screen.getByText('RAW/STUDIO')).toBeInTheDocument();
+      expect(screen.getByText('FoxLabs//Creative')).toBeInTheDocument();
     });
 
     it('renders copyright information with current year', () => {
       customRender(<Footer />);
       const currentYear = new Date().getFullYear().toString();
       const copyrightText = screen.getByText(
-        (content) => content.includes(`© ${currentYear} RAW/STUDIO`)
+        (content) => content.includes(`© ${currentYear} FoxLabs//Creative`)
       );
       expect(copyrightText).toBeInTheDocument();
       expect(copyrightText).toHaveTextContent('ALL RIGHTS RESERVED');
@@ -67,16 +67,16 @@ describe('Footer Component', () => {
       customRender(<Footer />);
       
       const instagramLink = screen.getByRole('link', { name: 'Instagram' });
-      expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/rawstudio');
+      expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/foxlabscreative');
       
       const twitterLink = screen.getByRole('link', { name: 'Twitter' });
-      expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/rawstudio');
+      expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/foxlabscreative');
       
       const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' });
-      expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/company/rawstudio');
+      expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/company/foxlabscreative');
       
       const githubLink = screen.getByRole('link', { name: 'GitHub' });
-      expect(githubLink).toHaveAttribute('href', 'https://github.com/rawstudio');
+      expect(githubLink).toHaveAttribute('href', 'https://github.com/foxlabscreative');
     });
 
     it('policy links have correct href attributes', () => {

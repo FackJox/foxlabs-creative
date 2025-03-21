@@ -1,6 +1,6 @@
 # Contact Form End-to-End Tests
 
-This document outlines the end-to-end testing approach for the contact form user flow on the RAW/STUDIO portfolio website.
+This document outlines the end-to-end testing approach for the contact form user flow on the FoxLabs//Creative portfolio website.
 
 ## Overview
 

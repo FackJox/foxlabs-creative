@@ -17,7 +17,7 @@ const MockHomePage = () => {
   return (
     <div>
       <div data-testid="home-hero">
-        <h1>RAW/STUDIO</h1>
+        <h1>FoxLabs//Creative</h1>
         <p>DIGITAL DESIGN STUDIO</p>
       </div>
       

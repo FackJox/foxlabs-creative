@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Layout Components Testing
+# FoxLabs//Creative Portfolio Website - Layout Components Testing
 
-This document outlines the testing approach for layout components in the RAW/STUDIO portfolio website.
+This document outlines the testing approach for layout components in the FoxLabs//Creative portfolio website.
 
 ## Components Tested
 
@@ -166,7 +166,7 @@ The new comprehensive test implementation for the Header component in `__tests__
      const user = setupUserEvent();
      customRender(<Header setCursorText={mockSetCursorText} />);
      
-     const logo = screen.getByText('RAW/STUDIO');
+     const logo = screen.getByText('FoxLabs//Creative');
      
      // Mouse enter
      await user.hover(logo);
@@ -213,7 +213,7 @@ The new comprehensive test implementation for the Footer component in `__tests__
 ### Test Organization
 
 1. **Basic Content Rendering**
-   - Tests the proper rendering of the brand name (RAW/STUDIO)
+   - Tests the proper rendering of the brand name (FoxLabs//Creative)
    - Verifies copyright information shows the current year
    - Tests the rendering of social media links with correct icons
    - Checks for policy/terms links rendering
@@ -257,7 +257,7 @@ The new comprehensive test implementation for the Footer component in `__tests__
      customRender(<Footer />);
      const currentYear = new Date().getFullYear().toString();
      const copyrightText = screen.getByText(
-       (content) => content.includes(`© ${currentYear} RAW/STUDIO`)
+       (content) => content.includes(`© ${currentYear} FoxLabs//Creative`)
      );
      expect(copyrightText).toBeInTheDocument();
      expect(copyrightText).toHaveTextContent('ALL RIGHTS RESERVED');
@@ -270,16 +270,16 @@ The new comprehensive test implementation for the Footer component in `__tests__
      customRender(<Footer />);
      
      const instagramLink = screen.getByRole('link', { name: 'Instagram' });
-     expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/rawstudio');
+     expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/foxlabscreative');
      
      const twitterLink = screen.getByRole('link', { name: 'Twitter' });
-     expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/rawstudio');
+     expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/foxlabscreative');
      
      const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' });
-     expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/company/rawstudio');
+     expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/company/foxlabscreative');
      
      const githubLink = screen.getByRole('link', { name: 'GitHub' });
-     expect(githubLink).toHaveAttribute('href', 'https://github.com/rawstudio');
+     expect(githubLink).toHaveAttribute('href', 'https://github.com/foxlabscreative');
    });
    ```
 

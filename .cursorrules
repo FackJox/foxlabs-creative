@@ -1,5 +1,5 @@
 
-# RAW/STUDIO Portfolio Website - .cursorrules (Updated)
+# FoxLabs//Creative Portfolio Website - .cursorrules (Updated)
 
 ## Agent Behaviour
 1. Read @spec.md and @docs/ first to understand the portfolio website's specifications, data models, and component structure
@@ -129,7 +129,7 @@
 
 1. USE consistent CSS approach - either CSS modules, styled-components, or Tailwind
 2. IMPLEMENT responsive design - support all device sizes
-3. MAINTAIN brutalist design aesthetic - follow RAW/STUDIO's visual identity
+3. MAINTAIN brutalist design aesthetic - follow FoxLabs//Creative's visual identity
 4. CREATE reusable style tokens - colors, typography, spacing
 5. IMPLEMENT accessible styles - ensure proper contrast and focus states
 6. USE semantic HTML elements - enhance accessibility and SEO

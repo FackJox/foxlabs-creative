@@ -10,22 +10,22 @@ export const mockTestimonial: Testimonial = {
 export const mockProjects: Project[] = [
   {
     id: 1,
-    title: "RAW Studio Website",
-    slug: "raw-studio-website",
+    title: "FoxLabs//Creative Studio Website",
+    slug: "FoxLabs//Creative-studio-website",
     description: "A brutalist website for a cutting-edge design studio",
     category: "WEB DEVELOPMENT",
     year: "2023",
-    client: "RAW Studio",
+    client: "FoxLabs//Creative Studio",
     challenge: "Create a visually striking website that showcases the studio's work while maintaining optimal performance and accessibility.",
     solution: "Implemented a Next.js-based website with brutalist design principles, focusing on typography and bold layouts.",
     results: "50% increase in time spent on site, 30% increase in client inquiries through the website.",
     gallery: [
-      "/images/projects/raw-studio/1.jpg",
-      "/images/projects/raw-studio/2.jpg",
-      "/images/projects/raw-studio/3.jpg"
+      "/images/projects/FoxLabs//Creative-studio/1.jpg",
+      "/images/projects/FoxLabs//Creative-studio/2.jpg",
+      "/images/projects/FoxLabs//Creative-studio/3.jpg"
     ],
     featured: true,
-    url: "https://rawstudio.com",
+    url: "https://FoxLabs//Creativestudio.com",
     testimonial: mockTestimonial
   },
   {
@@ -148,7 +148,7 @@ export const mockServices: Service[] = [
     ],
     caseStudies: [
       {
-        title: "RAW Studio Website",
+        title: "FoxLabs//Creative Studio Website",
         description: "A brutalist website for a cutting-edge design studio",
         projectId: 1
       },
@@ -302,7 +302,7 @@ export const mockTeamMembers: TeamMember[] = [
     projects: [
       {
         id: 1,
-        title: "RAW Studio Website",
+        title: "FoxLabs//Creative Studio Website",
         description: "A brutalist website for a cutting-edge design studio"
       },
       {
@@ -332,7 +332,7 @@ export const mockTeamMembers: TeamMember[] = [
     projects: [
       {
         id: 1,
-        title: "RAW Studio Website",
+        title: "FoxLabs//Creative Studio Website",
         description: "A brutalist website for a cutting-edge design studio"
       },
       {

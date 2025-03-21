@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website Test Documentation
+# FoxLabs//Creative Portfolio Website Test Documentation
 
-This is the index of test documentation for the RAW/STUDIO portfolio website. It provides an overview of the testing structure and links to detailed test documentation for specific components and features.
+This is the index of test documentation for the FoxLabs//Creative portfolio website. It provides an overview of the testing structure and links to detailed test documentation for specific components and features.
 
 ## 1. Test Structure
 
@@ -91,7 +91,7 @@ Documentation for test utilities and helpers:
   - Test cases for required fields, email formats, length validation, custom validation
   - Integration testing for contact forms and registration forms
   - Advanced usage examples with custom validation rules
-  - Integration with RAW/STUDIO's brutalist form components
+  - Integration with FoxLabs//Creative's brutalist form components
 - **[Project Components](./testing/components/project-components.md)** - Added comprehensive ProjectList component test suite documentation with structured organization covering rendering, filtering, responsive layouts, animation sequencing, and accessibility compliance
 - **[ProjectCard](./testing/components/ProjectCard.md)** - Added comprehensive ProjectCard component test suite documentation with structured organization covering rendering variations, interaction behaviors, and accessibility compliance
 - **[UI Components](./testing/components/ui-components.md)** - Added comprehensive Button component test suite documentation with structured organization and key testing techniques for all variants, states, cursor behavior, and accessibility
@@ -164,7 +164,7 @@ State updates are wrapped in `
 
 # Custom Cursor Testing Documentation
 
-This document outlines the testing procedures for the custom cursor implementation in the RAW/STUDIO portfolio website.
+This document outlines the testing procedures for the custom cursor implementation in the FoxLabs//Creative portfolio website.
 
 ## Overview
 

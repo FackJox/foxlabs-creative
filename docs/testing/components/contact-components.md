@@ -1,10 +1,10 @@
 # Contact Component Tests
 
-This document provides detailed documentation for testing the contact components of the RAW/STUDIO portfolio website.
+This document provides detailed documentation for testing the contact components of the FoxLabs//Creative portfolio website.
 
 ## ContactForm Component
 
-The ContactForm component is a crucial interactive element of the RAW/STUDIO website, allowing visitors to send messages to the team. The test suite ensures that the form functions correctly, validates user input properly, provides appropriate feedback, and maintains accessibility standards.
+The ContactForm component is a crucial interactive element of the FoxLabs//Creative website, allowing visitors to send messages to the team. The test suite ensures that the form functions correctly, validates user input properly, provides appropriate feedback, and maintains accessibility standards.
 
 ### Test File Location
 
@@ -114,9 +114,9 @@ The test suite provides 100% coverage of the ContactForm component's functionali
 - Both successful and failed submissions are tested
 - All accessibility requirements are verified
 
-### Integration with RAW/STUDIO Design System
+### Integration with FoxLabs//Creative Design System
 
-The tests verify that the ContactForm component correctly integrates with RAW/STUDIO's design system:
+The tests verify that the ContactForm component correctly integrates with FoxLabs//Creative's design system:
 
 - Brutalist design aesthetics are maintained in the form elements
 - Custom cursor text changes provide interactive feedback

@@ -1,6 +1,6 @@
 # Animation Integration Tests
 
-This document describes the integration tests for animations and transitions in the RAW/STUDIO portfolio website.
+This document describes the integration tests for animations and transitions in the FoxLabs//Creative portfolio website.
 
 ## Overview
 
@@ -26,7 +26,7 @@ Animation tests are organized in the following files, each focusing on a specifi
 
 ## Animation Accessibility (Reduced Motion)
 
-The RAW/STUDIO portfolio respects user preferences for reduced motion to ensure accessibility for users who experience motion sickness, vestibular disorders, or other conditions triggered by animation.
+The FoxLabs//Creative portfolio respects user preferences for reduced motion to ensure accessibility for users who experience motion sickness, vestibular disorders, or other conditions triggered by animation.
 
 ### Implemented Accessibility Features
 

@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Test Documentation
+# FoxLabs//Creative Portfolio Website - Test Documentation
 
-This document provides an overview of the test documentation for the RAW/STUDIO portfolio website. The documentation has been split into separate files for better organization and maintainability.
+This document provides an overview of the test documentation for the FoxLabs//Creative portfolio website. The documentation has been split into separate files for better organization and maintainability.
 
 ## Documentation Structure
 

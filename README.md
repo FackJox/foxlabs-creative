@@ -1,4 +1,4 @@
-# RAW/STUDIO Portfolio Website
+# FoxLabs//Creative Portfolio Website
 
 A brutalist design portfolio website for a creative studio.
 

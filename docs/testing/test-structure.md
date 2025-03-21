@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Test Structure
+# FoxLabs//Creative Portfolio Website - Test Structure
 
-This document provides details about the structure and organization of tests in the RAW/STUDIO portfolio website.
+This document provides details about the structure and organization of tests in the FoxLabs//Creative portfolio website.
 
 ## 1. Directory Structure
 

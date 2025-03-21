@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Testing Documentation
+# FoxLabs//Creative Portfolio Website - Testing Documentation
 
-This documentation provides an overview of the testing strategy and implementation for the RAW/STUDIO portfolio website.
+This documentation provides an overview of the testing strategy and implementation for the FoxLabs//Creative portfolio website.
 
 ## Recent Updates
 

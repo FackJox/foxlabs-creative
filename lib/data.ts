@@ -25,7 +25,7 @@ export const projects: Project[] = [
       "The new platform increased conversion rates by 35% and average order value by 28%. The distinctive design generated significant social media attention, with a 215% increase in Instagram mentions and features in multiple design publications.",
     testimonial: {
       quote:
-        "RAW/STUDIO delivered exactly what we needed—a bold, distinctive e-commerce experience that sets us apart while driving real business results. Our customers love the unique design and find it refreshingly easy to navigate.",
+        "FoxLabs//Creative delivered exactly what we needed—a bold, distinctive e-commerce experience that sets us apart while driving real business results. Our customers love the unique design and find it refreshingly easy to navigate.",
       author: "Maya Chen",
       role: "Creative Director",
       company: "CONCRETE FASHION",
@@ -55,7 +55,7 @@ export const projects: Project[] = [
       "User testing showed a 42% improvement in task completion rates compared to their previous interface. The distinctive design helped BLOCK FINANCE establish a unique brand identity in the fintech space, contributing to a successful Series A funding round.",
     testimonial: {
       quote:
-        "The RAW/STUDIO team understood our vision immediately. They created an interface that perfectly balances our need for functionality with our desire to stand out. Our users consistently mention how refreshing and intuitive the experience is.",
+        "The FoxLabs//Creative team understood our vision immediately. They created an interface that perfectly balances our need for functionality with our desire to stand out. Our users consistently mention how refreshing and intuitive the experience is.",
       author: "Alex Rivera",
       role: "CEO",
       company: "BLOCK FINANCE",
@@ -87,7 +87,7 @@ export const projects: Project[] = [
       "The new brand identity has helped AXIS ARCHITECTS secure three major commercial projects and has been featured in Architectural Digest. Their social media following has increased by 175% since the rebrand launch.",
     testimonial: {
       quote:
-        "RAW/STUDIO created a brand identity that perfectly captures our architectural philosophy. The brutalist approach feels authentic to our work while giving us a distinctive presence in the market. We've received countless compliments from clients and peers alike.",
+        "FoxLabs//Creative created a brand identity that perfectly captures our architectural philosophy. The brutalist approach feels authentic to our work while giving us a distinctive presence in the market. We've received countless compliments from clients and peers alike.",
       author: "Sarah Nakamura",
       role: "Principal Architect",
       company: "AXIS ARCHITECTS",
@@ -116,7 +116,7 @@ export const projects: Project[] = [
       "The website has received recognition in multiple design publications and has led to a 40% increase in client inquiries. Julian reports that clients frequently mention the distinctive design as a factor in their decision to reach out.",
     testimonial: {
       quote:
-        "My portfolio finally feels like an authentic extension of my photography style. RAW/STUDIO understood exactly what I needed—a design that showcases my work while making a statement of its own. The brutalist approach perfectly complements my visual aesthetic.",
+        "My portfolio finally feels like an authentic extension of my photography style. FoxLabs//Creative understood exactly what I needed—a design that showcases my work while making a statement of its own. The brutalist approach perfectly complements my visual aesthetic.",
       author: "Julian Marco",
       role: "Photographer",
       company: "MARCO VISUALS",
@@ -146,7 +146,7 @@ export const projects: Project[] = [
       "The rebrand has helped FOUNDATION BUILDERS secure contracts for three major commercial projects and has contributed to a 65% increase in qualified leads from their target market of modern architectural firms.",
     testimonial: {
       quote:
-        "Our new brand identity perfectly captures the essence of our approach to construction. It's bold, honest, and structural—just like our buildings. RAW/STUDIO delivered exactly what we needed to stand out in a crowded market.",
+        "Our new brand identity perfectly captures the essence of our approach to construction. It's bold, honest, and structural—just like our buildings. FoxLabs//Creative delivered exactly what we needed to stand out in a crowded market.",
       author: "Robert Torres",
       role: "CEO",
       company: "FOUNDATION BUILDERS",
@@ -175,7 +175,7 @@ export const projects: Project[] = [
       "User testing showed a 78% preference for the new interface over competitors. The platform has attracted partnerships with several prominent digital artists who specifically cited the distinctive design approach as a factor in their decision.",
     testimonial: {
       quote:
-        "The RAW/STUDIO team created exactly what we needed—a platform that makes the art the star while still having a strong point of view. The brutalist approach perfectly complements our curation philosophy and has become a key part of our brand identity.",
+        "The FoxLabs//Creative team created exactly what we needed—a platform that makes the art the star while still having a strong point of view. The brutalist approach perfectly complements our curation philosophy and has become a key part of our brand identity.",
       author: "Elena Kim",
       role: "Founder",
       company: "CANVAS DIGITAL",
@@ -201,7 +201,7 @@ export const projects: Project[] = [
       "The redesign has led to a 45% increase in average time on site and a 30% increase in return visitors. The distinctive approach has also attracted premium advertisers from the architecture and design sectors.",
     testimonial: {
       quote:
-        "Our readers love the new design—it's become a signature part of our brand. RAW/STUDIO understood our vision for a magazine that doesn't just cover design but embodies it through every aspect of the reading experience.",
+        "Our readers love the new design—it's become a signature part of our brand. FoxLabs//Creative understood our vision for a magazine that doesn't just cover design but embodies it through every aspect of the reading experience.",
       author: "David Chen",
       role: "Editor-in-Chief",
       company: "STRUCTURE MAGAZINE",
@@ -231,7 +231,7 @@ export const projects: Project[] = [
       "The website has won two design awards and has contributed to a 55% increase in submissions from writers. Subscriber retention has improved by 40% since the redesign.",
     testimonial: {
       quote:
-        "RAW/STUDIO created a digital home for our journal that truly celebrates the written word. The brutalist approach to typography perfectly reflects our literary aesthetic and has helped us attract both readers and contributors who appreciate our distinctive point of view.",
+        "FoxLabs//Creative created a digital home for our journal that truly celebrates the written word. The brutalist approach to typography perfectly reflects our literary aesthetic and has helped us attract both readers and contributors who appreciate our distinctive point of view.",
       author: "Olivia Mercer",
       role: "Managing Editor",
       company: "VERSE QUARTERLY",

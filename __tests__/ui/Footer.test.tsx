@@ -8,12 +8,12 @@ describe('Footer Component', () => {
     render(<Footer />);
     
     // Check for brand name
-    expect(screen.getByText('RAW/STUDIO')).toBeInTheDocument();
+    expect(screen.getByText('FoxLabs//Creative')).toBeInTheDocument();
     
     // Check for copyright text with current year
     const currentYear = new Date().getFullYear().toString();
     const copyrightText = screen.getByText(
-      (content) => content.includes(`© ${currentYear} RAW/STUDIO`)
+      (content) => content.includes(`© ${currentYear} FoxLabs//Creative`)
     );
     expect(copyrightText).toBeInTheDocument();
     expect(copyrightText).toHaveTextContent('ALL RIGHTS RESERVED');
@@ -42,7 +42,7 @@ describe('Footer Component', () => {
   it('has brand name with correct styling', () => {
     render(<Footer />);
     
-    const brandElement = screen.getByText('RAW/STUDIO');
+    const brandElement = screen.getByText('FoxLabs//Creative');
     expect(brandElement).toHaveClass('text-xl');
     expect(brandElement).toHaveClass('font-bold');
     expect(brandElement).toHaveClass('uppercase');
@@ -54,7 +54,7 @@ describe('Footer Component', () => {
     
     const currentYear = new Date().getFullYear().toString();
     const copyrightText = screen.getByText(
-      (content) => content.includes(`© ${currentYear} RAW/STUDIO`)
+      (content) => content.includes(`© ${currentYear} FoxLabs//Creative`)
     );
     
     expect(copyrightText).toHaveClass('text-sm');

@@ -1,6 +1,6 @@
 # Custom Cursor Integration Tests
 
-This documentation covers the integration testing approach for the custom cursor functionality in the RAW/STUDIO portfolio website.
+This documentation covers the integration testing approach for the custom cursor functionality in the FoxLabs//Creative portfolio website.
 
 ## Overview
 

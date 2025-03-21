@@ -112,9 +112,9 @@ describe('ServiceDetails Component', () => {
     const service: TestService = {
       ...mockServices[0],
       caseStudy: {
-        title: "RAW Studio Website",
+        title: "FoxLabs//Creative Studio Website",
         description: "A brutalist website for a cutting-edge design studio",
-        image: "/images/case-studies/raw-studio.jpg",
+        image: "/images/case-studies/FoxLabs//Creative-studio.jpg",
         link: "#"
       }
     };

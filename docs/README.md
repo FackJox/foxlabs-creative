@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website Documentation
+# FoxLabs//Creative Portfolio Website Documentation
 
-This directory contains comprehensive documentation for the RAW/STUDIO portfolio website.
+This directory contains comprehensive documentation for the FoxLabs//Creative portfolio website.
 
 ## Table of Contents
 

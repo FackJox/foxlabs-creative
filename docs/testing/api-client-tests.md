@@ -1,6 +1,6 @@
 # API Client Tests
 
-This document covers the testing approach for the API client functions that handle data fetching from the backend server for the RAW/STUDIO portfolio website.
+This document covers the testing approach for the API client functions that handle data fetching from the backend server for the FoxLabs//Creative portfolio website.
 
 ## Overview
 

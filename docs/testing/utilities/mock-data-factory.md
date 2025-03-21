@@ -1,6 +1,6 @@
 # Mock Data Factory
 
-This document provides an overview of the mock data factory system used for generating test data in the RAW/STUDIO portfolio website.
+This document provides an overview of the mock data factory system used for generating test data in the FoxLabs//Creative portfolio website.
 
 ## Overview
 

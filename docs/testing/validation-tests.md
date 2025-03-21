@@ -6,7 +6,7 @@ This document outlines the tests for the form validation utility functions in th
 
 The form validation utilities in `lib/utils/validation.ts` provide a comprehensive set of validation functions that can be combined to validate form fields and entire forms. Each function is designed to handle a specific type of validation and returns a standardized validation result.
 
-The validation system follows the RAW/STUDIO principle of brutalist design: straightforward, unadorned, and functional validation that prioritizes user experience without unnecessary complexity.
+The validation system follows the FoxLabs//Creative principle of brutalist design: straightforward, unadorned, and functional validation that prioritizes user experience without unnecessary complexity.
 
 ## Test File
 
@@ -247,8 +247,8 @@ const specialCharResult = validateCustom(
 // All validations would pass for this password
 ```
 
-## Integration with RAW/STUDIO Forms
+## Integration with FoxLabs//Creative Forms
 
-The validation system is designed to work seamlessly with RAW/STUDIO's brutalist form components, providing immediate feedback while maintaining the stark, functional design aesthetic that characterizes the brand.
+The validation system is designed to work seamlessly with FoxLabs//Creative's brutalist form components, providing immediate feedback while maintaining the stark, functional design aesthetic that characterizes the brand.
 
 The forms combine the validation system with the custom cursor implementation, providing clear feedback when validation fails while maintaining the distinctive interactive experience. 

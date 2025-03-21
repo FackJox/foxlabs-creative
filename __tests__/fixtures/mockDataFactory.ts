@@ -6,7 +6,7 @@ import { Project, Service, TeamMember, Testimonial, ServiceProcess, ServiceCaseS
  * @returns A mock Testimonial object
  */
 export const createMockTestimonial = (overrides?: Partial<Testimonial>): Testimonial => ({
-  quote: "RAW/STUDIO delivered exactly what we needed—a bold, distinctive experience that sets us apart.",
+  quote: "FoxLabs//Creative delivered exactly what we needed—a bold, distinctive experience that sets us apart.",
   author: "Test Author",
   role: "Creative Director",
   company: "Test Company",

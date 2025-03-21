@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Testing Strategy
+# FoxLabs//Creative Portfolio Website - Testing Strategy
 
-This document outlines the overall testing strategy for the RAW/STUDIO portfolio website.
+This document outlines the overall testing strategy for the FoxLabs//Creative portfolio website.
 
 ## 1. Testing Approach
 

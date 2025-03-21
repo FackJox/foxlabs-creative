@@ -12,7 +12,7 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "RAW/STUDIO | Brutalist Design Agency",
+  title: "FoxLabs//Creative | Brutalist Design Agency",
   description: "A brutalist design agency creating bold digital experiences",
     generator: 'v0.dev'
 }

@@ -2,7 +2,7 @@
 
 ## Overview of Testing Implementation Approach
 
-This blueprint outlines a systematic approach to improve test coverage and quality for the RAW/STUDIO portfolio website. The implementation is broken down into six iterations, each with small, manageable steps that build on previous work.
+This blueprint outlines a systematic approach to improve test coverage and quality for the FoxLabs//Creative portfolio website. The implementation is broken down into six iterations, each with small, manageable steps that build on previous work.
 
 The current coverage metrics (statements: 41.78%, branches: 17.87%, functions: 23.15%, lines: 47.12%) indicate significant gaps that need to be addressed systematically. This plan prioritizes:
 
@@ -772,6 +772,6 @@ Update package.json scripts to include:
 The script should be well-documented with help text and examples.
 ```
 
-This implementation blueprint provides a systematic, iterative approach to implementing a comprehensive testing strategy for the RAW/STUDIO portfolio website. Each step builds on previous work, ensuring continuous progress toward the coverage goals of 80% for statements, branches, functions, and lines.
+This implementation blueprint provides a systematic, iterative approach to implementing a comprehensive testing strategy for the FoxLabs//Creative portfolio website. Each step builds on previous work, ensuring continuous progress toward the coverage goals of 80% for statements, branches, functions, and lines.
 
 The approach prioritizes testing core components first, then progressively adds integration and end-to-end tests to verify complete user journeys. The final steps focus on continuous improvement through automated analysis, reporting, and test maintenance.

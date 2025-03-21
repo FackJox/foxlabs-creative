@@ -50,7 +50,7 @@ export default function Home() {
       <section className="flex min-h-screen flex-col items-start justify-end p-4 pt-24">
         <div className="mb-8 w-full border-b border-black pb-4">
           <div className="mb-4 flex justify-between">
-            <span className="text-sm uppercase">DESIGN AGENCY</span>
+            <span className="text-sm uppercase">JACK FOXCROFT - CREATIVE TECHNOLOGIST</span>
             <span className="text-sm uppercase">EST. 2020</span>
           </div>
         </div>
@@ -235,7 +235,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div>
             <p className="mb-8 text-xl font-medium md:text-2xl">
-              RAW/STUDIO is a digital design agency founded in 2020. We believe in creating honest, functional, and
+              FoxLabs//Creative is a digital design agency founded in 2020. We believe in creating honest, functional, and
               impactful digital experiences that cut through the noise.
             </p>
             <p className="mb-8 text-xl font-medium md:text-2xl">

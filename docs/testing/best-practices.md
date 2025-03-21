@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Testing Best Practices
+# FoxLabs//Creative Portfolio Website - Testing Best Practices
 
-This document outlines the testing approach, best practices, and common issues for the RAW/STUDIO portfolio website.
+This document outlines the testing approach, best practices, and common issues for the FoxLabs//Creative portfolio website.
 
 ## 1. Testing Structure
 

@@ -28,7 +28,7 @@ export default function ContactSection({ setCursorText }: ContactSectionProps) {
             conversation.
           </motion.p>
           <div className="mb-8">
-            <p className="mb-2 text-xl font-bold">hello@rawstudio.design</p>
+            <p className="mb-2 text-xl font-bold">hello@foxlabscreative.design</p>
             <p className="text-xl font-bold">+1 (555) 123-4567</p>
           </div>
           <div className="flex flex-wrap gap-4">

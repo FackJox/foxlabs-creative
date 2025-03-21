@@ -1,4 +1,4 @@
-# RAW/STUDIO Portfolio Website - Test Status and Next Steps
+# FoxLabs//Creative Portfolio Website - Test Status and Next Steps
 
 ## Recent Updates
 

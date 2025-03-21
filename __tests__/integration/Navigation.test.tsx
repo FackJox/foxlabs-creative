@@ -126,7 +126,7 @@ function AppWithNavigation() {
       <main data-testid="page-content">
         {activeRoute === '/' && (
           <div data-testid="home-page">
-            <h1>RAW/STUDIO</h1>
+            <h1>FoxLabs//Creative</h1>
             <p>Welcome to our portfolio</p>
             
             <div data-testid="featured-projects">

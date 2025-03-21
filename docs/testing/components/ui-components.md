@@ -1,6 +1,6 @@
 # UI Components Testing Documentation
 
-This document provides detailed information on the testing strategy and implementation for UI components in the RAW/STUDIO portfolio website.
+This document provides detailed information on the testing strategy and implementation for UI components in the FoxLabs//Creative portfolio website.
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@ This document provides detailed information on the testing strategy and implemen
 
 ## Introduction
 
-UI components form the foundation of the RAW/STUDIO portfolio website's interface. These components are designed to be reusable, accessible, and consistent with the brutalist design aesthetic. Testing these components thoroughly ensures that they behave as expected across different states and user interactions.
+UI components form the foundation of the FoxLabs//Creative portfolio website's interface. These components are designed to be reusable, accessible, and consistent with the brutalist design aesthetic. Testing these components thoroughly ensures that they behave as expected across different states and user interactions.
 
 ## Button Component
 

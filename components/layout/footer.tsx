@@ -11,10 +11,10 @@ export default function Footer() {
     <footer className="mt-24 border-t border-black p-4">
       <div className="flex flex-col justify-between gap-4 md:flex-row">
         <div className="flex flex-col gap-4">
-          <div className="text-xl font-bold uppercase tracking-tighter">RAW/STUDIO</div>
+          <div className="text-xl font-bold uppercase tracking-tighter">FoxLabs//Creative</div>
           <div className="flex gap-4">
             <Link 
-              href="https://instagram.com/rawstudio" 
+              href="https://instagram.com/foxlabscreative" 
               aria-label="Instagram"
               onMouseEnter={() => setCursorText('VISIT')}
               onMouseLeave={() => setCursorText('')}
@@ -24,7 +24,7 @@ export default function Footer() {
               <Instagram className="h-5 w-5" />
             </Link>
             <Link 
-              href="https://twitter.com/rawstudio" 
+              href="https://twitter.com/foxlabscreative" 
               aria-label="Twitter"
               onMouseEnter={() => setCursorText('VISIT')}
               onMouseLeave={() => setCursorText('')}
@@ -34,7 +34,7 @@ export default function Footer() {
               <Twitter className="h-5 w-5" />
             </Link>
             <Link 
-              href="https://linkedin.com/company/rawstudio" 
+              href="https://linkedin.com/company/foxlabscreative" 
               aria-label="LinkedIn"
               onMouseEnter={() => setCursorText('VISIT')}
               onMouseLeave={() => setCursorText('')}
@@ -44,7 +44,7 @@ export default function Footer() {
               <Linkedin className="h-5 w-5" />
             </Link>
             <Link 
-              href="https://github.com/rawstudio" 
+              href="https://github.com/foxlabscreative" 
               aria-label="GitHub"
               onMouseEnter={() => setCursorText('VISIT')}
               onMouseLeave={() => setCursorText('')}
@@ -56,7 +56,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <div className="text-sm">© {new Date().getFullYear()} RAW/STUDIO. ALL RIGHTS RESERVED.</div>
+          <div className="text-sm">© {new Date().getFullYear()} FoxLabs//Creative. ALL RIGHTS RESERVED.</div>
           <div className="flex gap-4 text-sm">
             <Link 
               href="/privacy-policy"

@@ -1,6 +1,6 @@
 # Project End-to-End Tests
 
-This document provides detailed information about the end-to-end tests for project-related features in the RAW/STUDIO portfolio website.
+This document provides detailed information about the end-to-end tests for project-related features in the FoxLabs//Creative portfolio website.
 
 ## Overview
 

@@ -1,6 +1,6 @@
-# RAW/STUDIO Portfolio Website - Data Flow Integration Tests
+# FoxLabs//Creative Portfolio Website - Data Flow Integration Tests
 
-This document outlines the integration tests specifically focused on data flow and state management within the RAW/STUDIO portfolio website. These tests verify that data is correctly passed between components and that state is managed properly across the application.
+This document outlines the integration tests specifically focused on data flow and state management within the FoxLabs//Creative portfolio website. These tests verify that data is correctly passed between components and that state is managed properly across the application.
 
 ## 1. Purpose
 

@@ -44,7 +44,7 @@ describe('Header Component', () => {
       customRender(<Header setCursorText={mockSetCursorText} />);
       
       // Check logo
-      const logo = screen.getByText('RAW/STUDIO');
+      const logo = screen.getByText('FoxLabs//Creative');
       expect(logo).toBeInTheDocument();
       expect(logo.tagName).toBe('A');
       expect(logo).toHaveAttribute('href', '/');
@@ -65,7 +65,7 @@ describe('Header Component', () => {
       expect(nav).toHaveClass('z-40');
 
       // Logo has correct styling
-      const logo = screen.getByText('RAW/STUDIO');
+      const logo = screen.getByText('FoxLabs//Creative');
       expect(logo).toHaveClass('text-xl');
       expect(logo).toHaveClass('font-bold');
       expect(logo).toHaveClass('uppercase');
@@ -77,7 +77,7 @@ describe('Header Component', () => {
       const user = setupUserEvent();
       customRender(<Header setCursorText={mockSetCursorText} />);
       
-      const logo = screen.getByText('RAW/STUDIO');
+      const logo = screen.getByText('FoxLabs//Creative');
       
       // Mouse enter
       await user.hover(logo);
@@ -231,7 +231,7 @@ describe('Header Component', () => {
       
       // Check for contact information
       expect(screen.getByText('Contact')).toBeInTheDocument();
-      expect(screen.getByText('hello@rawstudio.design')).toBeInTheDocument();
+      expect(screen.getByText('hello@foxlabscreative.design')).toBeInTheDocument();
       expect(screen.getByText('+1 (555) 123-4567')).toBeInTheDocument();
       
       // Check for social links
@@ -243,7 +243,7 @@ describe('Header Component', () => {
       
       // Check for copyright information
       const currentYear = new Date().getFullYear();
-      expect(screen.getByText(`© ${currentYear} RAW/STUDIO. ALL RIGHTS RESERVED.`)).toBeInTheDocument();
+      expect(screen.getByText(`© ${currentYear} FoxLabs//Creative. ALL RIGHTS RESERVED.`)).toBeInTheDocument();
     });
   });
 
@@ -260,7 +260,7 @@ describe('Header Component', () => {
         expect(nav).toHaveClass('p-4');
         
         // Logo should still be visible
-        expect(screen.getByText('RAW/STUDIO')).toBeInTheDocument();
+        expect(screen.getByText('FoxLabs//Creative')).toBeInTheDocument();
         
         // Menu button should be visible
         expect(screen.getByRole('button')).toBeInTheDocument();
@@ -336,7 +336,7 @@ describe('Header Component', () => {
       expect(nav).toBeInTheDocument();
       
       // Check that logo is a link
-      const logo = screen.getByText('RAW/STUDIO');
+      const logo = screen.getByText('FoxLabs//Creative');
       expect(logo.tagName).toBe('A');
       
       // Check that menu button has proper role

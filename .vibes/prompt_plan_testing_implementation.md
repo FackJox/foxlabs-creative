@@ -1,7 +1,7 @@
 
-# RAW/STUDIO Portfolio Website Testing Blueprint
+# FoxLabs//Creative Portfolio Website Testing Blueprint
 
-This document outlines a comprehensive testing strategy for the RAW/STUDIO portfolio website, breaking it down into incremental steps with corresponding prompts for implementation.
+This document outlines a comprehensive testing strategy for the FoxLabs//Creative portfolio website, breaking it down into incremental steps with corresponding prompts for implementation.
 
 ## Overall Testing Architecture
 
@@ -21,7 +21,7 @@ The testing strategy will use:
 #### Step 1: Basic Jest and React Testing Library Setup
 
 ```
-Create the initial testing infrastructure for the RAW/STUDIO portfolio website. Set up Jest with React Testing Library for a Next.js TypeScript project. This should include:
+Create the initial testing infrastructure for the FoxLabs//Creative portfolio website. Set up Jest with React Testing Library for a Next.js TypeScript project. This should include:
 
 1. Install necessary dependencies (jest, @testing-library/react, @testing-library/jest-dom, jest-environment-jsdom)
 2. Create jest.config.js file configured for Next.js/TypeScript
@@ -36,7 +36,7 @@ Make sure the configuration supports TypeScript, CSS/SCSS modules, and handles N
 #### Step 2: MSW Setup for API Mocking
 
 ```
-Set up Mock Service Worker (MSW) to mock API responses for testing. For the RAW/STUDIO portfolio website, this will allow us to simulate data fetching without making actual API calls during tests.
+Set up Mock Service Worker (MSW) to mock API responses for testing. For the FoxLabs//Creative portfolio website, this will allow us to simulate data fetching without making actual API calls during tests.
 
 1. Install MSW dependencies (msw)
 2. Create a src/mocks directory with a server.ts file
@@ -51,7 +51,7 @@ The goal is to have a working MSW setup that can simulate the behavior of API ca
 #### Step 3: Setup Cypress for E2E Testing
 
 ```
-Set up Cypress for end-to-end testing of the RAW/STUDIO portfolio website. This will allow us to test full user journeys through the application.
+Set up Cypress for end-to-end testing of the FoxLabs//Creative portfolio website. This will allow us to test full user journeys through the application.
 
 1. Install Cypress and required dependencies
 2. Create the initial Cypress configuration with TypeScript support
@@ -67,7 +67,7 @@ Ensure the setup supports testing critical user flows like navigating between pa
 #### Step 4: Configure Testing for Framer Motion and Radix UI
 
 ```
-Set up the testing infrastructure to properly handle Framer Motion animations and Radix UI components. This is essential for the RAW/STUDIO portfolio website that relies heavily on these libraries.
+Set up the testing infrastructure to properly handle Framer Motion animations and Radix UI components. This is essential for the FoxLabs//Creative portfolio website that relies heavily on these libraries.
 
 1. Create test utilities to mock Framer Motion's AnimatePresence and motion components
 2. Set up jest mocks for Framer Motion to prevent animation-related test failures
@@ -82,7 +82,7 @@ Make sure the tests can verify that animations and UI components behave correctl
 #### Step 5: Setup Coverage Reporting and Badges
 
 ```
-Set up comprehensive test coverage reporting for the RAW/STUDIO portfolio website to track progress toward the 80% coverage goal.
+Set up comprehensive test coverage reporting for the FoxLabs//Creative portfolio website to track progress toward the 80% coverage goal.
 
 1. Configure Jest to collect coverage information
 2. Set up coverage thresholds in jest.config.js (aiming for 80% overall)
@@ -100,7 +100,7 @@ The coverage setup should track statement, branch, function, and line coverage s
 #### Step 6: Test Data Utilities
 
 ```
-Create unit tests for the data utility functions in the RAW/STUDIO portfolio website. These functions handle data transformation, filtering, and preparation for display.
+Create unit tests for the data utility functions in the FoxLabs//Creative portfolio website. These functions handle data transformation, filtering, and preparation for display.
 
 1. Create test files for any utility functions that process the project, service, or team data
 2. Write tests for functions that filter projects by category
@@ -115,7 +115,7 @@ Focus on pure functions first, as they're easier to test with simple input/outpu
 #### Step 7: Test Custom Hooks
 
 ```
-Create unit tests for custom React hooks used in the RAW/STUDIO portfolio website. These hooks likely handle state management, animations, cursor behavior, and other reusable logic.
+Create unit tests for custom React hooks used in the FoxLabs//Creative portfolio website. These hooks likely handle state management, animations, cursor behavior, and other reusable logic.
 
 1. Set up the testing-library/react-hooks package or use renderHook from testing-library/react
 2. Create test files for each custom hook in the project
@@ -131,7 +131,7 @@ For the cursor hook specifically, verify it properly updates cursor text on hove
 #### Step 8: Test Common UI Components
 
 ```
-Create unit tests for the common UI components used throughout the RAW/STUDIO portfolio website. Focus on the basic building blocks like buttons, cards, and layout elements.
+Create unit tests for the common UI components used throughout the FoxLabs//Creative portfolio website. Focus on the basic building blocks like buttons, cards, and layout elements.
 
 1. Create test files for basic UI components in the components/ui directory
 2. Test the Button component for correct rendering, click handlers, and accessibility
@@ -151,7 +151,7 @@ Use snapshots sparingly and focus on testing component behavior and accessibilit
 #### Step 9: Test UI Component Interactions
 
 ```
-Create unit tests for interactive UI components in the RAW/STUDIO portfolio website. Focus on components that have state changes or complex user interactions.
+Create unit tests for interactive UI components in the FoxLabs//Creative portfolio website. Focus on components that have state changes or complex user interactions.
 
 1. Create test files for interactive components like:
    - Navigation menus
@@ -177,7 +177,7 @@ Make sure to test both mouse and keyboard interactions to ensure accessibility c
 #### Step 10: Test Project Components
 
 ```
-Create unit tests for the project-related components in the RAW/STUDIO portfolio website. These components are responsible for displaying project information, galleries, and details.
+Create unit tests for the project-related components in the FoxLabs//Creative portfolio website. These components are responsible for displaying project information, galleries, and details.
 
 1. Create test files for components that display projects:
    - ProjectCard
@@ -200,7 +200,7 @@ Use the mock project data created earlier to avoid test dependency on actual dat
 #### Step 11: Test Service Components
 
 ```
-Create unit tests for the service-related components in the RAW/STUDIO portfolio website. These components display information about services offered by the studio.
+Create unit tests for the service-related components in the FoxLabs//Creative portfolio website. These components display information about services offered by the studio.
 
 1. Create test files for components that display services:
    - ServiceCard
@@ -224,7 +224,7 @@ Make sure to test both the visual display and any interactive elements within se
 #### Step 12: Test Team Components
 
 ```
-Create unit tests for the team-related components in the RAW/STUDIO portfolio website. These components display information about team members.
+Create unit tests for the team-related components in the FoxLabs//Creative portfolio website. These components display information about team members.
 
 1. Create test files for components that display team information:
    - TeamMemberCard
@@ -246,7 +246,7 @@ Ensure the components correctly display all team member information and handle i
 #### Step 13: Test Layout and Navigation Components
 
 ```
-Create unit tests for the layout and navigation components in the RAW/STUDIO portfolio website. These components provide the structure and navigation for the entire site.
+Create unit tests for the layout and navigation components in the FoxLabs//Creative portfolio website. These components provide the structure and navigation for the entire site.
 
 1. Create test files for layout components:
    - Header
@@ -270,7 +270,7 @@ Make sure to test both desktop and mobile navigation patterns, including any ham
 #### Step 14: Test Page Components
 
 ```
-Create integration tests for the page components in the RAW/STUDIO portfolio website. These tests will verify that the pages correctly integrate multiple components and display data.
+Create integration tests for the page components in the FoxLabs//Creative portfolio website. These tests will verify that the pages correctly integrate multiple components and display data.
 
 1. Create test files for each main page component:
    - HomePage
@@ -296,7 +296,7 @@ These tests should verify that components work together correctly within the con
 #### Step 15: Test Data Flow and State Management
 
 ```
-Create integration tests that verify the data flow and state management in the RAW/STUDIO portfolio website. These tests will ensure that data is correctly passed between components and that state is managed properly.
+Create integration tests that verify the data flow and state management in the FoxLabs//Creative portfolio website. These tests will ensure that data is correctly passed between components and that state is managed properly.
 
 1. Create test files for component hierarchies that share state:
    - Project filters and project display
@@ -315,7 +315,7 @@ These tests should focus on how components communicate and share data rather tha
 #### Step 16: Test Animations and Transitions
 
 ```
-Create integration tests for animations and transitions in the RAW/STUDIO portfolio website. These tests will verify that Framer Motion animations work correctly in component interactions.
+Create integration tests for animations and transitions in the FoxLabs//Creative portfolio website. These tests will verify that Framer Motion animations work correctly in component interactions.
 
 1. Create test files for components with significant animations:
    - Page transitions
@@ -335,7 +335,7 @@ Use the animation testing utilities created earlier to verify animation states a
 #### Step 17: Test Custom Cursor Integration
 
 ```
-Create integration tests specifically for the custom cursor functionality in the RAW/STUDIO portfolio website. This is a key feature mentioned in the spec.
+Create integration tests specifically for the custom cursor functionality in the FoxLabs//Creative portfolio website. This is a key feature mentioned in the spec.
 
 1. Create a test file for the custom cursor behavior across components
 2. Test that the cursor text changes on hover of interactive elements
@@ -354,7 +354,7 @@ These tests should ensure the custom cursor provides consistent feedback across 
 #### Step 18: Basic Navigation E2E Tests
 
 ```
-Create basic end-to-end tests using Cypress to verify navigation flows in the RAW/STUDIO portfolio website. These tests will simulate real user journeys through the site.
+Create basic end-to-end tests using Cypress to verify navigation flows in the FoxLabs//Creative portfolio website. These tests will simulate real user journeys through the site.
 
 1. Create Cypress test files for basic navigation:
    - Home page load and verification
@@ -375,7 +375,7 @@ These tests should confirm that users can navigate through the entire site witho
 #### Step 19: Project Interaction E2E Tests
 
 ```
-Create end-to-end tests using Cypress to verify project-related user flows in the RAW/STUDIO portfolio website. These tests will simulate users browsing and interacting with projects.
+Create end-to-end tests using Cypress to verify project-related user flows in the FoxLabs//Creative portfolio website. These tests will simulate users browsing and interacting with projects.
 
 1. Create Cypress test files for project interactions:
    - Browsing the project list
@@ -396,7 +396,7 @@ These tests should verify the primary user journey of exploring projects works c
 #### Step 20: Service and Team E2E Tests
 
 ```
-Create end-to-end tests using Cypress to verify service and team-related user flows in the RAW/STUDIO portfolio website. These tests will simulate users exploring services and team information.
+Create end-to-end tests using Cypress to verify service and team-related user flows in the FoxLabs//Creative portfolio website. These tests will simulate users exploring services and team information.
 
 1. Create Cypress test files for service and team interactions:
    - Browsing services list
@@ -418,7 +418,7 @@ These tests should verify that users can learn about services and team members w
 #### Step 21: Form Submission and Contact E2E Tests
 
 ```
-Create end-to-end tests using Cypress to verify form submission and contact functionality in the RAW/STUDIO portfolio website. These tests will simulate users contacting the studio.
+Create end-to-end tests using Cypress to verify form submission and contact functionality in the FoxLabs//Creative portfolio website. These tests will simulate users contacting the studio.
 
 1. Create Cypress test files for contact functionality:
    - Navigating to contact forms
@@ -440,7 +440,7 @@ Mock the actual form submission API to avoid sending test data to real endpoints
 #### Step 22: Accessibility and Performance E2E Tests
 
 ```
-Create end-to-end tests using Cypress to verify accessibility and performance aspects of the RAW/STUDIO portfolio website. These tests will ensure the site is accessible to all users and performs well.
+Create end-to-end tests using Cypress to verify accessibility and performance aspects of the FoxLabs//Creative portfolio website. These tests will ensure the site is accessible to all users and performs well.
 
 1. Install and configure Cypress accessibility testing plugins (cypress-axe)
 2. Create Cypress test files for accessibility:
@@ -465,7 +465,7 @@ These tests should verify that the site meets WCAG 2.1 AA standards and performs
 #### Step 23: Test Coverage Analysis and Gap Filling
 
 ```
-Analyze the current test coverage of the RAW/STUDIO portfolio website and create targeted tests to fill any gaps. This step aims to reach the 80% coverage goal.
+Analyze the current test coverage of the FoxLabs//Creative portfolio website and create targeted tests to fill any gaps. This step aims to reach the 80% coverage goal.
 
 1. Run a full coverage report combining all existing tests
 2. Identify components, functions, or code paths with low coverage
@@ -482,7 +482,7 @@ The goal is to systematically identify and address coverage gaps to reach at lea
 #### Step 24: Test Maintenance and Documentation
 
 ```
-Create documentation and maintenance procedures for the RAW/STUDIO portfolio website test suite. This ensures the tests remain valuable as the codebase evolves.
+Create documentation and maintenance procedures for the FoxLabs//Creative portfolio website test suite. This ensures the tests remain valuable as the codebase evolves.
 
 1. Create a TESTING.md file documenting:
    - Testing architecture and tools
@@ -503,7 +503,7 @@ Good documentation ensures that other developers can maintain and extend the tes
 #### Step 25: CI/CD Integration and Automation
 
 ```
-Set up continuous integration and delivery processes for the RAW/STUDIO portfolio website tests. This ensures tests are run automatically and consistently.
+Set up continuous integration and delivery processes for the FoxLabs//Creative portfolio website tests. This ensures tests are run automatically and consistently.
 
 1. Create or update GitHub Actions workflows (or similar CI system) to:
    - Run unit and integration tests on every pull request

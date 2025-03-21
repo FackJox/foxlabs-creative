@@ -1,10 +1,10 @@
-# RAW/STUDIO Portfolio Website - Integration Testing
+# FoxLabs//Creative Portfolio Website - Integration Testing
 
-This document outlines the approach to integration testing for the RAW/STUDIO portfolio website, focusing on page components and how they work together with their child components.
+This document outlines the approach to integration testing for the FoxLabs//Creative portfolio website, focusing on page components and how they work together with their child components.
 
 ## 1. Integration Testing Approach
 
-Integration tests in the RAW/STUDIO portfolio website verify that multiple components interact correctly in a page context. These tests ensure that:
+Integration tests in the FoxLabs//Creative portfolio website verify that multiple components interact correctly in a page context. These tests ensure that:
 
 - Page components correctly render all their child components
 - Data flows properly between parent and child components

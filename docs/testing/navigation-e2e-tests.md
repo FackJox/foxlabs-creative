@@ -1,6 +1,6 @@
 # Navigation End-to-End Tests
 
-This document provides an overview of the end-to-end tests implemented for navigation flows in the RAW/STUDIO portfolio website. These tests ensure that users can navigate through the site without errors.
+This document provides an overview of the end-to-end tests implemented for navigation flows in the FoxLabs//Creative portfolio website. These tests ensure that users can navigate through the site without errors.
 
 ## Test Coverage
 

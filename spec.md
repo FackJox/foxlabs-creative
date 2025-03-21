@@ -16,20 +16,20 @@
 </CONTEMPLATOR>
 
 <FINAL_ANSWER>
-## Developer-Ready Specification: RAW/STUDIO Portfolio Website
+## Developer-Ready Specification: FoxLabs//Creative Portfolio Website
 
-This document provides a developer-ready specification for the RAW/STUDIO portfolio website, based on the provided code snippets from `lib/data.ts` and `lib/types.ts`. This specification outlines the project's purpose, data models, inferred architecture, component structure, data flow, and provides how-to guides for data management.
+This document provides a developer-ready specification for the FoxLabs//Creative portfolio website, based on the provided code snippets from `lib/data.ts` and `lib/types.ts`. This specification outlines the project's purpose, data models, inferred architecture, component structure, data flow, and provides how-to guides for data management.
 
 ### 1. Project Overview
 
-**Purpose:** The RAW/STUDIO portfolio website is designed to showcase the agency's projects and services. It aims to present a brutalist design aesthetic, reflecting the agency's style, while providing a user-friendly experience for potential clients.
+**Purpose:** The FoxLabs//Creative portfolio website is designed to showcase the agency's projects and services. It aims to present a brutalist design aesthetic, reflecting the agency's style, while providing a user-friendly experience for potential clients.
 
 **Key Features (Inferred):**
 
-*   **Project Showcase:** Display a curated collection of RAW/STUDIO's projects, categorized and filterable. Each project includes detailed information, images, and potentially case studies.
-*   **Service Descriptions:** Outline the services offered by RAW/STUDIO, detailing their benefits, processes, and showcasing relevant case studies.
+*   **Project Showcase:** Display a curated collection of FoxLabs//Creative's projects, categorized and filterable. Each project includes detailed information, images, and potentially case studies.
+*   **Service Descriptions:** Outline the services offered by FoxLabs//Creative, detailing their benefits, processes, and showcasing relevant case studies.
 *   **Team Member Profiles:** (Partially Inferred - based on `TeamMember` type import) Introduce the team members, highlighting their roles and expertise.
-*   **Contact Information:** Provide a way for potential clients to contact RAW/STUDIO.
+*   **Contact Information:** Provide a way for potential clients to contact FoxLabs//Creative.
 *   **Brutalist Design Aesthetic:**  The website's design emphasizes brutalist principles, likely using raw typography, grid-based layouts, and a stark color palette, as suggested by the project descriptions in the data.
 
 ### 2. Data Models
@@ -108,7 +108,7 @@ interface Service {
 }
 ```
 
-**Description:** Represents a service offered by RAW/STUDIO.
+**Description:** Represents a service offered by FoxLabs//Creative.
 
 **Fields:**
 
@@ -168,7 +168,7 @@ interface TeamMember {
 }
 ```
 
-**Description:** Represents a team member at RAW/STUDIO.  The full definition is not provided in the snippets, but it's imported in `lib/data.ts`, implying its existence.
+**Description:** Represents a team member at FoxLabs//Creative.  The full definition is not provided in the snippets, but it's imported in `lib/data.ts`, implying its existence.
 
 **Fields (Inferred):**
 

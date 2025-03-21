@@ -1,6 +1,6 @@
 # Testing Utilities for Framer Motion and Radix UI
 
-This directory contains testing utilities specifically designed to help test components that use Framer Motion animations and Radix UI components in the RAW/STUDIO portfolio website.
+This directory contains testing utilities specifically designed to help test components that use Framer Motion animations and Radix UI components in the FoxLabs//Creative portfolio website.
 
 ## Quick Start
 
