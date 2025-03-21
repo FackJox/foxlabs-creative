@@ -27,15 +27,31 @@
 //
 // Custom command to check if custom cursor is visible
 Cypress.Commands.add('checkCustomCursor', () => {
-  cy.get('[data-cursor]').should('exist');
+  cy.get('[data-testid="cursor"]').should('exist');
 });
 
-// Custom command to interact with elements that have custom cursor behavior
-Cypress.Commands.add('hoverWithCustomCursor', { prevSubject: 'element' }, (subject) => {
+// Custom command to set cursor text
+Cypress.Commands.add('setCursorText', (text: string) => {
+  cy.window().then((win) => {
+    win.document.body.setAttribute('data-cursor-text', text);
+  });
+});
+
+// Custom command to check cursor text
+Cypress.Commands.add('checkCursorText', (text: string) => {
+  cy.window().then((win) => {
+    expect(win.document.body.getAttribute('data-cursor-text')).to.equal(text);
+  });
+});
+
+// Custom command to hover over element and check cursor text
+Cypress.Commands.add('hoverAndCheckCursor', { prevSubject: 'element' }, (subject, text: string) => {
   cy.wrap(subject).trigger('mouseenter');
-  // Check if cursor text has been updated
-  cy.get('[data-cursor-text]').should('exist');
-  return cy.wrap(subject);
+  cy.checkCursorText(text);
+  cy.wrap(subject).trigger('mouseleave');
+  cy.window().then((win) => {
+    expect(win.document.body.hasAttribute('data-cursor-text')).to.be.false;
+  });
 });
 
 // Custom command to navigate and wait for page load
@@ -65,13 +81,16 @@ Cypress.Commands.add('checkNavigationMenu', () => {
   cy.contains('a', /work|projects/i).trigger('mouseleave');
 });
 
+// Extend Cypress interface
 declare global {
   namespace Cypress {
     interface Chainable {
-      checkCustomCursor(): Chainable<void>;
-      hoverWithCustomCursor(): Chainable<Element>;
-      navigateAndWait(path: string): Chainable<void>;
-      checkNavigationMenu(): Chainable<void>;
+      checkCustomCursor(): Chainable<void>
+      setCursorText(text: string): Chainable<void>
+      checkCursorText(text: string): Chainable<void>
+      hoverAndCheckCursor(text: string): Chainable<void>
+      navigateAndWait(path: string): Chainable<void>
+      checkNavigationMenu(): Chainable<void>
     }
   }
 }

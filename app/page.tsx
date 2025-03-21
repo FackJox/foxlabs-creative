@@ -12,23 +12,12 @@ import { ContactSection } from "@/components/sections"
 import { ProjectDetail } from "@/components/core"
 import { cn } from "@/lib/utils"
 import { projects, services } from "@/lib/data"
+import CustomCursor from "@/components/effects/custom-cursor"
+import { useCursor } from "@/hooks/use-cursor"
 
 export default function Home() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [cursorText, setCursorText] = useState("")
+  const { setCursorText } = useCursor()
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
-  const cursorRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-    }
-  }, [])
 
   useEffect(() => {
     // Disable body scroll when a project is selected
@@ -53,20 +42,7 @@ export default function Home() {
 
   return (
     <main className="relative bg-white text-black selection:bg-black selection:text-white">
-      {/* Custom cursor */}
-      <div
-        ref={cursorRef}
-        className={cn(
-          "pointer-events-none fixed z-50 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-xs font-bold text-white opacity-0 transition-opacity duration-300",
-          cursorText && "opacity-100",
-        )}
-        style={{
-          left: `${cursorPosition.x}px`,
-          top: `${cursorPosition.y}px`,
-        }}
-      >
-        {cursorText}
-      </div>
+      <CustomCursor />
 
       <Header setCursorText={setCursorText} />
 

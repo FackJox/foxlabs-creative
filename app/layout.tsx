@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Space_Mono } from "next/font/google"
+import { Providers } from "./providers"
 
 import "./globals.css"
 
@@ -23,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={spaceMono.variable}>
-      <body className="font-mono antialiased">{children}</body>
+      <body className="font-mono antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

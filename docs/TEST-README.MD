@@ -161,3 +161,62 @@ The `act()` function is crucial for:
 - Creating tests that accurately simulate how React handles asynchronous state changes
 
 State updates are wrapped in `
+
+# Custom Cursor Testing Documentation
+
+This document outlines the testing procedures for the custom cursor implementation in the RAW/STUDIO portfolio website.
+
+## Overview
+
+The custom cursor is a key UI element of the portfolio website, providing visual feedback when hovering over interactive elements like buttons and links. The cursor consists of three parts:
+
+1. Main cursor - A circular overlay that displays context-specific text (like "VIEW", "CONTACT", etc.)
+2. Cursor trail - A small dot that follows the mouse cursor
+3. Cursor dots - Multiple small dots that create an animated effect around the cursor
+
+## Implementation Details
+
+The cursor implementation is split into several components:
+
+- `CustomCursor` component - The visual representation of the cursor
+- `useCursor` hook - Manages cursor state (position and text)
+- `CursorProvider` - Context provider that makes cursor state available throughout the app
+
+## Testing Approach
+
+We have implemented multiple test levels for the cursor functionality:
+
+1. **Unit Tests**: Testing the `CustomCursor` component and `useCursor` hook in isolation
+2. **Integration Tests**: Testing cursor interaction with UI components
+3. **End-to-End Tests**: Cypress tests for cursor visibility and behavior
+
+## Bug Fixes
+
+### Fixed Issues
+
+1. **Cursor Visibility Bug**: The cursor trail and dots were not visible unless hovering over elements with `setCursorText`. 
+   - Root cause: The cursor dot and trail visibility were tied to the cursor text state
+   - Solution: Made cursor trail and dots always visible
+
+2. **Test Visibility**: Added proper data attributes to ensure cursor components can be targeted in tests
+   - Added `data-testid` attributes to all cursor components
+   - Updated Cypress commands to use data-testid selectors
+
+## Running Tests
+
+### Unit Tests
+
+```bash
+npm test -- __tests__/components/cursor/CustomCursor.test.tsx
+npm test -- __tests__/components/cursor/CursorInteraction.test.tsx
+```
+
+### Cypress Tests
+
+```bash
+npx cypress run --spec "cypress/e2e/cursor-visibility.cy.ts"
+```
+
+## Test Output
+
+The CustomCursor component's cursor trail and dots should always be visible, while the main cursor should only be visible when hovering over interactive elements with `setCursorText` implementations.

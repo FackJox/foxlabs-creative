@@ -18,7 +18,17 @@ const CursorContext = createContext<CursorContextType>({
 
 export function CursorProvider({ children }: { children: React.ReactNode }) {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [cursorText, setCursorText] = useState("")
+  const [cursorText, setCursorTextState] = useState("")
+
+  // Enhanced setCursorText that also updates data attribute on body
+  const setCursorText = (text: string) => {
+    setCursorTextState(text)
+    if (text) {
+      document.body.setAttribute('data-cursor-text', text)
+    } else {
+      document.body.removeAttribute('data-cursor-text')
+    }
+  }
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

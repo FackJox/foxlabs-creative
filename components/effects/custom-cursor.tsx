@@ -31,6 +31,9 @@ export default function CustomCursor() {
           left: `${cursorPosition.x}px`,
           top: `${cursorPosition.y}px`,
         }}
+        data-cursor
+        data-testid="cursor"
+        data-state={cursorText ? "active" : "inactive"}
       >
         {cursorText}
       </div>
@@ -42,6 +45,8 @@ export default function CustomCursor() {
           left: `${cursorPosition.x}px`,
           top: `${cursorPosition.y}px`,
         }}
+        data-cursor-trail
+        data-testid="cursor-trail"
       />
 
       {/* Cursor dots */}
@@ -65,6 +70,8 @@ export default function CustomCursor() {
             repeatType: "reverse",
             delay: i * 0.2,
           }}
+          data-cursor-dot
+          data-testid="cursor-dot"
         />
       ))}
     </>
