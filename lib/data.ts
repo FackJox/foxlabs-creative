@@ -242,7 +242,7 @@ export const projects: Project[] = [
 
 export const services: Service[] = [
   {
-    title: "WEB DESIGN",
+    title: "TECHNOLOGY-DRIVEN INNOVATION",
     description:
       "We create bold, functional websites that challenge conventions while delivering exceptional user experiences. Our approach strips away unnecessary elements to focus on what truly matters.",
     benefits: [
@@ -286,7 +286,7 @@ export const services: Service[] = [
     },
   },
   {
-    title: "BRANDING",
+    title: "CREATIVE AUTOMATION",
     description:
       "We develop distinctive brand identities that stand out in crowded markets. Our brutalist approach to branding creates memorable, honest visual systems that communicate with clarity and impact.",
     benefits: [
@@ -327,7 +327,7 @@ export const services: Service[] = [
     },
   },
   {
-    title: "UX STRATEGY",
+    title: "CUTTING-EDGE CONSULTING",
     description:
       "We craft user experience strategies that balance bold design choices with intuitive functionality. Our approach focuses on creating meaningful interactions that serve real user needs.",
     benefits: [
@@ -369,7 +369,7 @@ export const services: Service[] = [
     },
   },
   {
-    title: "DEVELOPMENT",
+    title: "AUTOMATION & EFFICIENCIES",
     description:
       "We build robust, performant digital products using cutting-edge technologies. Our development approach emphasizes clean code, accessibility, and scalable architecture.",
     benefits: [
@@ -410,7 +410,7 @@ export const services: Service[] = [
     },
   },
   {
-    title: "MOTION DESIGN",
+    title: "ENHANCE CREATIVITY",
     description:
       "We create dynamic motion design that adds depth and dimension to digital experiences. Our animations and transitions enhance storytelling while maintaining our brutalist aesthetic.",
     benefits: [
@@ -451,7 +451,7 @@ export const services: Service[] = [
     },
   },
   {
-    title: "DIGITAL MARKETING",
+    title: "CONTENT CREATION",
     description:
       "We develop strategic digital marketing campaigns that cut through the noise. Our approach focuses on authentic messaging and bold creative that drives meaningful engagement.",
     benefits: [

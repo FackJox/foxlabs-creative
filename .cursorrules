@@ -2,7 +2,7 @@
 # FoxLabs//Creative Portfolio Website - .cursorrules (Updated)
 
 ## Agent Behaviour
-1. Read @spec.md and @docs/ first to understand the portfolio website's specifications, data models, and component structure
+1. Read @spec.md and @payload_spec.md and @docs/ first to understand the portfolio website's specifications, data models, api and component structure
 2. ALWAYS start each response with "vibes"
 3. Refer to me as Jack
 4. I am using fish shell, ensure all terminal commands are compatible with fish

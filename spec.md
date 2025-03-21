@@ -1,21 +1,4 @@
-<CONTEMPLATOR>
-- Okay, let's break down this request. The user wants a developer-ready specification based on the provided code snippets. This is essentially asking me to act like a business analyst or technical writer who's been given a small piece of a codebase and needs to extrapolate a full picture for developers.
-- The user has provided two TypeScript files: `lib/data.ts` and `lib/types.ts`.  `lib/data.ts` seems to contain the actual data for the application, while `lib/types.ts` defines the data structures. This is good, it gives us a clear starting point.
-- I need to analyze these files in detail. Let's start with `lib/types.ts`. It defines interfaces `Project`, `Service`, and `TeamMember` (though `TeamMember` code is omitted in the provided snippet, but the import suggests it exists).  These interfaces are crucial as they define the data models.
-- Now let's look at `lib/data.ts`. It imports these types and then exports `projects` as an array of `Project` objects.  This file is essentially the data source for the application, at least for projects. It includes example project data with fields like `title`, `category`, `year`, `description`, `gallery`, `client`, `services`, `challenge`, `solution`, `results`, `testimonial`, and `url`.  This is quite comprehensive for a project description.
--  I see similar structures for `Service` in `lib/data.ts`. Services also have titles, descriptions, benefits, process steps, and case studies. This suggests the application is likely showcasing both projects and services offered by the company.
-- The user wants a "developer-ready specification" including architecture, interfaces, data flow, component structure, and how-to guides.  Since I only have data and type definitions, I'll have to infer the architecture and component structure. It's likely a frontend application (possibly React or Next.js given the file paths and TypeScript) that fetches and displays this data.
-- Data flow seems straightforward: data is defined in `lib/data.ts` and presumably consumed by components to render UI.
-- For "how-to guides", I can focus on how to add or modify projects and services, as this is directly related to the provided data.
-- I need to make sure the specification is detailed enough for a developer to start working. This means being explicit about data structures, potential component responsibilities, and the overall inferred architecture.
-- I should also point out what I *don't* know.  For example, I don't see any code for UI components, routing, or data fetching logic.  The specification should highlight these gaps and areas where a developer would need to make decisions or write code.
-- Let's structure the specification with sections like: Project Overview, Data Models, Inferred Architecture, Component Structure (conceptual), Data Flow, How-To Guides (Data Management), and Open Questions/Next Steps.
-- I need to be careful to only infer from the provided code and not make up functionalities or details.  If something is not in the code, I should say it's inferred or unknown.
-- Okay, planning complete. I'm ready to generate the specification, keeping in mind the user's request for detail and developer-readiness, while being honest about the limitations of the provided code snippets.
 
-</CONTEMPLATOR>
-
-<FINAL_ANSWER>
 ## Developer-Ready Specification: FoxLabs//Creative Portfolio Website
 
 This document provides a developer-ready specification for the FoxLabs//Creative portfolio website, based on the provided code snippets from `lib/data.ts` and `lib/types.ts`. This specification outlines the project's purpose, data models, inferred architecture, component structure, data flow, and provides how-to guides for data management.

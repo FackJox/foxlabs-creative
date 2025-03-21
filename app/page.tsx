@@ -60,11 +60,11 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          RAW
+          BREAKING
           <br />
-          BRUTAL
+          CREATIVE
           <br />
-          HONEST
+          BOUNDARIES
         </motion.h1>
         <div className="mb-8 flex w-full flex-col justify-between gap-4 md:flex-row">
           <motion.p
