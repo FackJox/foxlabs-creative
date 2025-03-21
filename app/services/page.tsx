@@ -11,101 +11,38 @@ import { Header, Footer } from "@/components/layout"
 import { ContactSection } from "@/components/sections"
 import { cn } from "@/lib/utils"
 import { services } from "@/lib/data"
+import CustomCursor from "@/components/effects/custom-cursor"
+import { useCursor } from "@/hooks/use-cursor"
 
 export default function ServicesPage() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [cursorText, setCursorText] = useState("")
+  const { setCursorText } = useCursor()
   const [expandedService, setExpandedService] = useState<number | null>(null)
-  const cursorRef = useRef<HTMLDivElement>(null)
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([])
   const searchParams = useSearchParams()
-  const initialRender = useRef(true)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-    }
-  }, [])
-
-  // Handle URL parameter to expand the correct service on page load
-  useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false
-
-      const serviceParam = searchParams.get("service")
-      if (serviceParam !== null) {
-        const serviceIndex = Number.parseInt(serviceParam)
-
-        if (!isNaN(serviceIndex) && serviceIndex >= 0 && serviceIndex < services.length) {
-          // Set the expanded service
-          setExpandedService(serviceIndex)
-
-          // Scroll to the service after a short delay to allow the page to render
-          setTimeout(() => {
-            if (serviceRefs.current[serviceIndex]) {
-              // Scroll to the service with offset for the header
-              const headerHeight = 80 // Approximate header height
-              const serviceTop = serviceRefs.current[serviceIndex]?.getBoundingClientRect().top || 0
-              const offsetPosition = serviceTop + window.pageYOffset - headerHeight
-
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth",
-              })
-            }
-          }, 500) // Delay to ensure the page has rendered
-        }
+    const serviceParam = searchParams.get('service')
+    if (serviceParam) {
+      const serviceIndex = parseInt(serviceParam)
+      if (!isNaN(serviceIndex) && serviceIndex >= 0 && serviceIndex < services.length) {
+        setExpandedService(serviceIndex)
+        setTimeout(() => {
+          if (serviceRefs.current[serviceIndex]) {
+            serviceRefs.current[serviceIndex]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        }, 500)
       }
     }
   }, [searchParams])
 
+  // Accordion toggle function
   const toggleService = (index: number) => {
-    // If clicking the already expanded service, collapse it
-    if (expandedService === index) {
-      setExpandedService(null)
-      return
-    }
-
-    // Otherwise, expand the clicked service
-    setExpandedService(index)
-
-    // Scroll to the expanded service with a slight delay to allow animation to start
-    setTimeout(() => {
-      if (serviceRefs.current[index]) {
-        // Scroll to the service with offset for the header
-        const headerHeight = 80 // Approximate header height
-        const serviceTop = serviceRefs.current[index]?.getBoundingClientRect().top || 0
-        const offsetPosition = serviceTop + window.pageYOffset - headerHeight
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        })
-      }
-    }, 100)
+    setExpandedService(expandedService === index ? null : index)
   }
 
   return (
     <main className="relative bg-white text-black selection:bg-black selection:text-white">
-      {/* Custom cursor */}
-      <div
-        ref={cursorRef}
-        className={cn(
-          "pointer-events-none fixed z-50 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-xs font-bold text-white opacity-0 transition-opacity duration-300",
-          cursorText && "opacity-100",
-        )}
-        style={{
-          left: `${cursorPosition.x}px`,
-          top: `${cursorPosition.y}px`,
-        }}
-      >
-        {cursorText}
-      </div>
+      <CustomCursor />
 
       <Header setCursorText={setCursorText} />
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
@@ -12,27 +12,16 @@ import { ContactSection } from "@/components/sections"
 import { ProjectDetail } from "@/components/core"
 import { cn } from "@/lib/utils"
 import { projects } from "@/lib/data"
+import CustomCursor from "@/components/effects/custom-cursor"
+import { useCursor } from "@/hooks/use-cursor"
 
 export default function WorkPage() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [cursorText, setCursorText] = useState("")
+  const { setCursorText } = useCursor()
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-    }
-  }, [])
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [filteredProjects, setFilteredProjects] = useState(projects)
 
   useEffect(() => {
     // Disable body scroll when a project is selected
@@ -54,39 +43,23 @@ export default function WorkPage() {
   const closeProject = () => {
     setSelectedProject(null)
   }
-  
+
   const filterByCategory = (category: string) => {
-    setSelectedCategory(category === selectedCategory ? null : category)
+    setActiveCategory(category)
+    setFilteredProjects(projects.filter((project) => project.category === category))
   }
-  
+
   const clearFilters = () => {
-    setSelectedCategory(null)
+    setActiveCategory(null)
+    setFilteredProjects(projects)
   }
-  
+
   // Get unique categories for filter buttons
   const categories = [...new Set(projects.map(p => p.category))]
-  
-  // Filter projects based on selected category
-  const filteredProjects = selectedCategory 
-    ? projects.filter(p => p.category === selectedCategory)
-    : projects
 
   return (
-    <main className="relative bg-white text-black selection:bg-black selection:text-white" ref={scrollRef}>
-      {/* Custom cursor */}
-      <div
-        ref={cursorRef}
-        className={cn(
-          "pointer-events-none fixed z-50 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-xs font-bold text-white opacity-0 transition-opacity duration-300",
-          cursorText && "opacity-100",
-        )}
-        style={{
-          left: `${cursorPosition.x}px`,
-          top: `${cursorPosition.y}px`,
-        }}
-      >
-        {cursorText}
-      </div>
+    <main className="relative bg-white text-black selection:bg-black selection:text-white">
+      <CustomCursor />
 
       <Header setCursorText={setCursorText} />
 
@@ -142,7 +115,7 @@ export default function WorkPage() {
               <button
                 key={category}
                 className={`border ${
-                  selectedCategory === category ? 'bg-black text-white' : 'bg-white text-black'
+                  activeCategory === category ? 'bg-black text-white' : 'bg-white text-black'
                 } border-black px-4 py-2 transition-colors hover:bg-black hover:text-white`}
                 onClick={() => filterByCategory(category)}
                 onMouseEnter={() => setCursorText("FILTER")}
@@ -153,7 +126,7 @@ export default function WorkPage() {
                 {category}
               </button>
             ))}
-            {selectedCategory && (
+            {activeCategory && (
               <button
                 className="border border-black bg-white px-4 py-2 text-black transition-colors hover:bg-black hover:text-white"
                 onClick={clearFilters}

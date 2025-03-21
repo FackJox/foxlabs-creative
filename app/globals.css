@@ -69,19 +69,29 @@
 @layer base {
   * {
     @apply border-border;
+    cursor: none !important;
   }
   body {
     @apply bg-background text-foreground;
-    cursor: none;
+    cursor: none !important;
   }
   html {
-    cursor: none;
+    cursor: none !important;
   }
   a,
   button,
   input,
-  textarea {
-    cursor: none;
+  textarea,
+  div,
+  li,
+  span {
+    cursor: none !important;
+  }
+  
+  /* Ensure no element blocks the custom cursor */
+  *::before,
+  *::after {
+    pointer-events: none;
   }
 }
 

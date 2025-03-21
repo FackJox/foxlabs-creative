@@ -115,7 +115,7 @@ export default function Home() {
               onMouseEnter={() => setCursorText("EXPAND")}
               onMouseLeave={() => setCursorText("")}
               whileHover={{ scale: 0.98 }}
-              transition={{ duration: 0.3 }}
+              // transition={{ duration: 0.3 }}
               layoutId={`project-container-${project.id}`}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}

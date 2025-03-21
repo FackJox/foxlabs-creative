@@ -20,7 +20,7 @@ jest.mock('@/hooks/use-cursor', () => {
 });
 
 describe('CustomCursor Component', () => {
-  it('should render cursor trail and dots when cursor text is empty', () => {
+  it('should render cursor small when cursor text is empty', () => {
     render(
       <CursorProvider>
         <CustomCursor />
@@ -28,18 +28,15 @@ describe('CustomCursor Component', () => {
     );
     
     // Main cursor should exist but be invisible when there's no cursor text
-    const mainCursor = document.querySelector('.fixed.z-50.flex.h-20.w-20');
+    const mainCursor = screen.getByTestId('cursor');
     expect(mainCursor).toBeInTheDocument();
+    expect(mainCursor).not.toHaveClass('opacity-100');
     
-    // Check that cursor trail exists
-    const cursorTrail = document.querySelector('.fixed.z-40.h-3.w-3');
-    expect(cursorTrail).toBeInTheDocument();
-    
-    // Check that cursor dots exist (should be 5)
-    const cursorDots = document.querySelectorAll('.fixed.z-40.h-1.w-1');
-    expect(cursorDots.length).toBe(5);
+    // Cursor small should be visible
+    const cursorSmall = screen.getByTestId('cursor-small');
+    expect(cursorSmall).toBeInTheDocument();
   });
-  
+    
   it('should show the main cursor when cursor text is provided', () => {
     // Override the mock to return cursor text
     jest.spyOn(require('@/hooks/use-cursor'), 'useCursor').mockImplementation(() => ({
@@ -55,8 +52,13 @@ describe('CustomCursor Component', () => {
     );
     
     // Main cursor should be visible with opacity-100 class
-    const mainCursor = document.querySelector('.opacity-100');
+    const mainCursor = screen.getByTestId('cursor');
     expect(mainCursor).toBeInTheDocument();
+    expect(mainCursor).toHaveClass('opacity-100');
     expect(mainCursor).toHaveTextContent('VIEW');
+    
+    // Cursor small should still be visible
+    const cursorSmall = screen.getByTestId('cursor-small');
+    expect(cursorSmall).toBeInTheDocument();
   });
 }); 
