@@ -1,396 +1,581 @@
-
 vibes
 
-# Detailed Blueprint for Payload CMS Integration with Next.js
+<CONTEMPLATOR>
+Looking at your request, I need to create a step-by-step blueprint for integrating Payload CMS into your Next.js project, breaking it down into manageable chunks, and then creating prompts for code implementation.
 
-## High-Level Integration Steps
+First, I should understand the structure of your current codebase better to ensure the integration steps align with your existing architecture. Let me examine key files to understand the project structure, data models, and component organization.
 
-1. Initial Payload CMS setup with MongoDB
-2. Media management with Cloudinary
-3. Global settings collection implementation
-4. Pages collection with block-based content
-5. Content block types implementation
-6. Projects collection and components
-7. Services collection and components
-8. Team collection and components
-9. Frontend integration with ISR
-10. Deployment configuration for Vercel
+Based on the specification we've developed and an understanding of how Payload works with Next.js, I'll create a blueprint that covers:
+1. Initial Payload setup and configuration
+2. Database models for pages, projects, services, etc.
+3. Page builder block components
+4. Integration with your existing frontend components
+5. Media handling with Cloudinary
+6. Authentication setup
+7. ISR implementation for content fetching
 
-## Iterative Implementation Plan
+Each chunk should be independently testable and build logically on previous steps.
+</CONTEMPLATOR>
 
-Breaking this down into smaller, carefully sized implementation steps:
+<FINAL_ANSWER>
+# Payload CMS Integration Blueprint
 
-### Phase 1: Foundation Setup
+## High-Level Implementation Plan
 
-1. **Basic Payload Installation**
-   - Install dependencies
-   - Create minimal config file
-   - Set up environment variables
-   - Test admin panel access
+1. Initial Payload CMS setup
+2. Configure database connection
+3. Implement media collection with Cloudinary
+4. Create global settings collection
+5. Implement core content collections (Projects, Services, Team)
+6. Develop page builder block types
+7. Create page collection with blocks field
+8. Implement frontend components to consume CMS data
+9. Set up ISR for dynamic pages
+10. Configure admin authentication
+11. Migrate existing data to CMS
 
-2. **MongoDB Atlas Connection**
-   - Create MongoDB Atlas account
-   - Configure database connection
-   - Implement connection pooling for serverless
-   - Test database connectivity
+## Iterative Implementation Chunks
 
-3. **Cloudinary Integration**
-   - Install Cloudinary plugin
-   - Configure environment variables
-   - Test basic media upload functionality
+### Chunk 1: Basic Payload Setup
+- Install necessary dependencies
+- Create Payload config file
+- Set up environment variables
+- Implement basic Next.js integration
 
-### Phase 2: Core Collections
+### Chunk 2: Database & Media
+- Configure MongoDB connection
+- Set up Cloudinary integration
+- Create Media collection
+- Test media uploads
 
-4. **Media Collection**
-   - Create Media collection schema
-   - Implement Cloudinary storage
-   - Create utility functions for media access
-   - Test media upload and retrieval
+### Chunk 3: Core Collections
+- Implement Global settings collection
+- Create Projects collection
+- Create Services collection
+- Create Team collection
 
-5. **Global Settings Collection**
-   - Create Global collection schema
-   - Add contact info, social links, footer fields
-   - Create utility to access global settings
-   - Test global settings in components
+### Chunk 4: Page Builder Framework
+- Create block field types
+- Implement Hero block
+- Implement base content blocks
+- Create block renderer component
 
-6. **Pages Collection Base**
-   - Create Pages collection with title and slug
-   - Add SEO metadata fields
-   - Set up basic blocks field (empty for now)
-   - Create page fetching utilities
+### Chunk 5: Page Collection & Frontend Integration
+- Create Pages collection with blocks field
+- Implement frontend data fetching
+- Connect CMS data to existing components
+- Set up ISR for pages
 
-### Phase 3: Block System Development
+### Chunk 6: Component Integration
+- Wire up Hero components to CMS
+- Connect Project components to CMS
+- Connect Service components to CMS
+- Connect Team components to CMS
 
-7. **Block Type Framework**
-   - Create TypeScript interfaces for blocks
-   - Set up block discriminator field
-   - Create basic block renderer component
-   - Test with simple block types
+### Chunk 7: Admin & Migration
+- Configure admin authentication
+- Set up admin access controls
+- Migrate existing data from lib/data.ts
+- Final testing and optimization
 
-8. **Hero & Content Blocks**
-   - Implement Hero block schema
-   - Implement Custom Content block schema
-   - Extend block renderer for these types
-   - Test rendering with sample data
+## Detailed Implementation Steps
 
-9. **Project Collection & Block**
-   - Create Projects collection schema
-   - Create Project Showcase block schema
-   - Create migration script for existing projects
-   - Test project data display
+### Chunk 1: Basic Payload Setup
+1. Install Payload CMS and dependencies
+2. Create basic payload.config.ts file
+3. Configure environment variables
+4. Create Payload initialization file
+5. Update Next.js API route for Payload admin
+6. Test basic admin panel access
 
-### Phase 4: Component Integration
+### Chunk 2: Database & Media
+1. Configure MongoDB connection in Payload config
+2. Install Cloudinary plugin for Payload
+3. Configure Cloudinary connection
+4. Create Media collection with Cloudinary fields
+5. Create upload hooks for Cloudinary
+6. Test media uploads and retrieval
 
-10. **Project Components Integration**
-    - Update Project Card to use CMS data
-    - Update Project Grid with dynamic data
-    - Implement ISR for project pages
-    - Test with custom cursor integration
+### Chunk 3: Core Collections
+1. Implement Global settings collection
+2. Create Projects collection with proper fields
+3. Create Services collection with proper fields
+4. Create Team collection with proper fields
+5. Test CRUD operations for each collection
 
-11. **Services Collection & Components**
-    - Create Services collection schema
-    - Create Service Section block schema
-    - Update service components with CMS data
-    - Test service data rendering
+### Chunk 4: Page Builder Framework
+1. Create base block interfaces
+2. Implement Hero block type
+3. Implement Project Showcase block type
+4. Implement Service Section block type
+5. Implement Team Section block type
+6. Implement Contact Section block type
+7. Implement Custom Content block type
+8. Create block renderer utility function
 
-12. **Team & Contact Components**
-    - Create Team collection schema
-    - Create Team Section block schema
-    - Create Contact Section block schema
-    - Test all components with real data
+### Chunk 5: Page Collection & Frontend Integration
+1. Create Pages collection with blocks field
+2. Implement getStaticProps/getStaticPaths with ISR
+3. Create page route component to render blocks
+4. Set up revalidation for ISR
+5. Test content rendering from CMS
 
-### Phase 5: Final Integration & Deployment
+### Chunk 6: Component Integration
+1. Modify Hero component to use CMS data
+2. Update Project components to consume CMS data
+3. Connect Service components to CMS data
+4. Wire Team components to CMS data
+5. Ensure cursor interaction with CMS-driven content
+6. Test all components with CMS data
 
-13. **Frontend Integration Refinement**
-    - Complete block renderer for all block types
-    - Implement error handling and loading states
-    - Ensure custom cursor works with all elements
-    - Test comprehensive page building
-
-14. **Deployment Configuration**
-    - Configure Vercel production environment
-    - Set up production MongoDB database
-    - Implement environment variable management
-    - Test full deployment flow
+### Chunk 7: Admin & Migration
+1. Configure admin user authentication
+2. Create data migration script for existing content
+3. Run migration from lib/data.ts to CMS
+4. Final testing across the site
+5. Performance optimization
 
 ## Code Generation Prompts
 
-Below are the prompts for a code-generation LLM to implement each step in a test-driven manner:
-
-### Prompt 1: Basic Payload Installation
+### Prompt 1: Initial Payload CMS Setup
 
 ```
-Please install and configure Payload CMS in my existing Next.js application with App Router. 
+Create the initial setup for integrating Payload CMS into our Next.js application. We need:
 
-My app is a portfolio site for a design agency with a brutalist aesthetic. Current technology stack includes:
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Framer Motion for animations
-- Vercel deployment
+1. Install the necessary dependencies:
+   - payload
+   - mongodb
+   - cloudinary
+   - @payloadcms/plugin-cloud-storage
+   - Any other dependencies required for Payload in Next.js
 
-Please:
-1. Install required packages
-2. A basic Payload configuration file (payload.config.ts)
-3. Add essential environment variables for .env.local
-4. Add updates needed to next.config.mjs
-5. Implement required changes to make Payload work with Next.js App Router
+2. Create a basic payload.config.ts file with:
+   - Default admin user setup
+   - MongoDB configuration (using environment variables)
+   - Basic server options
 
-The admin panel should be accessible at /admin. Focus on creating a minimal working setup that we can build upon in later steps.
+3. Set up environment variables:
+   - Create a .env.example file with placeholder values
+   - Document required environment variables
+
+4. Create a Payload initialization file in src/lib/payload.ts that:
+   - Initializes Payload for use in the app
+   - Handles serverless environment (for Vercel)
+   - Exports functions to access Payload data
+
+5. Create a Next.js API route at pages/api/[...payload].ts to serve the admin panel
+
+6. Update next.config.js to:
+   - Support Payload's admin panel 
+   - Add any necessary transpilation settings
+
+Ensure all components are properly typed with TypeScript. Use comments to explain what each part does.
 ```
 
-### Prompt 2: MongoDB Atlas Connection
+### Prompt 2: Media Collection with Cloudinary Setup
 
 ```
-Now that we have the basic Payload CMS setup, I need to configure MongoDB Atlas for database storage. My app will be deployed on Vercel's serverless environment, which requires special connection handling.
+Build on our Payload CMS integration by setting up the Media collection with Cloudinary. We need:
 
-Please provide:
-1. Step-by-step guide to create a MongoDB Atlas account and cluster (free tier)
-2. Connection string format and security best practices
-3. Updated payload.config.ts with MongoDB configuration
-4. Connection pooling implementation for serverless environments
-5. Test code to verify the database connection works
+1. Install and configure the Cloudinary plugin for Payload CMS:
+   - Set up the connection using environment variables
+   - Configure upload parameters (folder structure, transformations)
 
-Remember that this will run in a serverless environment, so proper connection handling is critical. Include appropriate error handling for database connections.
+2. Create a Media collection in src/collections/Media.ts with:
+   - Filename, alt text, and caption fields
+   - Cloudinary-specific fields like URL, dimensions, and file info
+   - Proper hooks for Cloudinary upload/delete
+
+3. Update the payload.config.ts file to:
+   - Register the Media collection
+   - Configure the Cloudinary plugin
+   - Set up proper upload limits and allowed file types
+
+4. Create utility functions in src/lib/media.ts for:
+   - Formatting Cloudinary URLs with transformations
+   - Optimizing images for different display contexts
+   - Getting proper image dimensions
+
+5. Add types in src/types/payload.ts for Media collection
+
+Ensure all code is properly typed with TypeScript and includes appropriate error handling.
 ```
 
-### Prompt 3: Cloudinary Integration
+### Prompt 3: Global Settings Collection
 
 ```
-For media storage, I want to integrate Cloudinary with Payload CMS, as Vercel's serverless functions can't store uploaded files locally.
+Create the Global Settings collection for our Payload CMS integration. This collection will store site-wide content that appears across multiple pages. We need:
 
-Please provide:
-1. Installation instructions for Payload's Cloudinary plugin
-2. Necessary environment variables for Cloudinary
-3. Configuration code to integrate Cloudinary with Payload
-4. Updated payload.config.ts with Cloudinary settings
-5. Test code to verify media uploads work correctly
+1. Create a GlobalSettings collection in src/collections/GlobalSettings.ts with:
+   - Site name field
+   - Contact information (email, phone)
+   - Social media links (Instagram, Twitter, LinkedIn, Behance, GitHub)
+   - Footer content (copyright, privacy policy, terms of service)
+   - Any other global content from the existing site
 
-Ensure the implementation follows best practices for security and performance with Cloudinary in a serverless environment.
+2. Configure this as a singleton collection (only one instance)
+
+3. Update payload.config.ts to register the GlobalSettings collection
+
+4. Create utility functions in src/lib/globals.ts to:
+   - Fetch global settings data
+   - Cache the results for better performance
+
+5. Add types in src/types/payload.ts for GlobalSettings
+
+6. Create a basic test to verify the collection works:
+   - Test that global settings can be created and retrieved
+   - Test that the singleton behavior works properly
+
+Ensure all fields have proper validation and are typed correctly with TypeScript.
 ```
 
-### Prompt 4: Media Collection
+### Prompt 4: Core Collections (Projects, Services, Team)
 
 ```
-With Cloudinary integration in place, I need a proper Media collection in Payload CMS to manage images and assets.
+Implement the core content collections for our Payload CMS integration: Projects, Services, and Team. These will store the main content types for the portfolio site. We need:
 
-Please provide:
-1. Complete Media collection schema with fields for:
-   - Alt text (required for accessibility)
-   - Caption (optional)
-   - Cloudinary URL
-   - Width and height
-   - MIME type
-   - File size
-2. TypeScript interface for Media type
-3. Utility function to fetch media items
-4. Test code to verify media operations work correctly
+1. Create a Projects collection in src/collections/Projects.ts with:
+   - Title, slug, client, and category fields
+   - Rich text description
+   - Services array (strings)
+   - Featured image (relation to Media collection)
+   - Gallery (array of relations to Media collection)
+   - External URL, featured flag, and published date fields
+   - Admin UI configuration for better editing experience
 
-Ensure the schema enforces accessible media by requiring alt text and supports the brutalist design aesthetic of my portfolio site.
-```
-
-### Prompt 5: Global Settings Collection
-
-```
-I need a Global Settings collection to manage site-wide content like contact information, social media links, and footer content.
-
-Please provide:
-1. Global collection schema with fields for:
-   - Site name
-   - Contact email and phone
-   - Social media links (Instagram, Twitter, LinkedIn, Behance, Github)
-   - Footer copyright text
-   - Privacy policy and terms of service text
-2. TypeScript interface for GlobalSettings type
-3. Utility function to fetch global settings in components
-4. Test code to verify global settings retrieval
-
-Since global settings are used across the site, make sure the implementation is efficient and works well with ISR.
-```
-
-### Prompt 6: Pages Collection Base
-
-```
-Now I need a Pages collection to start building the foundation for the page builder approach.
-
-Please provide:
-1. Pages collection schema with fields for:
-   - Title
-   - Slug (for URL paths)
-   - SEO metadata (title, description, OG image)
-   - Empty content blocks array (we'll add block types later)
-2. TypeScript interface for Page type
-3. Utility function to fetch a page by slug
-4. Test code to verify page retrieval works
-
-Make sure the slug field is unique and properly formatted for URLs, and that the schema is set up to accommodate the blocks we'll add in future steps.
-```
-
-### Prompt 7: Block Type Framework
-
-```
-I need to create the foundation for a block-based page builder system. This involves setting up TypeScript interfaces and a basic block renderer component.
-
-Please provide:
-1. Base Block interface with discriminator field
-2. Block renderer component skeleton that can handle different block types
-3. Configuration for Payload CMS blocks field
-4. Test code for the block renderer with mock data
-
-The block renderer should be flexible enough to accommodate all the block types we'll build later (Hero, Project Showcase, Service Section, Team Member, Contact Section, Custom Content).
-```
-
-### Prompt 8: Hero & Content Blocks
-
-```
-Now that we have the block framework, let's implement the first two block types: Hero and Custom Content.
-
-Please provide:
-1. Hero block schema with fields for:
-   - Title and subtitle
-   - Description (rich text)
-   - Left and right metadata labels
-   - Alignment options
-   - Optional background image
-2. Custom Content block schema with fields for:
-   - Multiple content columns with width options
-   - Rich text content
-   - Optional media per column
-   - Background color and spacing options
-3. TypeScript interfaces for both block types
-4. Updated block renderer component to handle these block types
-5. Test code for rendering both block types
-
-Ensure the block schemas align with the existing brutalist design system and support the existing custom cursor behavior.
-```
-
-### Prompt 9: Project Collection & Block
-
-```
-Let's implement the Projects collection and Project Showcase block for displaying portfolio work.
-
-Please provide:
-1. Projects collection schema matching the existing data structure in lib/data.ts, with fields for:
-   - Title and slug
-   - Client name
-   - Category (WEBSITE, BRANDING, E-COMMERCE, etc.)
-   - Description (rich text)
-   - Services provided (array)
-   - Featured image and gallery
-   - External URL and published date
-2. Project Showcase block schema with fields for:
-   - Heading and subheading
-   - Description
-   - Layout options (grid, list, featured)
-   - Project selection (references to Projects collection)
-   - Display options (filters, limit)
-3. TypeScript interfaces for both
-4. Migration script to move existing projects from lib/data.ts to the CMS
-5. Test code for Project components
-
-Make sure the implementation preserves the existing project filtering capability by category.
-```
-
-### Prompt 10: Project Components Integration
-
-```
-Now I need to update the existing Project components to use data from the CMS instead of the static data in lib/data.ts.
-
-Please provide:
-1. Updated Project Card component to use CMS data
-2. Updated Project Grid component with dynamic data fetching
-3. Implementation of the Project Showcase block in the block renderer
-4. ISR configuration for project pages with appropriate revalidation period
-5. Custom cursor integration for project links
-6. Test code for the updated components
-
-Ensure the components maintain the existing brutalist design aesthetic and animations while using dynamic CMS data.
-```
-
-### Prompt 11: Services Collection & Components
-
-```
-Let's implement the Services collection and Service Section block to make service offerings editable.
-
-Please provide:
-1. Services collection schema matching the existing structure in lib/data.ts, with fields for:
-   - Title and slug
-   - Description (rich text)
-   - Benefits (array of strings)
+2. Create a Services collection in src/collections/Services.ts with:
+   - Title, slug, and rich text description
+   - Benefits array
    - Process steps (array of objects with title and description)
-   - Case study information
-2. Service Section block schema with fields for:
-   - Heading and subheading
-   - Description
-   - Services selection (references to Services collection)
-   - Layout options and display settings
-3. TypeScript interfaces for both
-4. Updated Service components to use CMS data
-5. Implementation of the Service Section block in the block renderer
-6. Test code for service components
+   - Case study section with title, description, image, and link
 
-Ensure the implementation preserves the existing detailed service information display, including benefits and process steps.
-```
-
-### Prompt 12: Team & Contact Components
-
-```
-Let's implement the Team collection and both Team Section and Contact Section blocks.
-
-Please provide:
-1. Team collection schema with fields for:
-   - Name and position
-   - Bio (rich text)
-   - Profile image
+3. Create a Team collection in src/collections/Team.ts with:
+   - Name, position, and bio fields
+   - Image (relation to Media collection)
    - Social media links
-2. Team Section block schema with fields for:
-   - Heading and subheading
-   - Description
-   - Team members selection
-   - Layout options
-3. Contact Section block schema with fields for:
-   - Heading and subheading
-   - Description
-   - Display options (form, contact info, social links)
-   - Button label
-4. TypeScript interfaces for all of these
-5. Updated Team and Contact components to use CMS data
-6. Implementation of both block types in the block renderer
-7. Test code for all components
 
-Ensure proper custom cursor integration for all interactive elements in these components.
+4. Update payload.config.ts to register all new collections
+
+5. Add proper indexes for MongoDB performance:
+   - Slug fields for fast lookups
+   - Category fields for filtering
+
+6. Add TypeScript types for all collections in src/types/payload.ts
+
+7. Create utility functions in src/lib/data.ts to:
+   - Fetch projects by category
+   - Get featured projects
+   - Fetch services and team members
+
+Ensure all collections have proper validation, slug generation, and TypeScript typing.
 ```
 
-### Prompt 13: Frontend Integration Refinement
+### Prompt 5: Page Builder Block Types
 
 ```
-Now I need to refine the frontend integration to ensure all blocks work together seamlessly and handle error states appropriately.
+Create the block types for our page builder functionality in Payload CMS. These blocks will allow flexible page composition. We need:
 
-Please provide:
-1. Completed block renderer that handles all block types
-2. Loading state implementations for async data fetching
-3. Error handling for missing or invalid content
-4. Custom cursor integration for all interactive elements
-5. ISR implementation for all dynamic pages
-6. Comprehensive test suite for the entire page builder system
+1. Create a base blocks directory at src/blocks/ with an index.ts file that:
+   - Exports all block types
+   - Provides a common interface for blocks
 
-Focus on ensuring a smooth user experience, maintaining the brutalist design aesthetic, and proper error handling throughout the application.
+2. Implement the following block types as separate files:
+   - src/blocks/HeroBlock.ts
+   - src/blocks/ProjectShowcaseBlock.ts
+   - src/blocks/ServiceSectionBlock.ts
+   - src/blocks/TeamSectionBlock.ts
+   - src/blocks/ContactSectionBlock.ts
+   - src/blocks/CustomContentBlock.ts
+
+3. Each block type should:
+   - Extend a common Block interface
+   - Include a unique blockType field
+   - Have properly typed fields matching our specification
+   - Include admin UI configuration for a good editing experience
+
+4. Create a utility function at src/lib/blocks.ts that:
+   - Provides a way to register block types
+   - Has a function to convert CMS block data to props for React components
+
+5. Add TypeScript types for all blocks in src/types/blocks.ts
+
+6. Create a test for each block type to ensure:
+   - Fields are properly defined
+   - Block type is unique
+   - Validation works correctly
+
+Ensure all block types are properly documented with JSDoc comments.
 ```
 
-### Prompt 14: Deployment Configuration
+### Prompt 6: Pages Collection with Blocks Field
 
 ```
-Finally, I need to prepare the application for deployment on Vercel with proper environment configuration.
+Implement the Pages collection with a flexible blocks field for our page builder functionality. We need:
 
-Please provide:
-1. Complete list of required environment variables for production
-2. Vercel configuration instructions for serverless deployment
-3. MongoDB Atlas production setup recommendations
-4. Cloudinary production configuration
-5. Post-deployment verification steps
-6. Fallback mechanisms if CMS content fails to load
+1. Create a Pages collection in src/collections/Pages.ts with:
+   - Title and slug fields
+   - SEO fields (meta title, description, OG image)
+   - Content field using Payload's blocks feature
+   - Proper admin UI configuration for intuitive editing
 
-Ensure the deployment strategy accounts for the serverless nature of Vercel and provides appropriate error handling and fallbacks for production use.
+2. Configure the blocks field to use all our previously created block types:
+   - Hero Block
+   - Project Showcase Block
+   - Service Section Block
+   - Team Section Block
+   - Contact Section Block
+   - Custom Content Block
+
+3. Add proper validation and slug generation:
+   - Ensure unique slugs
+   - Validate required fields
+   - Handle slug conflicts
+
+4. Update payload.config.ts to register the Pages collection
+
+5. Add TypeScript types for Pages in src/types/payload.ts
+
+6. Create utility functions in src/lib/pages.ts for:
+   - Fetching pages by slug
+   - Getting all page slugs for static paths
+   - Converting page data to a format usable by frontend components
+
+7. Create a basic test to verify:
+   - Pages can be created with blocks
+   - Slugs are generated correctly
+   - Pages can be retrieved by slug
+
+Ensure the collection is properly configured for a good admin experience with clear labels and help text.
 ```
 
-These prompts follow a logical progression, starting with the foundation and gradually building up the full CMS implementation. Each step builds directly on the previous ones, ensuring no orphaned or disconnected code.
+### Prompt 7: Block Renderer Component
+
+```
+Create a Block Renderer component that will render the appropriate React component based on the block type. This is a crucial part of our page builder implementation. We need:
+
+1. Create a new component at src/components/BlockRenderer.tsx that:
+   - Takes a blocks array as a prop
+   - Dynamically renders the appropriate component for each block type
+   - Passes the block data as props to the component
+   - Handles unknown block types gracefully
+
+2. Create a mapping between block types and React components:
+   - Hero Block → existing Hero component
+   - Project Showcase Block → existing Projects component
+   - Service Section Block → existing Services component
+   - Team Section Block → existing Team component
+   - Contact Section Block → existing Contact component
+   - Custom Content Block → new CustomContent component
+
+3. Create a new CustomContent component at src/components/CustomContent.tsx:
+   - Renders flexible column layouts based on block data
+   - Supports rich text and media in columns
+   - Respects column width settings
+
+4. Update any existing components as needed to accept data in the format provided by the CMS
+
+5. Add proper TypeScript typing for all components and props
+
+6. Create a simple test for the BlockRenderer to verify:
+   - It renders the correct component for each block type
+   - It handles missing or invalid data gracefully
+   - It passes props correctly to child components
+
+Ensure all components maintain the existing brutalist design aesthetic and custom cursor functionality.
+```
+
+### Prompt 8: Frontend Data Fetching with ISR
+
+```
+Implement frontend data fetching with Incremental Static Regeneration (ISR) to render pages from our Payload CMS. We need:
+
+1. Create a dynamic page route at app/[slug]/page.tsx that:
+   - Fetches page data by slug from the CMS
+   - Uses ISR with appropriate revalidation times
+   - Renders content using our BlockRenderer component
+   - Handles 404 cases for non-existent pages
+
+2. Update the home page at app/page.tsx to:
+   - Fetch the home page from CMS
+   - Use ISR for data fetching
+   - Render using BlockRenderer
+
+3. Create utility functions in src/lib/api.ts for:
+   - Fetching data with proper caching
+   - Error handling for API requests
+   - Type-safe data fetching
+
+4. Implement getStaticPaths functionality to:
+   - Generate paths for all pages in the CMS
+   - Include fallback behavior for new pages
+
+5. Update the layout components to fetch global settings:
+   - Use global settings for header/footer content
+   - Implement proper loading states
+
+6. Ensure all components maintain the existing custom cursor functionality by:
+   - Updating setCursorText calls to work with dynamic content
+   - Ensuring event handlers are properly attached
+
+7. Create tests for:
+   - API data fetching functions
+   - Page rendering with dynamic data
+   - Error handling for missing content
+
+Ensure all code is properly typed with TypeScript and includes appropriate error handling.
+```
+
+### Prompt 9: Adapting Existing Components to CMS Data
+
+```
+Adapt the existing UI components to work with data from Payload CMS. We need to ensure they can render dynamic content while maintaining the brutalist design. We need:
+
+1. Update the Hero component to:
+   - Accept data in the format provided by HeroBlock
+   - Maintain existing animations and styling
+   - Support optional background images
+
+2. Update the Projects component to:
+   - Render projects from the CMS
+   - Support different layout options (grid, list, featured)
+   - Implement category filtering if enabled
+
+3. Update the Services component to:
+   - Render services from the CMS
+   - Support different layout options
+   - Conditionally show case studies
+
+4. Update the Team component to:
+   - Render team members from the CMS
+   - Support different layout options
+   - Maintain existing styling and animations
+
+5. Update the Contact component to:
+   - Use contact information from global settings
+   - Conditionally show contact form and social links
+   - Maintain existing styling
+
+6. Ensure all components:
+   - Maintain the custom cursor functionality with setCursorText
+   - Have appropriate loading and error states
+   - Are fully typed with TypeScript
+   - Follow existing animation patterns with Framer Motion
+
+7. Create a new utility function in src/lib/components.ts for:
+   - Converting CMS data formats to component props
+   - Handling missing or incomplete data
+
+Create tests for each updated component to verify they render correctly with CMS data.
+```
+
+### Prompt 10: Admin Authentication Setup
+
+```
+Implement secure authentication for the Payload CMS admin panel. We need:
+
+1. Configure the admin user in payload.config.ts:
+   - Use environment variables for credentials
+   - Set up proper password hashing
+   - Configure session management
+
+2. Create a middleware file at src/middleware.ts to:
+   - Protect admin routes
+   - Redirect unauthenticated users
+   - Handle authentication cookies
+
+3. Update authentication-related environment variables:
+   - Add PAYLOAD_SECRET
+   - Add PAYLOAD_ADMIN_EMAIL and PAYLOAD_ADMIN_PASSWORD
+   - Document these in .env.example
+
+4. Implement basic rate limiting for login attempts:
+   - Prevent brute force attacks
+   - Add appropriate delay on failed attempts
+
+5. Configure security headers for the admin panel:
+   - Set Content-Security-Policy
+   - Set X-Frame-Options
+   - Set other security headers
+
+6. Create a simple admin login page that:
+   - Matches the site's design aesthetic
+   - Provides clear error messages
+   - Has proper form validation
+
+Ensure all authentication code follows security best practices and is properly typed with TypeScript.
+```
+
+### Prompt 11: Data Migration Utility
+
+```
+Create a utility to migrate existing content from lib/data.ts to our new Payload CMS. We need:
+
+1. Create a migration script at scripts/migrate-data.ts that:
+   - Connects to Payload CMS
+   - Reads data from lib/data.ts
+   - Transforms it to match CMS collection structures
+   - Uploads to appropriate collections
+   - Handles media files with Cloudinary
+
+2. Add support for:
+   - Projects migration
+   - Services migration
+   - Team members migration
+   - Global settings migration
+
+3. Include error handling and reporting:
+   - Log successful migrations
+   - Report and continue on errors
+   - Validate data before uploading
+
+4. Add options to:
+   - Run a dry run without saving
+   - Skip existing records
+   - Force overwrite existing records
+
+5. Create utility functions in src/lib/migration.ts for:
+   - Data transformation
+   - Validation
+   - ID mapping between old and new systems
+
+6. Add proper TypeScript typing for all migration functions
+
+Ensure the script has clear console output and proper error handling to make the migration process smooth.
+```
+
+### Prompt 12: Final Integration and Testing
+
+```
+Complete the Payload CMS integration by implementing final connections and comprehensive testing. We need:
+
+1. Create an integration test suite at __tests__/integration/ that:
+   - Tests the full content flow from CMS to frontend
+   - Verifies ISR is working correctly
+   - Tests all block types render properly
+
+2. Implement final connections to ensure:
+   - R3F components can coexist with CMS content
+   - Custom cursor works with dynamically loaded content
+   - All animations work properly with CMS data
+
+3. Optimize performance:
+   - Implement proper caching strategies
+   - Optimize database queries
+   - Configure appropriate revalidation times for ISR
+
+4. Add documentation at docs/cms.md that:
+   - Explains the CMS architecture
+   - Provides usage instructions for content editors
+   - Documents available block types and their options
+
+5. Create a final verification script at scripts/verify-cms.ts that:
+   - Checks all collections are properly set up
+   - Verifies media storage is working
+   - Confirms authentication is secure
+
+6. Update existing component tests to work with CMS data
+
+Ensure all integration points are properly tested and documented.
+```
+</FINAL_ANSWER>
