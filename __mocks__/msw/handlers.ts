@@ -1,76 +1,58 @@
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { mockProjects, mockServices, mockTeamMembers } from './mockResponse'
 import { getProjectById, filterProjectsByCategory, getServiceByTitle } from '@/lib/utils/apiUtils'
 
 export const handlers = [
   // Get all projects
-  rest.get('/api/projects', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json(mockProjects)
-    )
+  http.get('/api/projects', () => {
+    return HttpResponse.json(mockProjects, { status: 200 })
   }),
   
   // Get project by ID
-  rest.get('/api/projects/:id', (req, res, ctx) => {
-    const { id } = req.params
+  http.get('/api/projects/:id', ({ params }) => {
+    const { id } = params
     const project = getProjectById(mockProjects, Number(id))
     
     if (!project) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `Project with ID ${id} not found` })
+      return HttpResponse.json(
+        { message: `Project with ID ${id} not found` },
+        { status: 404 }
       )
     }
     
-    return res(
-      ctx.status(200),
-      ctx.json(project)
-    )
+    return HttpResponse.json(project, { status: 200 })
   }),
   
   // Get projects by category
-  rest.get('/api/projects/category/:category', (req, res, ctx) => {
-    const { category } = req.params
+  http.get('/api/projects/category/:category', ({ params }) => {
+    const { category } = params
     const filteredProjects = filterProjectsByCategory(mockProjects, category as string)
     
-    return res(
-      ctx.status(200),
-      ctx.json(filteredProjects)
-    )
+    return HttpResponse.json(filteredProjects, { status: 200 })
   }),
   
   // Get all services
-  rest.get('/api/services', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json(mockServices)
-    )
+  http.get('/api/services', () => {
+    return HttpResponse.json(mockServices, { status: 200 })
   }),
   
   // Get service by title
-  rest.get('/api/services/:title', (req, res, ctx) => {
-    const { title } = req.params
+  http.get('/api/services/:title', ({ params }) => {
+    const { title } = params
     const service = getServiceByTitle(mockServices, title as string)
     
     if (!service) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `Service with title ${title} not found` })
+      return HttpResponse.json(
+        { message: `Service with title ${title} not found` },
+        { status: 404 }
       )
     }
     
-    return res(
-      ctx.status(200),
-      ctx.json(service)
-    )
+    return HttpResponse.json(service, { status: 200 })
   }),
   
   // Get all team members
-  rest.get('/api/team', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json(mockTeamMembers)
-    )
+  http.get('/api/team', () => {
+    return HttpResponse.json(mockTeamMembers, { status: 200 })
   })
 ] 

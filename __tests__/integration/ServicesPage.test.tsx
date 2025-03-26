@@ -2,15 +2,21 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { mockServices } from '../fixtures/mockData';
-import { useCursor } from '@/hooks/use-cursor';
+import { useCursor } from '../../hooks/use-cursor';
 
-// Mock the ServicesPage component directly
-jest.mock('@/app/services/page', () => {
+// Add a proper mock for the service slug since it may not exist in our data
+jest.mock('../../app/services/page', () => {
   return {
     __esModule: true,
     default: () => {
       const { setCursorText } = useCursor();
       const pushMock = jest.requireMock('next/navigation').useRouter().push;
+      
+      // Add a slug property to services if missing
+      const servicesWithSlug = mockServices.map((service, index) => ({
+        ...service,
+        slug: service.slug || `service-${index + 1}`
+      }));
       
       return (
         <div data-testid="services-page">
@@ -20,7 +26,7 @@ jest.mock('@/app/services/page', () => {
           </section>
           
           <section data-testid="services-list">
-            {mockServices.map((service) => (
+            {servicesWithSlug.map((service) => (
               <div 
                 key={service.slug} 
                 data-testid={`service-card-${service.slug}`}
@@ -75,7 +81,7 @@ jest.mock('@/app/services/page', () => {
 });
 
 // Mock the useCursor hook
-jest.mock('@/hooks/use-cursor', () => ({
+jest.mock('../../hooks/use-cursor', () => ({
   useCursor: jest.fn(),
 }));
 
@@ -117,7 +123,7 @@ describe('ServicesPage Integration', () => {
   });
 
   it('renders services page with all sections', () => {
-    const ServicesPage = require('@/app/services/page').default;
+    const ServicesPage = require('../../app/services/page').default;
     
     render(<ServicesPage />);
     
@@ -153,7 +159,7 @@ describe('ServicesPage Integration', () => {
   });
 
   it('updates cursor text on service cards', () => {
-    const ServicesPage = require('@/app/services/page').default;
+    const ServicesPage = require('../../app/services/page').default;
     
     render(<ServicesPage />);
     
@@ -169,7 +175,7 @@ describe('ServicesPage Integration', () => {
   });
 
   it('updates cursor text on contact button', () => {
-    const ServicesPage = require('@/app/services/page').default;
+    const ServicesPage = require('../../app/services/page').default;
     
     render(<ServicesPage />);
     
@@ -185,7 +191,7 @@ describe('ServicesPage Integration', () => {
   });
 
   it('navigates to service detail page when service card is clicked', () => {
-    const ServicesPage = require('@/app/services/page').default;
+    const ServicesPage = require('../../app/services/page').default;
     
     render(<ServicesPage />);
     
@@ -200,7 +206,7 @@ describe('ServicesPage Integration', () => {
   });
 
   it('navigates to contact page when contact button is clicked', () => {
-    const ServicesPage = require('@/app/services/page').default;
+    const ServicesPage = require('../../app/services/page').default;
     
     render(<ServicesPage />);
     

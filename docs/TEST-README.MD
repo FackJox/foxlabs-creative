@@ -48,7 +48,10 @@ Documentation for accessibility testing:
 
 - [WCAG Compliance Tests](./testing/accessibility/wcag-compliance.md)
 - [Screen Reader Tests](./testing/accessibility/screen-reader.md)
-- [Keyboard Navigation Tests](./testing/accessibility/keyboard-navigation.md)
+- [Keyboard Navigation Tests](./testing/accessibility/keyboard-navigation.md) - Updated with comprehensive documentation for testing keyboard navigation across the site
+- [Project Accessibility Tests](./testing/accessibility/project-accessibility.md) - New documentation for Project component accessibility tests
+- [Focus Management Tests](./testing/accessibility/focus-management.md)
+- [Reduced Motion Tests](./testing/accessibility/reduced-motion.md)
 
 ## 6. Test Utilities
 
@@ -61,6 +64,19 @@ Documentation for test utilities and helpers:
 - [Form Validation](./testing/validation-tests.md) - Documentation for form validation utility tests
 
 ## 7. Recently Updated Test Documentation
+
+- **[Project Accessibility Tests](./testing/accessibility/project-accessibility.md)** - NEW documentation for Project component accessibility tests:
+  - Comprehensive testing of Project List and Project Detail accessibility features
+  - Documentation of custom Cypress commands for accessibility testing
+  - Detailed test descriptions for all 11 accessibility tests
+  - Implementation of the tab simulation command
+  - Troubleshooting guide for common accessibility testing issues
+
+- **[Keyboard Navigation Tests](./testing/accessibility/keyboard-navigation.md)** - UPDATED with comprehensive keyboard navigation testing documentation:
+  - Improved test reliability with explicit focus management
+  - Implementation of custom tab command for keyboard navigation simulation
+  - Common issues and solutions for keyboard accessibility testing
+  - Best practices for implementing keyboard navigation
 
 - **[Projects Page Integration Tests](./testing/projects-page-integration-tests.md)** - Completely updated with advanced Jest mocking techniques and troubleshooting information:
   - Added detailed explanation of using `jest.doMock()` instead of `jest.mock()` to avoid hoisting issues

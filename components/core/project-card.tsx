@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
+import { KeyboardEvent } from "react"
 
 import { useCursor } from "@/hooks/use-cursor"
 import type { Project } from "@/lib/types"
@@ -11,14 +12,22 @@ interface ProjectCardProps {
   project: Project
   index: number
   detailed?: boolean
+  onClick?: () => void
 }
 
-export default function ProjectCard({ project, index, detailed = false }: ProjectCardProps) {
+export default function ProjectCard({ project, index, detailed = false, onClick }: ProjectCardProps) {
   const { setCursorText } = useCursor()
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick?.()
+    }
+  }
+
   return (
-    <motion.div
-      className="group relative cursor-pointer overflow-hidden border border-black perspective"
+    <motion.button
+      className="group relative cursor-pointer overflow-hidden border border-black perspective text-left"
       onMouseEnter={() => setCursorText("VIEW")}
       onMouseLeave={() => setCursorText("")}
       initial={{ opacity: 0, y: 50 }}
@@ -32,6 +41,11 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
         scale: 0.98,
       }}
       data-testid="project-card"
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`View project: ${project.title}`}
     >
       <div className={`relative ${detailed ? "aspect-[3/2]" : "aspect-[4/3]"} w-full overflow-hidden`}>
         <motion.div
@@ -69,7 +83,7 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
       >
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold" data-testid="project-title" aria-label={project.title}>{project.title}</h3>
+            <h2 className="text-xl font-bold" data-testid="project-title" aria-label={project.title}>{project.title}</h2>
             <div className="flex gap-4 text-sm">
               <span data-testid="project-category">{project.category}</span>
               <span data-testid="project-year">{project.year}</span>
@@ -79,10 +93,11 @@ export default function ProjectCard({ project, index, detailed = false }: Projec
           <ArrowUpRight
             size={24}
             className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+            aria-hidden="true"
           />
         </div>
       </motion.div>
-    </motion.div>
+    </motion.button>
   )
 }
 

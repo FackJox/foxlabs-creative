@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { CursorProvider, useCursor } from '@/hooks/use-cursor';
+import { CursorProvider, useCursor } from '../test-utils/cursor-provider-mock';
 
 // Helper component to test cursor interactions
 const CursorTestComponent = () => {

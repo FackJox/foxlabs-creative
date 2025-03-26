@@ -3,78 +3,89 @@
  */
 
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
-import AboutPage from '@/app/(foxlabs)/about/page';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { mockTeamMembers } from '../fixtures/mockData';
+import { CursorProvider } from '../../hooks/use-cursor';
+import { CursorProvider as TestCursorProvider } from '../test-utils/cursor-provider-mock';
 
-// Simple mock for the teamMembers data without trying to mock all components
+// Mock the team members data
 jest.mock('@/lib/data', () => ({
-  teamMembers: [
-    {
-      name: "TEST MEMBER 1",
-      role: "CREATIVE DIRECTOR",
-      image: "/team1.jpg"
-    },
-    {
-      name: "TEST MEMBER 2",
-      role: "LEAD DEVELOPER",
-      image: "/team2.jpg"
-    },
-    {
-      name: "TEST MEMBER 3",
-      role: "DESIGNER",
-      image: "/team3.jpg"
-    }
-  ],
+  teamMembers: mockTeamMembers
 }));
 
-// Minimal mock for next/image to avoid warnings
-jest.mock('next/image', () => ({
+// Mock the custom cursor component
+jest.mock('@/components/effects/custom-cursor', () => ({
   __esModule: true,
-  default: (props: any) => <img {...props} />
+  default: () => <div data-testid="custom-cursor">Custom Cursor</div>
 }));
 
-// Mock framer-motion to handle the whileHover prop
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, className, ...props }: React.PropsWithChildren<any>) => (
-      <div className={className}>{children}</div>
-    ),
-    p: ({ children, className, ...props }: React.PropsWithChildren<any>) => (
-      <p className={className}>{children}</p>
-    )
-  },
-  AnimatePresence: ({ children }: React.PropsWithChildren<any>) => <>{children}</>
+// Mock the Header and Footer components
+jest.mock('@/components/layout', () => ({
+  Header: ({ setCursorText }: { setCursorText: (text: string) => void }) => (
+    <header data-testid="header">Header</header>
+  ),
+  Footer: () => <footer data-testid="footer">Footer</footer>
 }));
+
+// Mock the ContactSection component
+jest.mock('@/components/sections', () => ({
+  ContactSection: ({ setCursorText }: { setCursorText: (text: string) => void }) => (
+    <div data-testid="contact-section">Contact Section</div>
+  )
+}));
+
+// Mock the TeamMember component
+jest.mock('@/components/core', () => ({
+  TeamMember: ({ 
+    member, 
+    index 
+  }: { 
+    member: any; 
+    index: number; 
+  }) => (
+    <div data-testid="team-member">
+      <h3>{member.name}</h3>
+      <p>{member.role}</p>
+    </div>
+  )
+}));
+
+// Create a custom wrapper component that includes the CursorProvider
+const Wrapper = ({ children }: { children: React.ReactNode }) => (
+  <TestCursorProvider>{children}</TestCursorProvider>
+);
 
 describe('AboutPage - Basic Rendering', () => {
   it('renders main page sections', () => {
-    render(<AboutPage />);
+    // Render the page
+    render(<AboutPage />, { wrapper: Wrapper });
     
-    // Check for basic sections and text
-    const whoHeading = screen.getByRole('heading', { level: 1 });
-    expect(whoHeading).toBeInTheDocument();
-    expect(within(whoHeading).getByText(/WHO/)).toBeInTheDocument();
-    
-    expect(screen.getByText('OUR MISSION')).toBeInTheDocument();
+    // Check that main sections are rendered
+    expect(screen.getByTestId('header')).toBeInTheDocument();
+    expect(screen.getByText('ABOUT US')).toBeInTheDocument();
     expect(screen.getByText('OUR TEAM')).toBeInTheDocument();
-    expect(screen.getByText('OUR VALUES')).toBeInTheDocument();
+    expect(screen.getByTestId('contact-section')).toBeInTheDocument();
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
-
+  
   it('renders team member names', () => {
-    render(<AboutPage />);
+    // Render the page
+    render(<AboutPage />, { wrapper: Wrapper });
     
-    // Check that team member names are present
-    expect(screen.getByText('TEST MEMBER 1')).toBeInTheDocument();
-    expect(screen.getByText('TEST MEMBER 2')).toBeInTheDocument();
-    expect(screen.getByText('TEST MEMBER 3')).toBeInTheDocument();
+    // Check that team members are rendered
+    mockTeamMembers.forEach(member => {
+      expect(screen.getByText(member.name)).toBeInTheDocument();
+    });
   });
-
+  
   it('renders team member roles', () => {
-    render(<AboutPage />);
+    // Render the page
+    render(<AboutPage />, { wrapper: Wrapper });
     
-    // Check that team member roles are present
-    expect(screen.getByText('CREATIVE DIRECTOR')).toBeInTheDocument();
-    expect(screen.getByText('LEAD DEVELOPER')).toBeInTheDocument();
-    expect(screen.getByText('DESIGNER')).toBeInTheDocument();
+    // Check that team member roles are rendered
+    mockTeamMembers.forEach(member => {
+      expect(screen.getByText(member.role)).toBeInTheDocument();
+    });
   });
 }); 

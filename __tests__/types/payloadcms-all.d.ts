@@ -57,15 +57,22 @@ declare module '@payloadcms/richtext-lexical' {
 }
 
 declare module '@payloadcms/db-mongodb' {
-  import { DatabaseAdapter } from 'payload/database';
-  
-  export interface MongoDBAdapter extends DatabaseAdapter {
+  interface MongoDBAdapter {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
+    find(args: any): Promise<any>;
+    findOne(args: any): Promise<any>;
+    findById(args: any): Promise<any>;
+    create(args: any): Promise<any>;
+    update(args: any): Promise<any>;
+    delete(args: any): Promise<any>;
   }
 
   export function mongooseAdapter(options: {
-    mongoURL: string;
+    url: string;
     connectOptions?: any;
   }): MongoDBAdapter;
-} 
+}
+
+// Just export the module declaration for ambient typings
+export {}; 

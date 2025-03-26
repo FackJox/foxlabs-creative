@@ -1,14 +1,17 @@
 // Import polyfills first
-import './jest.polyfill.js';
+require('./jest.polyfill.cjs');
 
 // Import Jest's extended matchers
-import '@testing-library/jest-dom';
+require('@testing-library/jest-dom');
 
 // Add jest-axe setup
-import { toHaveNoViolations } from 'jest-axe';
+const { toHaveNoViolations } = require('jest-axe');
+
+// Import React for JSX transformations
+const React = require('react');
 
 // Add polyfills for TextEncoder/TextDecoder
-import util from 'util';
+const util = require('util');
 const { TextEncoder, TextDecoder } = util;
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
@@ -88,16 +91,14 @@ global.IntersectionObserver = MockIntersectionObserver;
 jest.mock('next/image', () => ({
   __esModule: true,
   default: ({ src, alt, priority, className, fill, sizes }) => {
-    return (
-      <img 
-        src={src} 
-        alt={alt || ''} 
-        className={className} 
-        data-priority={priority} 
-        data-fill={fill}
-        data-sizes={sizes}
-      />
-    );
+    return React.createElement('img', {
+      src: src,
+      alt: alt || '',
+      className: className,
+      'data-priority': priority,
+      'data-fill': fill,
+      'data-sizes': sizes
+    });
   },
 }));
 
@@ -122,7 +123,7 @@ jest.mock('next/navigation', () => ({
 
 // Mock next/head
 jest.mock('next/head', () => {
-  const Head = ({ children }) => children;
+  const Head = ({ children }) => React.createElement(React.Fragment, null, children);
   Head.displayName = 'Head';
   return {
     __esModule: true,
@@ -130,45 +131,52 @@ jest.mock('next/head', () => {
   };
 });
 
+// Create a factory function to mock framer-motion components
+const createMotionComponent = (type) => {
+  return function({ children, ...props }) {
+    return React.createElement(type, {
+      ...props,
+      'data-motion': true
+    }, children);
+  };
+};
+
 // Mock framer-motion
 jest.mock('framer-motion', () => {
-  const originalModule = jest.requireActual('framer-motion');
-  
   return {
     __esModule: true,
-    ...originalModule,
     motion: {
-      div: 'div',
-      span: 'span',
-      button: 'button',
-      a: 'a',
-      section: 'section',
-      article: 'article',
-      main: 'main',
-      header: 'header',
-      footer: 'footer',
-      aside: 'aside',
-      nav: 'nav',
-      form: 'form',
-      input: 'input',
-      textarea: 'textarea',
-      select: 'select',
-      option: 'option',
-      h1: 'h1',
-      h2: 'h2',
-      h3: 'h3',
-      h4: 'h4',
-      h5: 'h5',
-      h6: 'h6',
-      p: 'p',
-      ul: 'ul',
-      ol: 'ol',
-      li: 'li',
-      img: 'img',
-      svg: 'svg',
-      path: 'path',
+      div: createMotionComponent('div'),
+      span: createMotionComponent('span'),
+      button: createMotionComponent('button'),
+      a: createMotionComponent('a'),
+      section: createMotionComponent('section'),
+      article: createMotionComponent('article'),
+      main: createMotionComponent('main'),
+      header: createMotionComponent('header'),
+      footer: createMotionComponent('footer'),
+      aside: createMotionComponent('aside'),
+      nav: createMotionComponent('nav'),
+      form: createMotionComponent('form'),
+      input: createMotionComponent('input'),
+      textarea: createMotionComponent('textarea'),
+      select: createMotionComponent('select'),
+      option: createMotionComponent('option'),
+      h1: createMotionComponent('h1'),
+      h2: createMotionComponent('h2'),
+      h3: createMotionComponent('h3'),
+      h4: createMotionComponent('h4'),
+      h5: createMotionComponent('h5'),
+      h6: createMotionComponent('h6'),
+      p: createMotionComponent('p'),
+      ul: createMotionComponent('ul'),
+      ol: createMotionComponent('ol'),
+      li: createMotionComponent('li'),
+      img: createMotionComponent('img'),
+      svg: createMotionComponent('svg'),
+      path: createMotionComponent('path'),
     },
-    AnimatePresence: ({ children }) => children,
+    AnimatePresence: ({ children }) => React.createElement(React.Fragment, null, children),
     useAnimation: () => ({
       start: jest.fn(),
       stop: jest.fn(),
@@ -180,7 +188,7 @@ jest.mock('framer-motion', () => {
 
 // Mock radix-ui Portal
 jest.mock('@radix-ui/react-portal', () => ({
-  Portal: ({ children }) => children,
+  Portal: ({ children }) => React.createElement(React.Fragment, null, children),
 }));
 
 // Mock form submission actions
@@ -191,6 +199,15 @@ jest.mock('@/lib/actions', () => ({
       message: 'Form submitted successfully'
     };
   }),
+}));
+
+// Mock hooks
+jest.mock('@/hooks/use-cursor', () => ({
+  useCursor: jest.fn(() => ({
+    cursorPosition: { x: 0, y: 0 },
+    cursorText: '',
+    setCursorText: jest.fn()
+  }))
 }));
 
 // Set up jest-axe

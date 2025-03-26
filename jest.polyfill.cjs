@@ -1,6 +1,6 @@
-/* jest.polyfill.js */
+/* jest.polyfill.cjs */
 
-console.log('jest.polyfill.js loaded');
+console.log('jest.polyfill.cjs loaded');
 
 // Force removal of any existing fetch
 if (global.fetch) { delete global.fetch; }
@@ -8,11 +8,11 @@ if (globalThis.fetch) { delete globalThis.fetch; }
 if (typeof window !== 'undefined' && window.fetch) { delete window.fetch; }
 
 // Register ts-node to allow requiring TypeScript files in this setup file
-import tsnode from 'ts-node';
+const tsnode = require('ts-node');
 tsnode.register();
 
 // Import data from lib/data for our mock responses
-import { projects, services } from './lib/data';
+const { projects, services } = require('./lib/data');
 console.log('Data loaded: projects =', projects, ', services =', services);
 
 // Define static team members as per our API mock
@@ -37,12 +37,12 @@ const teamMembers = [
 // This file provides polyfills for browser globals that are required by MSW in Node environment
 
 // Polyfill for TextEncoder/TextDecoder
-import util from 'util';
+const util = require('util');
 global.TextEncoder = util.TextEncoder;
 global.TextDecoder = util.TextDecoder;
 
 // Polyfill for Response, Request and Headers from whatwg-fetch
-import { Response, Request, Headers, fetch } from 'whatwg-fetch';
+const { Response, Request, Headers, fetch } = require('whatwg-fetch');
 global.Response = Response;
 global.Request = Request;
 global.Headers = Headers;
@@ -151,7 +151,7 @@ const myFetch = async (input, init) => {
 global.fetch = myFetch;
 
 // Export our custom fetch implementation
-export { myFetch };
+module.exports = { myFetch };
 
 // Override fetch using getters to always return myFetch
 Object.defineProperty(globalThis, 'fetch', {

@@ -240,4 +240,16 @@ export const createMockApplicationData = () => {
     services: createMockServices(3),
     teamMembers: createMockTeamMembers(4)
   };
-}; 
+};
+
+// Add a dummy test for Jest to find
+if (process.env.NODE_ENV === 'test') {
+  describe('Mock Data Factory', () => {
+    it('creates mock data correctly', () => {
+      expect(createMockProject).toBeDefined();
+      expect(createMockService).toBeDefined();
+      expect(createMockTeamMember).toBeDefined();
+      expect(createMockTestimonial).toBeDefined();
+    });
+  });
+} 

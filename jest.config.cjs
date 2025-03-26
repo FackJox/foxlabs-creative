@@ -1,9 +1,9 @@
-import nextJest from 'next/jest.js';
+const nextJest = require('next/jest');
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  setupFiles: ['<rootDir>/jest.polyfill.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.cjs'],
+  setupFiles: ['<rootDir>/jest.polyfill.cjs'],
   testEnvironment: 'jest-environment-jsdom-global',
   // This TestEnvironment includes all the DOM APIs including Response, Request, etc.
   moduleNameMapper: {
@@ -45,6 +45,7 @@ const customJestConfig = {
     '!**/.next/**',
     '!**/coverage/**',
     '!jest.config.js',
+    '!jest.config.cjs',
     '!next.config.js',
     '!postcss.config.js',
     '!tailwind.config.js',
@@ -67,4 +68,5 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-export default createJestConfig(customJestConfig); 
+// Export the config
+module.exports = createJestConfig(customJestConfig); 

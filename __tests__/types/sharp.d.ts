@@ -1,8 +1,17 @@
 declare module 'sharp' {
-  export default class Sharp {
-    constructor(input?: string | Buffer);
-    resize(width?: number, height?: number, options?: any): Sharp;
+  interface Sharp {
+    metadata(): Promise<{
+      width: number;
+      height: number;
+      format: string;
+      size: number;
+      orientation?: number;
+    }>;
+    resize(width?: number, height?: number, options?: object): Sharp;
     toBuffer(): Promise<Buffer>;
     toFile(output: string): Promise<{ info: any }>;
   }
-} 
+}
+
+// Just export the module declaration for ambient typings
+export {}; 

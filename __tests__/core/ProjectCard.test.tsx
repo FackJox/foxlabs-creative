@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProjectCard from '@/components/core/project-card';
-import { mockProjects } from '../fixtures/mockData';
+import { mockProject, mockProjects } from '../fixtures/mockData';
 import { useCursor } from '@/hooks/use-cursor';
 
 // Mock the useCursor hook
@@ -21,8 +21,8 @@ describe('ProjectCard', () => {
   });
   
   it('renders the project card with required fields', () => {
-    // Arrange
-    const project = mockProjects[3]; // Project with minimal fields
+    // Arrange - Use a known good mock project instead of relying on array index
+    const project = mockProject;
     
     // Act
     render(<ProjectCard project={project} index={0} />);
@@ -35,8 +35,8 @@ describe('ProjectCard', () => {
   });
   
   it('renders the project card with all fields', () => {
-    // Arrange
-    const project = mockProjects[0]; // Project with all fields
+    // Arrange - Use a known good mock project
+    const project = mockProject;
     
     // Act
     render(<ProjectCard project={project} index={0} />);
@@ -50,7 +50,7 @@ describe('ProjectCard', () => {
   
   it('renders detailed project description when detailed prop is true', () => {
     // Arrange
-    const project = mockProjects[0];
+    const project = mockProject;
     
     // Act
     render(<ProjectCard project={project} index={0} detailed={true} />);
@@ -61,7 +61,7 @@ describe('ProjectCard', () => {
   
   it('does not render project description when detailed prop is false', () => {
     // Arrange
-    const project = mockProjects[0];
+    const project = mockProject;
     
     // Act
     render(<ProjectCard project={project} index={0} detailed={false} />);
@@ -73,7 +73,7 @@ describe('ProjectCard', () => {
   it('sets cursor text on mouse enter and clears on mouse leave', async () => {
     // Arrange
     const user = userEvent.setup();
-    const project = mockProjects[0];
+    const project = mockProject;
     
     // Act
     const { container } = render(<ProjectCard project={project} index={0} />);

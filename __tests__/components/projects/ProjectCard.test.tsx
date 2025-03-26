@@ -1,29 +1,67 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import ProjectCard from '@/components/core/project-card';
-import { useCursor } from '@/hooks/use-cursor';
 import { createMockProject, createMinimalProject } from '../../fixtures/mockDataFactory';
+
+// Directly import the ProjectCard component
+import ProjectCard from '../../../components/core/project-card';
 
 // Add jest-axe matchers
 expect.extend(toHaveNoViolations);
 
 // Mock the useCursor hook
 jest.mock('@/hooks/use-cursor', () => ({
-  useCursor: jest.fn(),
+  useCursor: jest.fn(() => ({
+    setCursorText: jest.fn(),
+    cursorText: '',
+  })),
 }));
 
-// Mock Framer Motion
+// Extended mock for Framer Motion to cover all elements used in ProjectCard
 jest.mock('framer-motion', () => {
-  const actual = jest.requireActual('framer-motion');
   return {
-    ...actual,
+    __esModule: true,
     motion: {
-      div: ({ children, ...props }) => <div {...props}>{children}</div>,
+      div: ({ children, ...props }) => React.createElement('div', props, children),
+      button: ({ children, ...props }) => React.createElement('button', props, children),
+      section: ({ children, ...props }) => React.createElement('section', props, children),
+      article: ({ children, ...props }) => React.createElement('article', props, children),
+      span: ({ children, ...props }) => React.createElement('span', props, children),
+      p: ({ children, ...props }) => React.createElement('p', props, children),
+      h1: ({ children, ...props }) => React.createElement('h1', props, children),
+      h2: ({ children, ...props }) => React.createElement('h2', props, children),
+      h3: ({ children, ...props }) => React.createElement('h3', props, children),
+      nav: ({ children, ...props }) => React.createElement('nav', props, children),
+      ul: ({ children, ...props }) => React.createElement('ul', props, children),
+      li: ({ children, ...props }) => React.createElement('li', props, children),
+      img: ({ ...props }) => React.createElement('img', props),
     },
+    AnimatePresence: ({ children }) => React.createElement(React.Fragment, null, children),
+    useAnimation: () => ({
+      start: jest.fn(),
+      stop: jest.fn(),
+    }),
+    useInView: jest.fn(() => true),
+    useReducedMotion: jest.fn(() => false),
   };
 });
+
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, priority, className, fill, sizes, ...props }) => {
+    return React.createElement('img', {
+      src,
+      alt: alt || '',
+      className,
+      'data-priority': priority,
+      'data-fill': fill,
+      'data-sizes': sizes,
+      ...props
+    });
+  },
+}));
 
 // Mock useRouter
 jest.mock('next/navigation', () => ({
@@ -32,21 +70,24 @@ jest.mock('next/navigation', () => ({
   })),
 }));
 
+// Create mocks for external dependencies
+const mockSetCursorText = jest.fn();
+const mockPush = jest.fn();
+
 describe('ProjectCard Component', () => {
-  const mockSetCursorText = jest.fn();
-  const mockPush = jest.fn();
-  
   beforeEach(() => {
+    // Reset all mocks at the start of each test
     jest.clearAllMocks();
-    (useCursor as jest.Mock).mockReturnValue({
-      setCursorText: mockSetCursorText,
-    });
     
-    // Reset mocks
-    jest.mock('next/navigation', () => ({
-      useRouter: jest.fn(() => ({
-        push: mockPush,
-      })),
+    // Setup mockSetCursorText for testing
+    require('@/hooks/use-cursor').useCursor.mockImplementation(() => ({
+      cursorText: '',
+      setCursorText: mockSetCursorText
+    }));
+    
+    // Reset router mock
+    require('next/navigation').useRouter.mockImplementation(() => ({
+      push: mockPush
     }));
   });
   
@@ -120,24 +161,26 @@ describe('ProjectCard Component', () => {
   describe('Interaction behavior', () => {
     it('sets cursor text to "VIEW" on hover and clears on unhover', async () => {
       // Arrange
-      const user = userEvent.setup();
       const project = createMockProject();
       
-      // Act
+      // Render the component
       const { container } = render(<ProjectCard project={project} index={0} />);
       const card = container.querySelector('[data-testid="project-card"]') as HTMLElement;
       
       // Assert - before hover
       expect(mockSetCursorText).not.toHaveBeenCalled();
       
-      // Mouse enter
-      await user.hover(card);
+      // Trigger mouse enter
+      fireEvent.mouseEnter(card);
       
       // Assert - after hover
       expect(mockSetCursorText).toHaveBeenCalledWith('VIEW');
       
-      // Mouse leave
-      await user.unhover(card);
+      // Clear the mock to test mouse leave separately
+      mockSetCursorText.mockClear();
+      
+      // Trigger mouse leave
+      fireEvent.mouseLeave(card);
       
       // Assert - after unhover
       expect(mockSetCursorText).toHaveBeenCalledWith('');

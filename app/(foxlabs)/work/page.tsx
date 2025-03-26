@@ -9,7 +9,7 @@ import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui"
 import { Header, Footer } from "@/components/layout"
 import { ContactSection } from "@/components/sections"
-import { ProjectDetail } from "@/components/core"
+import { ProjectDetail, ProjectCard } from "@/components/core"
 import { cn } from "@/lib/utils"
 import { projects } from "@/lib/data"
 import CustomCursor from "@/components/effects/custom-cursor"
@@ -167,49 +167,12 @@ export default function WorkPage() {
         {!loading && !error && (
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2" data-testid="project-grid" aria-label="Projects grid">
             {filteredProjects.map((project, index) => (
-              <motion.div
+              <ProjectCard
                 key={project.id}
-                className="group relative cursor-pointer overflow-hidden border border-black"
+                project={project}
+                index={index}
                 onClick={() => handleProjectClick(project.id)}
-                onMouseEnter={() => setCursorText("EXPAND")}
-                onMouseLeave={() => setCursorText("")}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 0.98 }}
-                layoutId={`project-container-${project.id}`}
-                data-testid="project-card"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <Image
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    data-testid="project-image"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-20" />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-white p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <motion.h3 className="text-xl font-bold" layoutId={`project-title-${project.id}`} data-testid="project-title" aria-label={project.title}>
-                        {project.title}
-                      </motion.h3>
-                      <div className="flex gap-4 text-sm">
-                        <span data-testid="project-category">{project.category}</span>
-                        <span data-testid="project-year">{project.year}</span>
-                      </div>
-                      <p className="mt-2 text-sm text-gray-600 max-w-md line-clamp-2">{project.description}</p>
-                    </div>
-                    <ArrowUpRight
-                      size={24}
-                      className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                    />
-                  </div>
-                </div>
-              </motion.div>
+              />
             ))}
           </div>
         )}
