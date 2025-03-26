@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "allowSyntheticDefaultImports": true,
     "plugins": [
       {
         "name": "next"
@@ -24,7 +25,8 @@
     },
     "typeRoots": [
       "./node_modules/@types",
-      "./__tests__/types"
+      "./__tests__/types",
+      "./types"
     ],
     "types": [
       "node",
@@ -32,6 +34,6 @@
       "react-dom"
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "__tests__/types/**/*.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "__tests__/types/**/*.d.ts", "types/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

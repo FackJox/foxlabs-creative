@@ -5,7 +5,7 @@ import { buildConfig } from 'payload'
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
-  editor: lexicalEditor(),
+  editor: lexicalEditor,
 
   // Define and configure your collections in this array
   collections: [],
@@ -15,7 +15,7 @@ export default buildConfig({
   // Whichever Database Adapter you're using should go here
   // Mongoose is shown as an example, but you can also use Postgres
   db: mongooseAdapter({
-    url: process.env.MONGODB_URI || '',
+    mongoURL: process.env.MONGODB_URI || '',
   }),
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
