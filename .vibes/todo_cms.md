@@ -1,6 +1,6 @@
 Payload CMS Integration Todo List
 [x] Initial Setup: Install Payload CMS dependencies, create config files, set up environment variables, and integrate with Next.js API routes
-[ ] Media Collection: Configure Cloudinary integration, create Media collection with proper fields, implement upload/delete hooks
+[x] Media Collection: Configure Cloudinary integration, create Media collection with proper fields, implement upload/delete hooks
 [ ] Global Settings: Create GlobalSettings singleton collection for site-wide content (contact info, social links, footer text)
 [ ] Core Collections: Implement Projects, Services, and Team collections with proper fields, validation, and relationships
 [ ] Page Builder Blocks: Create block types (Hero, Project Showcase, Services, Team, Contact, Custom Content) with proper interfaces

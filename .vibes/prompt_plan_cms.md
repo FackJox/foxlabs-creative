@@ -199,6 +199,7 @@ Build on our Payload CMS integration by setting up the Media collection with Clo
 5. Add types in src/types/payload.ts for Media collection
 
 Ensure all code is properly typed with TypeScript and includes appropriate error handling.
+Implement unit and integration tests 
 ```
 
 ### Prompt 3: Global Settings Collection
@@ -228,6 +229,8 @@ Create the Global Settings collection for our Payload CMS integration. This coll
    - Test that the singleton behavior works properly
 
 Ensure all fields have proper validation and are typed correctly with TypeScript.
+Add unit and integration tests for these changes and then run them.
+
 ```
 
 ### Prompt 4: Core Collections (Projects, Services, Team)
@@ -269,6 +272,8 @@ Implement the core content collections for our Payload CMS integration: Projects
    - Fetch services and team members
 
 Ensure all collections have proper validation, slug generation, and TypeScript typing.
+
+Add unit and integration tests for these changes and then run them.
 ```
 
 ### Prompt 5: Page Builder Block Types

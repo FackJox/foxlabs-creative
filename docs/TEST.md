@@ -1,6 +1,6 @@
 # Testing Utilities for Framer Motion and Radix UI
 
-This directory contains testing utilities specifically designed to help test components that use Framer Motion animations and Radix UI components in the FoxLabs//Creative portfolio website.
+This document contains testing utilities specifically designed to help test components that use Framer Motion animations and Radix UI components in the FoxLabs//Creative portfolio website.
 
 ## Quick Start
 
@@ -10,7 +10,7 @@ To test a component that uses Framer Motion animations and/or Radix UI component
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import YourComponent from '@/components/your-component';
-import { renderWithRadix, verifyAnimation } from '@/src/tests/test-utils';
+import { renderWithRadix, verifyAnimation } from '@/__tests__/test-utils';
 
 // Use the provided mocks or add component-specific mocks
 jest.mock('framer-motion', () => ({

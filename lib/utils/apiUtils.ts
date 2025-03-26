@@ -1,4 +1,7 @@
-import type { Project, Service } from '../../lib/types'
+/**
+ * API utility functions for working with data
+ */
+import type { Project, Service } from '@/lib/types'
 
 /**
  * Properly encodes URL parameters for API requests
