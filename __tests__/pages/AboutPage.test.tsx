@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
-import AboutPage from '@/app/about/page';
+import AboutPage from '@/app/(foxlabs)/about/page';
 
 // Simple mock for the teamMembers data without trying to mock all components
 jest.mock('@/lib/data', () => ({

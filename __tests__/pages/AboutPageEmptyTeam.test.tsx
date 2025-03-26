@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
-import AboutPage from '@/app/about/page';
+import AboutPage from '@/app/(foxlabs)/about/page';
 
 // Mock an empty team array
 jest.mock('@/lib/data', () => ({

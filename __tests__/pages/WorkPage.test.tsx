@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockProjects } from '../fixtures/mockData';
-import WorkPage from '@/app/work/page';
+import WorkPage from '@/app/(foxlabs)/work/page';
 
 // Mock the projects export from lib/data
 jest.mock('@/lib/data', () => ({

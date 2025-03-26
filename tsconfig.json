@@ -19,12 +19,14 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@payload-config": ["./payload.config.ts"]
     },
     "typeRoots": [
       "./node_modules/@types",
       "./__tests__/types"
-    ]
+    ],
+    "types": ["bcryptjs", "dotenv"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "__tests__/types/**/*.d.ts"],
   "exclude": ["node_modules"]
