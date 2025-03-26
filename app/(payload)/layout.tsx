@@ -13,7 +13,14 @@ type Args = {
   children: React.ReactNode
 }
 
-const serverFunction: ServerFunctionClient = async function (args) {
+type ServerFunctionArgs = {
+  request: Request;
+  params: Record<string, string>;
+  query: Record<string, string>;
+  cookies: Record<string, string>;
+}
+
+const serverFunction: ServerFunctionClient = async function (args: ServerFunctionArgs) {
   'use server'
   return handleServerFunctions({
     ...args,
